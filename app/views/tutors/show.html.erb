@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @tutor.user_id %>
+</p>
+
+<p>
+  <b>Transcript:</b>
+  <%= @tutor.transcript %>
+</p>
+
+<p>
+  <b>Resume:</b>
+  <%= @tutor.resume %>
+</p>
+
+<p>
+  <b>University:</b>
+  <%= @tutor.university %>
+</p>
+
+<p>
+  <b>Univ identifier:</b>
+  <%= @tutor.univ_identifier %>
+</p>
+
+
+<%= link_to 'Edit', edit_tutor_path(@tutor) %> |
+<%= link_to 'Back', tutors_path %>

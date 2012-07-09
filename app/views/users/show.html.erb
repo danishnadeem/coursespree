@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+<%= tuapply %>
+<p>
+  <b>Username:</b>
+  <%= @user.username %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%= @user.pwd %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<p>
+  <b>Fname:</b>
+  <%= @user.fName %>
+</p>
+
+<p>
+  <b>Lname:</b>
+  <%= @user.lName %>
+</p>
+
+<p>
+  <b>Gender:</b>
+  <%= @user.gender %>
+</p>
+
+<p>
+  <b>Dob:</b>
+  <%= @user.dob %>
+</p>
+
+<p>
+  <b>Avartar:</b>
+  <%= @user.avartar %>
+</p>
+
+<p>
+  <b>Paypalemail:</b>
+  <%= @user.paypalEmail %>
+</p>
+
+<p>
+  <b>Ave rating:</b>
+  <%= @user.ave_rating %>
+</p>
+
+<p>
+  <b>Fb id:</b>
+  <%= @user.fb_ID %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @user.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

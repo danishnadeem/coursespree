@@ -1,0 +1,71 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username %>
+  </div>
+  <div class="field">
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :fName %><br />
+    <%= f.text_field :fName %>
+  </div>
+  <div class="field">
+    <%= f.label :lName %><br />
+    <%= f.text_field :lName %>
+  </div>
+  <div class="field">
+    <%= f.label :gender %><br />
+    <%= f.number_field :gender %>
+  </div>
+  <div class="field">
+    <%= f.label :dob %><br />
+    <%= f.date_select :dob %>
+  </div>
+  <div class="field">
+    <%= f.label :avartar %><br />
+    <%= f.text_field :avartar %>
+  </div>
+  <div class="field">
+    <%= f.label :paypalEmail %><br />
+    <%= f.text_field :paypalEmail %>
+  </div>
+<%if false%>
+  <div class="field">
+    <% f.label :fb_ID %><br />
+    <% f.text_field :fb_ID %>
+  </div>
+  <div class="field">
+    <% f.label :active %><br />
+    <% f.number_field :active %>
+  </div>
+<%end%>
+  <div class="field">
+    <%= f.label :tutor %><br />
+    <%= f.check_box :tutor %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

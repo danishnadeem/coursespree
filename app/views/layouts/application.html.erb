@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Findtutor</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div id='container'>
+    <header>Tutor Center</header>
+  
+    <nav>
+      <%=link_to 'Find Tutor', :controller => 'tutors' %>
+      <%=link_to 'Your Meetings', :controller => 'meetings' %>
+      <%=link_to 'Pending Meetings', :controller => 'meetings' %>
+    </nav>
+    
+    <div id='authlink'><%=authlink%></div>
+    <div id='notice'><%=notice%></div>
+    <%= yield %>
+  </div><!--container-->
+</body>
+</html>

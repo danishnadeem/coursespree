@@ -1,0 +1,43 @@
+<h1>Listing meetings</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Duration</th>
+    <th>Classlink</th>
+    <th>Subject</th>
+    <th>Start time</th>
+    <th>Tutor</th>
+    <th>User</th>
+    <th>Price</th>
+    <th>Rating</th>
+    <th>Accept</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @meetings.each do |meeting| %>
+  <tr>
+    <td><%= meeting.id %></td>
+    <td><%= meeting.name %></td>
+    <td><%= meeting.duration %></td>
+    <td><%= meeting.classlink %></td>
+    <td><%= meeting.subject %></td>
+    <td><%= meeting.start_time %></td>
+    <td><%= meeting.tutor_id %></td>
+    <td><%= meeting.user_id %></td>
+    <td><%= meeting.price %></td>
+    <td><%= meeting.rating %></td>
+    <td><%= meeting.accept %></td>
+    <td><%= link_to 'Show', meeting %></td>
+    <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+    <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Meeting', new_meeting_path %>

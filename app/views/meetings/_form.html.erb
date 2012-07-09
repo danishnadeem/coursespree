@@ -1,0 +1,54 @@
+<%= form_for(@meeting) do |f| %>
+  <% if @meeting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
+
+      <ul>
+      <% @meeting.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <%= f.hidden_field :attendeePW, :value => rand.to_s %>
+    <%= f.hidden_field :moderatorPW, :value => rand.to_s %>
+    <%= f.hidden_field :tutor_id, :value => params[:tutid] %>
+    <%= f.hidden_field :user_id, :value => session[:user_id] %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :duration %><br />
+    <%= f.text_field :duration %>
+  </div>
+
+    <% f.label :classlink %>
+    <% f.text_field :classlink %>
+
+  <div class="field">
+    <%= f.label :subject %><br />
+    <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :start_time %><br />
+    <%= f.datetime_select :start_time %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br />
+    <%= f.text_field :price %>
+  </div>
+  <%if false%>
+  <div class="field">
+    <%= f.label :rating %><br />
+    <%= f.number_field :rating %>
+  </div>
+  <div class="field">
+    <%= f.label :accept %><br />
+    <%= f.number_field :accept %>
+  </div>
+  <%end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
