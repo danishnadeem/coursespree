@@ -9,7 +9,7 @@
     <th>Lname</th>
     <th>Gender</th>
     <th>Dob</th>
-    <th>Avartar</th>
+    <th>Avatar</th>
     <th>Paypalemail</th>
     <th>Ave rating</th>
     <th>Fb id</th>
@@ -27,7 +27,7 @@
     <td><%= user.lName %></td>
     <td><%= user.gender %></td>
     <td><%= user.dob %></td>
-    <td><%= user.avartar %></td>
+    <td><%=image_tag user.avatar.url(:thumb) %></td>
     <td><%= user.paypalEmail %></td>
     <td><%= user.ave_rating %></td>
     <td><%= user.fb_ID %></td>

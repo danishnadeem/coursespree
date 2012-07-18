@@ -13,3 +13,27 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(document).ready(function(){
+//alert('application js called');
+    $('#create').hide();
+    $('#tutorjoin').click(function(){
+    
+    var a_href = $('#create').attr('href');
+
+    $.ajax({
+        type: "GET"    ,
+        url: a_href,
+        success: function(data){
+            alert('created');
+        }
+    });
+        
+    
+    //alert('tutor join clicked');
+    //return false
+    });
+    
+    
+    
+});

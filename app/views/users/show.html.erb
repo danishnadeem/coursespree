@@ -1,27 +1,29 @@
 <p id="notice"><%= notice %></p>
 <%= tuapply %>
+
+<%= render 'tutorprof'%>
+
 <p>
   <b>Username:</b>
   <%= @user.username %>
 </p>
-
 <p>
-  <b>Password:</b>
-  <%= @user.pwd %>
+  <b>Usertype:</b>
+  <%=@user.usertype%>
 </p>
-
+<%=image_tag @user.avatar.url(:medium)%>
 <p>
   <b>Email:</b>
   <%= @user.email %>
 </p>
 
 <p>
-  <b>Fname:</b>
+  <b>Frst Name:</b>
   <%= @user.fName %>
 </p>
 
 <p>
-  <b>Lname:</b>
+  <b>Last Name:</b>
   <%= @user.lName %>
 </p>
 
@@ -31,13 +33,8 @@
 </p>
 
 <p>
-  <b>Dob:</b>
+  <b>Date of Birth:</b>
   <%= @user.dob %>
-</p>
-
-<p>
-  <b>Avartar:</b>
-  <%= @user.avartar %>
 </p>
 
 <p>

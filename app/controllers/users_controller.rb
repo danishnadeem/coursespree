@@ -1,6 +1,16 @@
 class UsersController < ApplicationController
   # GET /users
   # GET /users.json
+  
+  before_filter :authticate, :except => [:create, :register]
+  
+  def authticate
+    unless User.find_by_id(session[:user_id])
+      flash[:notice] = "Please log in."
+      redirect_to :controller => 'admin', :action => 'login'
+    end    
+  end  
+  
   def index
     @users = User.all
 
@@ -15,6 +25,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -40,19 +51,21 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
+    
     params[:user].delete :tutor
     @user = User.new(params[:user])
     
-    #to be enabled when user is saved
-    #if !tu.nil? && tu == 1.to_s
-    #  redirect_to new_tutor_url(:uid => @user.id)
-    #  return
-    #end
-    
     respond_to do |format|
-      if @user.save && !tu.nil? && tu == 1.to_s
+      # if apply to be tutor on registration redirect to tutor application page after registration succeed
+      if @user.save && !tu.nil? && tu == "1"
+        session[:user_id] = @user.id
         format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
+        format.json { render json: @user, status: :created, location: @user }
+      elsif @user.save && !tu.nil? && tu == "0"
+        session[:user_id] = @user.id
+        format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "register" }

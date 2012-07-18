@@ -3,8 +3,6 @@
 <table>
   <tr>
     <th>User</th>
-    <th>Transcript</th>
-    <th>Resume</th>
     <th>University</th>
     <th>rating</th>
     <th></th>
@@ -15,11 +13,9 @@
 
 <% @tutors.each do |tutor| %>
   <tr>
-    <td><%= tutor.user_id %></td>
-    <td><%= tutor.transcript %></td>
-    <td><%= tutor.resume %></td>
+    <td><%= link_to tutor.user.username, tutor %></td>
     <td><%= tutor.university %></td>
-    <td>average rating</td>
+    <td>average rating<%= tutor.approved %></td>
     <td><%= link_to 'Show', tutor %></td>
     <td><%= link_to 'Edit', edit_tutor_path(tutor) %></td>
     <td><%= link_to 'Destroy', tutor, method: :delete, data: { confirm: 'Are you sure?' } %></td>

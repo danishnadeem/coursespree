@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120709044058) do
+ActiveRecord::Schema.define(:version => 20120718034712) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -30,14 +30,50 @@ ActiveRecord::Schema.define(:version => 20120709044058) do
     t.datetime "updated_at",                 :null => false
   end
 
+  create_table "subjects", :force => true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "subjects_tutors", :force => true do |t|
+    t.integer  "subject_id"
+    t.integer  "tutor_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "superadmins", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tutor_availabilities", :force => true do |t|
+    t.integer  "tutor_id"
+    t.datetime "time_start"
+    t.datetime "time_end"
+    t.integer  "weekly"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "tutors", :force => true do |t|
     t.integer  "user_id"
-    t.string   "transcript"
-    t.string   "resume"
     t.string   "university"
     t.string   "univ_identifier"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
+    t.datetime "resume_updated_at"
+    t.string   "transcript_file_name"
+    t.string   "transcript_content_type"
+    t.integer  "transcript_file_size"
+    t.datetime "transcript_updated_at"
+    t.integer  "approved",                :default => 0
   end
 
   create_table "users", :force => true do |t|
@@ -49,13 +85,16 @@ ActiveRecord::Schema.define(:version => 20120709044058) do
     t.string   "lName"
     t.integer  "gender"
     t.date     "dob"
-    t.string   "avartar"
     t.string   "paypalEmail"
     t.integer  "ave_rating"
     t.string   "fb_ID"
-    t.integer  "active",      :default => 0
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.integer  "active",              :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
 end

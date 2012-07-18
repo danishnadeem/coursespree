@@ -10,7 +10,9 @@
       </ul>
     </div>
   <% end %>
-
+  <!--new user are active right after registration-->
+  <%=f.hidden_field :active, :value => 1%>
+  
   <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username %>
@@ -44,8 +46,8 @@
     <%= f.date_select :dob %>
   </div>
   <div class="field">
-    <%= f.label :avartar %><br />
-    <%= f.text_field :avartar %>
+    <%= f.label :avatar %><br />
+    <%= f.file_field :avatar %>
   </div>
   <div class="field">
     <%= f.label :paypalEmail %><br />

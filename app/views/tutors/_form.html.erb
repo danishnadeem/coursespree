@@ -14,14 +14,15 @@
   <div class="field">
     
     <%= f.hidden_field :user_id, :value => params[:uid] %>
+    <%= f.hidden_field :approved, :value => 0 %>
   </div>
   <div class="field">
     <%= f.label :transcript %><br />
-    <%= f.text_field :transcript %>
+    <%= f.file_field :transcript %>
   </div>
   <div class="field">
     <%= f.label :resume %><br />
-    <%= f.text_field :resume %>
+    <%= f.file_field :resume %>
   </div>
   <div class="field">
     <%= f.label :university %><br />

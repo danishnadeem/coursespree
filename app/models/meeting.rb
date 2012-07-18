@@ -2,6 +2,7 @@ class Meeting < ActiveRecord::Base
   attr_accessible :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
   
   belongs_to :user
+  belongs_to :tutor
   #parameter to pass in meeting creation
   def s_id
     if !id.nil?

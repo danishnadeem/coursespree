@@ -1,20 +1,13 @@
 <p id="notice"><%= notice %></p>
-
+<%=@tutor.approved%>
 <p>
   <b>User:</b>
-  <%= @tutor.user_id %>
+  <%= @tutor.user.username%><br />
+  <b>Full Name:</b>
+  <%= @tutor.user.fName + " " + @tutor.user.lName%>
 </p>
-
-<p>
-  <b>Transcript:</b>
-  <%= @tutor.transcript %>
-</p>
-
-<p>
-  <b>Resume:</b>
-  <%= @tutor.resume %>
-</p>
-
+<div><%= link_to 'see resume', @tutor.resume.url %></div>
+<div><%= link_to 'see transcript', @tutor.transcript.url %></div>
 <p>
   <b>University:</b>
   <%= @tutor.university %>

@@ -9,7 +9,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :lName
       t.integer :gender
       t.date :dob
-      t.string :avartar
       t.string :paypalEmail
       t.integer :ave_rating
       t.string :fb_ID

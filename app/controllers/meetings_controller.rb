@@ -11,8 +11,17 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
-    @meetings = Meeting.all
+    if params[:type]=='requested'
+      @meetings = Meeting.find_all_by_user_id(session[:user_id])
+    elsif params[:type]=='pending'
+      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 0])
+    elsif params[:type]=='past'
+      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 1])
+    else
+      @meetings = Meeting.find_all_by_user_id(session[:user_id])
+    end
 
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meetings }
@@ -23,7 +32,11 @@ class MeetingsController < ApplicationController
   # GET /meetings/1.json
   def show
     @meeting = Meeting.find(params[:id])
-
+    if !params[:accept].nil? && params[:accept] == '1'
+      @meeting.accept = 1
+      @meeting.save
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meeting }

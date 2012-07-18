@@ -1,11 +1,19 @@
 Findtutor::Application.routes.draw do
   
+  resources :superadmins
+
+  resources :tutor_availabilities
+
+  resources :subjects_tutors
+
+  resources :subjects
+
   get "admin/login"
   post "admin/login"
   get "admin/logout"
 
-  get "users/register"
-  
+
+  match 'register' => 'users#register'
   resources :tutors
 
   resources :users
@@ -61,7 +69,7 @@ Findtutor::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => 'meetings#index'
+  root :to => 'meetings#index'
 
   # See how all your routes lay out with "rake routes"
 

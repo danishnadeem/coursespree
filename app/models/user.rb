@@ -1,16 +1,24 @@
 class User < ActiveRecord::Base
-  attr_accessible :active, :avartar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
+  attr_accessible :active, :avatar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
   
   has_many :meetings
   has_one :tutor
+  has_one :superadmin
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
 
   validates_uniqueness_of :username
   validates_confirmation_of :password
   validate :password_non_blank
   
   def usertype
-    if Tutor.find_by_user_id(id)
+    tutor = Tutor.find_by_user_id(id)
+    su = Superadmin.find_by_user_id(id)
+    if tutor && tutor.approved == 1
       'tutor'
+    elsif tutor && tutor.approved == 0
+      'tem_tutor'
+    elsif su
+      'superadmin'
     else
       'student'
     end
