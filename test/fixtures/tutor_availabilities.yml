@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tutor_id: 1
+  time_start: 2012-07-16 10:11:38
+  time_end: 2012-07-16 10:11:38
+  weekly: 1
+
+two:
+  tutor_id: 1
+  time_start: 2012-07-16 10:11:38
+  time_end: 2012-07-16 10:11:38
+  weekly: 1

@@ -1,0 +1,3 @@
+<%if @user.usertype =='tutor' || @user.usertype == 'tem_tutor'%>
+  approved: <%= @user.tutor.approved%>
+<%end%>

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Subject:</b>
+  <%= @subjects_tutor.subject_id %>
+</p>
+
+<p>
+  <b>Tutor:</b>
+  <%= @subjects_tutor.tutor_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_subjects_tutor_path(@subjects_tutor) %> |
+<%= link_to 'Back', subjects_tutors_path %>

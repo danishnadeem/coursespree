@@ -1,0 +1,33 @@
+<%= form_for(@tutor_availability) do |f| %>
+  <% if @tutor_availability.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tutor_availability.errors.count, "error") %> prohibited this tutor_availability from being saved:</h2>
+
+      <ul>
+      <% @tutor_availability.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tutor_id %><br />
+    <%= f.number_field :tutor_id %>
+  </div>
+  <div class="field">
+    <%= f.label :time_start %><br />
+    <%= f.datetime_select :time_start %>
+  </div>
+  <div class="field">
+    <%= f.label :time_end %><br />
+    <%= f.datetime_select :time_end %>
+  </div>
+  <div class="field">
+    <%= f.label :weekly %><br />
+    <%= f.number_field :weekly %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Tutor:</b>
+  <%= @tutor_availability.tutor_id %>
+</p>
+
+<p>
+  <b>Time start:</b>
+  <%= @tutor_availability.time_start %>
+</p>
+
+<p>
+  <b>Time end:</b>
+  <%= @tutor_availability.time_end %>
+</p>
+
+<p>
+  <b>Weekly:</b>
+  <%= @tutor_availability.weekly %>
+</p>
+
+
+<%= link_to 'Edit', edit_tutor_availability_path(@tutor_availability) %> |
+<%= link_to 'Back', tutor_availabilities_path %>
