@@ -2,8 +2,7 @@ class CreateTutors < ActiveRecord::Migration
   def change
     create_table :tutors do |t|
       t.integer :user_id
-      t.string :university
-      t.string :univ_identifier
+      t.integer :approved, :default => 0
 
       t.timestamps
     end

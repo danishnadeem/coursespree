@@ -3,7 +3,6 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Description</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,7 +11,6 @@
 <% @subjects.each do |subject| %>
   <tr>
     <td><%= subject.title %></td>
-    <td><%= subject.description %></td>
     <td><%= link_to 'Show', subject %></td>
     <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
     <td><%= link_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -27,20 +27,19 @@ module ApplicationHelper
   def register
     link_to 'register', '/register'
   end
-  
+
   def login
     link_to 'login', '/admin/login'
   end
-  
 
   def pendcnt
-   '('+Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 0]).count.to_s+')'
+   '('+Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", Tutor.find_by_user_id(session[:user_id]).id, 0]).count.to_s+')'
   end
 
   def pending
     if current_user.usertype == 'tutor'
       link_to 'Pending Meetings' + pendcnt , :controller => 'meetings', :type => 'pending'
-    elsif current_user.usertype == 'student'
+    elsif current_user.usertype == 'student'|| current_user.usertype == 'tem_tutor'
       link_to 'Your Meetings', :controller => 'meetings', :type => 'requested'
     elsif current_user.usertype == 'superadmin'
     end
@@ -58,8 +57,12 @@ module ApplicationHelper
   
 #tutor application link
   def tuapply
-    if !session[:user_id].nil? && current_user.usertype != 'tutor' && current_user == @user 
-      link_to 'apply for tutor', new_tutor_url(:uid => session[:user_id])
+    if !session[:user_id].nil? && current_user.usertype == 'tutor' && current_user == @user 
+      
+    elsif !session[:user_id].nil? && current_user.usertype == 'tem_tutor' && current_user == @user
+      'your tutor application is awaiting approval'
+    elsif !session[:user_id].nil? && current_user.usertype == 'student' && current_user == @user
+      link_to 'apply to be tutor', new_tutor_url(:uid => session[:user_id])
     end
   end
 
@@ -87,7 +90,7 @@ module ApplicationHelper
   end
 
   def tutor_mgmt
-    link_to 'tutor management', tutors_path
+    link_to 'tutor management', :controller => 'tutors', :action => 'mgmt', :type=> 'pending'
   end
   
   def meeting_mgmt
@@ -98,7 +101,7 @@ module ApplicationHelper
     if !session[:user_id].nil?# if user logged in display nav links 
       if current_user.usertype == 'tutor'# if user is tutor
         findtutor + " | " + meetings  + " | " + past
-      elsif current_user.usertype == 'student'#if user is student
+      elsif current_user.usertype == 'student' || current_user.usertype == 'tem_tutor'#if user is student
         findtutor + " | " + meetings
       elsif current_user.usertype == 'superadmin'#if user is administrator
         user_mgmt + " | " + subject_mgmt + " | " + tutor_mgmt + " | " + meeting_mgmt

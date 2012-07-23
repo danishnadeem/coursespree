@@ -5,6 +5,9 @@ class AdminController < ApplicationController
       @pswd=  params[:password]
       user = User.authenticate(params[:username], params[:password])
       if user
+        if user.usertype == 'tutor' || user.usertype == 'tem_tutor'
+          session[:tutor_id] = user.tutor.id
+        end
         session[:user_id] = user.id
         session[:username] = user.username
         redirect_to user

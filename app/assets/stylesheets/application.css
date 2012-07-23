@@ -11,10 +11,15 @@
  *= require_self
  *= require_tree .
  */
+.fix{
+    clear: both;
+}
 
 #container {
-    width: 800px;
+    padding: 10px;
+    width: 1000px;
     margin: auto;
+    background: lightyellow;
 }
 
 header{
@@ -23,8 +28,109 @@ header{
 }
 nav{
     margin-top: 20px;
+    
 }
 #authlink {
     float: right;
 }
+/*start of user profile page style*/
+#boxholder{
+    background: lightblue;
+}
+.column1{
+    width: 540px;
+    background: brown;
+    float: left;
+}
+/*column 1 content*/
+#user_profile{
+    margin: 10px;
+    width: 500px;
+    padding: 10px;
+    
+    background: DarkSalmon ;
+}
+#profavatar{
+    float: left;
+    height: 60px;
+    width: 60px;
+    margin: auto;
+}
+#tutor_profile{
+    margin: 10px;
+    padding: 10px;
+    width: 500px;
+    background: DarkSalmon ;
+}
+.column2{
+    width: 460px;
+    background: #123456;
+    float: right;
+}
+/*column 2 content*/
+#tutorschedule{
+    margin: 10px;
+    padding: 10px;
+    width: 420px;
+    
+    float: right;
+    background: DarkSalmon ;
+}
+#rating{
+    margin: 10px;
+    padding: 10px;
+    width: 420px;
+    float: right;
+    background: DarkSalmon ;
+}
+/*end of user profile page style*/
 
+/*start of tutor search result page*/
+.tuteritem{
+    height: 60px;
+    background: yellow;
+    margin: 10px;
+}
+.avatar{
+    float: left;
+    height: 60px;
+    width: 60px;
+    margin: auto;
+}
+.tutordescription{
+    float: left;
+    background: DarkSalmon ;
+    height: 60px;
+    width: 200px;
+    padding: 0 10px 0 10px;
+}
+.tutorschedule{
+    float: left;    
+    height: 60px;
+    padding: 0 10px 0 10px;
+    background: lightblue;
+}
+.tutorprof{
+    float: left;    
+    height: 60px;
+    padding: 0 10px 0 10px;
+    background: lightgrey;
+}
+/* end of tutor search result page*/
+/*meeting scheduling page*/
+#schedulecontainer{
+    width: 600px;
+
+}
+#meetingform{
+    float: right;
+}
+#meetinginfo{
+    float: left;
+}
+/*end of meeting scheduling page*/
+footer{
+    text-align: center;
+    background: grey;
+    color:white;
+}

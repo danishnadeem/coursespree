@@ -1,3 +1,42 @@
+
+<%= tuapply %>
 <%if @user.usertype =='tutor' || @user.usertype == 'tem_tutor'%>
-  approved: <%= @user.tutor.approved%>
+  <h3>Tutor Profile</h3>
+  <div id="tutormaterial">
+    <%=link_to 'resume.pdf', @user.tutor.resume.url%>
+    <%=link_to 'transcript.pdf', @user.tutor.transcript.url%>
+    <%=docupdate_link %>
+  </div>
+  <div id="subjectlist">
+    <!--if the user being viewed is tutor, display tutor specialty-->
+    <%if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id != session[:user_id]%>
+      <div class="title">Tutor Specialities:</div><!--div title-->
+        <%if @user.subjects.count > 0 %>
+          <%@user.subjects.each do |st|%>
+            <div class="subject"><%=st.title %></div><!--div subject-->
+          <%end%>
+        <%else%>
+          This tutor has not select specialties yet
+        <%end%>  
+        
+    <!--if the current user is a tutor seeing self, display specialty manage panel-->
+    <%elsif (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id == session[:user_id]%>
+      
+      <div class="title">Edit your specialities:</div><!--div title-->
+      <%@user.tutor.subjects_tutors.each do |st|%>
+        <div class="subject"><%=  st.subject.title %><%=link_to 'X ',st, method: :delete %></div><!--div subject-->
+      <%end%>
+      
+      <div class="title">Click to add new:</div><!--div title-->
+     
+      <%@user.available_subjects.each do |sub|%>
+         <div class="subject"><%=link_to sub.title,:controller => 'subjects_tutors',:action => 'select', :sid=> sub.id%> </div>
+      <%end%>
+      <%=form_for @subject do |f|%>
+        <div class="title">Add new if yours are not show above:</div><!--div title-->
+        <div><%= f.text_field :title%></div><!--div title-->
+        <div><%=f.submit 'create'%></div><!---->
+      <%end%>
+    <%end%>
+  </div><!--subjectlist end-->
 <%end%>

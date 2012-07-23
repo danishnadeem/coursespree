@@ -1,61 +1,27 @@
 <p id="notice"><%= notice %></p>
-<%= tuapply %>
+<div id="boxholder">
+  <div class="column1">
+    <div id="user_profile">
+        <%=render(@user)%>
+    </div><!--user profile end-->
 
-<%= render 'tutorprof'%>
-
-<p>
-  <b>Username:</b>
-  <%= @user.username %>
-</p>
-<p>
-  <b>Usertype:</b>
-  <%=@user.usertype%>
-</p>
-<%=image_tag @user.avatar.url(:medium)%>
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
-
-<p>
-  <b>Frst Name:</b>
-  <%= @user.fName %>
-</p>
-
-<p>
-  <b>Last Name:</b>
-  <%= @user.lName %>
-</p>
-
-<p>
-  <b>Gender:</b>
-  <%= @user.gender %>
-</p>
-
-<p>
-  <b>Date of Birth:</b>
-  <%= @user.dob %>
-</p>
-
-<p>
-  <b>Paypalemail:</b>
-  <%= @user.paypalEmail %>
-</p>
-
-<p>
-  <b>Ave rating:</b>
-  <%= @user.ave_rating %>
-</p>
-
-<p>
-  <b>Fb id:</b>
-  <%= @user.fb_ID %>
-</p>
-
-<p>
-  <b>Active:</b>
-  <%= @user.active %>
-</p>
+    <div id="tutor_profile">
+      <%=render 'tutorprof'%>
+    </div><!--tutor profile end-->
+    <div class="fix"></div>
+  </div><!--div column end-->
+  
+  <div class="column2">
+    <div id="tutorschedule">
+      <%=render 'tutorschedule'%>
+    </div>
+    <div id="rating">
+      rating and comments stuff
+    </div>
+    <div class="fix"></div>
+  </div><!--div column2 end-->
+  <div class="fix"></div>
+</div><!--boxholder-->
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

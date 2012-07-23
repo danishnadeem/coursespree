@@ -1,0 +1,23 @@
+<%if @user.usertype =='tutor'%>
+  <%= schedule_mgmt%>
+  <% @user.tutor.tutor_availabilities.each do |avlb|%>
+  <div class="scheduleitem">
+    <b>Your Open Schedules:</b><br />
+    <%= dayofweek(avlb.dayofweek)%>
+    <%= avlb.start_time.strftime('%H:%M')%>
+    Duration: <%=pluralize(avlb.length, 'hour')%>
+    <%= schedulelink(avlb.id) %>
+  </div>
+  <%end%>
+  <div>
+     <b>You will be hosting the following sessions:</b>
+    <% youaretutor.each do |m| %>
+      <div>
+        <%= link_to m.name, m%>
+        Student: <%= m.user.fullname%>
+      </div>
+    <%end%>
+  </div>
+
+  
+<%end%>

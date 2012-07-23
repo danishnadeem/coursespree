@@ -44,10 +44,21 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        format.html { redirect_to @subject, notice: 'Subject was successfully created.' }
+        #if the current user who's creating a subject, by default add it to his/her specialty
+        if !session[:user_id].nil?
+          user = User.find(session[:user_id])
+          if user.usertype == 'tutor' || user.usertype == 'tem_tutor'
+            SubjectsTutor.create(
+              :subject_id => @subject.id,
+              :tutor_id => user.tutor.id
+            )
+          end
+        end
+        
+        format.html { redirect_to(:back) }
         format.json { render json: @subject, status: :created, location: @subject }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to(:back) }
         format.json { render json: @subject.errors, status: :unprocessable_entity }
       end
     end

@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>Tutor</th>
+    <th>Day of week</th>
     <th>Time start</th>
     <th>Time end</th>
     <th>Weekly</th>
@@ -11,19 +11,19 @@
     <th></th>
   </tr>
 
-<% @tutor_availabilities.each do |tutor_availability| %>
+<% @tutor_availabilities.each do |ta| %>
   <tr>
-    <td><%= tutor_availability.tutor_id %></td>
-    <td><%= tutor_availability.time_start %></td>
-    <td><%= tutor_availability.time_end %></td>
-    <td><%= tutor_availability.weekly %></td>
-    <td><%= link_to 'Show', tutor_availability %></td>
-    <td><%= link_to 'Edit', edit_tutor_availability_path(tutor_availability) %></td>
-    <td><%= link_to 'Destroy', tutor_availability, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= dayofweek(ta.dayofweek) %></td>
+    <td><%= ta.start_time.strftime('%H:%M') %></td>
+    <td><%= ta.end_time.strftime('%H:%M') %></td>
+    <td><%= ta.weeksche_mark %></td>
+    <td><%= link_to 'Show', ta %></td>
+    <td><%= link_to 'Edit', edit_tutor_availability_path(ta) %></td>
+    <td><%= link_to 'Destroy', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
-
 <br />
-
+<h2>Add New Time Slot</h2>
+<%= render 'form'%>
 <%= link_to 'New Tutor availability', new_tutor_availability_path %>

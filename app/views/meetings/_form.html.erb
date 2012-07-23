@@ -10,34 +10,19 @@
       </ul>
     </div>
   <% end %>
-    <%= f.hidden_field :attendeePW, :value => rand.to_s %>
-    <%= f.hidden_field :moderatorPW, :value => rand.to_s %>
-    <%= f.hidden_field :tutor_id, :value => params[:tutid] %>
-    <%= f.hidden_field :user_id, :value => session[:user_id] %>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :duration %><br />
-    <%= f.text_field :duration %>
-  </div>
-
-    <% f.label :classlink %>
-    <% f.text_field :classlink %>
-
+    <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
+    <%= f.hidden_field :start_time, :value => meetinginfo.start_time%>
+    <%= f.hidden_field :duration, :value => meetinginfo.length%>
   <div class="field">
     <%= f.label :subject %><br />
     <%= f.text_field :subject %>
   </div>
   <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.datetime_select :start_time %>
+    <%= f.label 'message to the tutor:' %><br />
+    <%= f.text_area :message, :size => "50x8" %>
   </div>
-  <div class="field">
-    <%= f.label :price %><br />
-    <%= f.text_field :price %>
-  </div>
+
+
   <%if false%>
   <div class="field">
     <%= f.label :rating %><br />

@@ -8,15 +8,8 @@
 </p>
 <div><%= link_to 'see resume', @tutor.resume.url %></div>
 <div><%= link_to 'see transcript', @tutor.transcript.url %></div>
-<p>
-  <b>University:</b>
-  <%= @tutor.university %>
-</p>
 
-<p>
-  <b>Univ identifier:</b>
-  <%= @tutor.univ_identifier %>
-</p>
+
 
 
 <%= link_to 'Edit', edit_tutor_path(@tutor) %> |

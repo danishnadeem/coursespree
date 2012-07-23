@@ -4,15 +4,13 @@
 <table>
   <tr>
     <th>Username</th>
-    <th>Email</th>
-    <th>Fname</th>
-    <th>Lname</th>
-    <th>Gender</th>
-    <th>Dob</th>
+    
+    <th>Fullname</th>
     <th>Avatar</th>
+    <th>Email</th>
     <th>Paypalemail</th>
     <th>Ave rating</th>
-    <th>Fb id</th>
+    <th>usertype</th>
     <th>Active</th>
     <th></th>
     <th></th>
@@ -20,17 +18,14 @@
   </tr>
 
 <% @users.each do |user| %>
-  <tr>
+  <tr class="useritem">
     <td><%= user.username %></td>
-    <td><%= user.email %></td>
-    <td><%= user.fName %></td>
-    <td><%= user.lName %></td>
-    <td><%= user.gender %></td>
-    <td><%= user.dob %></td>
+    <td><%= user.fullname %></td>
     <td><%=image_tag user.avatar.url(:thumb) %></td>
+    <td><%= user.email %></td>
     <td><%= user.paypalEmail %></td>
-    <td><%= user.ave_rating %></td>
-    <td><%= user.fb_ID %></td>
+    <td>nothing yet<%= user.ave_rating %></td>
+    <td><%= user.usertype %></td>
     <td><%= user.active %></td>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>

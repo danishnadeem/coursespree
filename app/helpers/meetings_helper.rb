@@ -8,4 +8,9 @@ module MeetingsHelper
       'Your Requested Meetings'
     end
   end
+  
+  def meetinginfo
+    #to be used at new meeting page
+    TutorAvailability.find(params[:avlb_id])
+  end
 end

@@ -17,22 +17,20 @@
 $(document).ready(function(){
 //alert('application js called');
     $('#create').hide();
+    
     $('#tutorjoin').click(function(){
     
-    var a_href = $('#create').attr('href');
+    var creat_link = $('#create').attr('href');
 
-    $.ajax({
-        type: "GET"    ,
-        url: a_href,
-        success: function(data){
-            alert('created');
-        }
-    });
+        $.ajax({
+            type: "GET"    ,
+            url: creat_link,
+        });//ajax end
         
     
     //alert('tutor join clicked');
     //return false
-    });
+    });//tutorjoin click end
     
     
     

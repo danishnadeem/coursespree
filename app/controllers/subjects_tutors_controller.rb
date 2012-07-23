@@ -1,4 +1,22 @@
 class SubjectsTutorsController < ApplicationController
+  
+  def select
+    if !params[:sid].nil? && !session[:user_id].nil?
+      tutor_id = Tutor.find_by_user_id(session[:user_id]).id
+      @subjects_tutor = SubjectsTutor.new(
+        :subject_id => params[:sid],
+        :tutor_id => tutor_id
+      )
+      usubs = User.find(session[:user_id])
+      
+      respond_to do |format|
+        if @subjects_tutor.save
+          format.html {redirect_to User.find(session[:user_id])}
+        end
+      end
+    end
+  end
+  
   # GET /subjects_tutors
   # GET /subjects_tutors.json
   def index
@@ -44,7 +62,7 @@ class SubjectsTutorsController < ApplicationController
 
     respond_to do |format|
       if @subjects_tutor.save
-        format.html { redirect_to @subjects_tutor, notice: 'Subjects tutor was successfully created.' }
+        format.html { redirect_to User.find(session[:user_id]), notice: 'Subjects tutor was successfully created.' }
         format.json { render json: @subjects_tutor, status: :created, location: @subjects_tutor }
       else
         format.html { render action: "new" }
@@ -76,7 +94,7 @@ class SubjectsTutorsController < ApplicationController
     @subjects_tutor.destroy
 
     respond_to do |format|
-      format.html { redirect_to subjects_tutors_url }
+      format.html {redirect_to User.find(session[:user_id])}
       format.json { head :no_content }
     end
   end

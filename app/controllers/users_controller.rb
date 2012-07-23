@@ -10,7 +10,7 @@ class UsersController < ApplicationController
       redirect_to :controller => 'admin', :action => 'login'
     end    
   end  
-  
+
   def index
     @users = User.all
 
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
+    @subject = Subject.new
     
     respond_to do |format|
       format.html # show.html.erb

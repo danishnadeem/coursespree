@@ -1,0 +1,31 @@
+<%= tutor_mgmt_links %>
+<%@tutors.each do |tutor|%>
+<div class="tuteritem">
+  <div class="avatar">
+    <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+  </div><!--avatar div end-->
+  <div class="tutordescription">
+    <div>
+      Name:<%= tutor.user.fullname%>
+    </div>
+    <div>
+    University:<%= tutor.user.university_id %>
+    </div>
+    <div>
+    average rating<%= tutor.approved %>
+    </div>
+  </div><!--tutordescription div end-->
+  
+  <div class="tutorschedule">
+    <%= approve_link(tutor)%><br />
+    <%= link_to 'Show', tutor.user %>
+    <%= link_to 'Edit', edit_tutor_path(tutor.user) %>
+    <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div><!--tutorschedule div end-->
+  <div class="tutorprof">
+    
+  </div>
+  
+  <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
+</div><!--tutoritem div end-->
+<%end%>

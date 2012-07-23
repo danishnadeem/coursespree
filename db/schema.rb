@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120718034712) do
+ActiveRecord::Schema.define(:version => 20120723014523) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -28,13 +28,14 @@ ActiveRecord::Schema.define(:version => 20120718034712) do
     t.integer  "accept",      :default => 0
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
+    t.integer  "status"
+    t.text     "message"
   end
 
   create_table "subjects", :force => true do |t|
     t.string   "title"
-    t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "subjects_tutors", :force => true do |t|
@@ -52,17 +53,17 @@ ActiveRecord::Schema.define(:version => 20120718034712) do
 
   create_table "tutor_availabilities", :force => true do |t|
     t.integer  "tutor_id"
-    t.datetime "time_start"
-    t.datetime "time_end"
-    t.integer  "weekly"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "dayofweek"
+    t.datetime "start_time"
+    t.integer  "length"
+    t.integer  "weeksche_mark"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "tutors", :force => true do |t|
     t.integer  "user_id"
-    t.string   "university"
-    t.string   "univ_identifier"
+    t.integer  "approved",                :default => 0
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "resume_file_name"
@@ -73,7 +74,6 @@ ActiveRecord::Schema.define(:version => 20120718034712) do
     t.string   "transcript_content_type"
     t.integer  "transcript_file_size"
     t.datetime "transcript_updated_at"
-    t.integer  "approved",                :default => 0
   end
 
   create_table "users", :force => true do |t|
@@ -83,6 +83,11 @@ ActiveRecord::Schema.define(:version => 20120718034712) do
     t.string   "email"
     t.string   "fName"
     t.string   "lName"
+    t.integer  "university_id"
+    t.integer  "department_id"
+    t.integer  "year"
+    t.integer  "major_id"
+    t.text     "bio"
     t.integer  "gender"
     t.date     "dob"
     t.string   "paypalEmail"

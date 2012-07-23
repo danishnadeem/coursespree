@@ -12,7 +12,7 @@
   <% end %>
   <!--new user are active right after registration-->
   <%=f.hidden_field :active, :value => 1%>
-  
+<div id="userbasic">
   <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username %>
@@ -45,6 +45,8 @@
     <%= f.label :dob %><br />
     <%= f.date_select :dob %>
   </div>
+</div><!--userbasic div end-->
+<div id="useradv">
   <div class="field">
     <%= f.label :avatar %><br />
     <%= f.file_field :avatar %>
@@ -52,6 +54,26 @@
   <div class="field">
     <%= f.label :paypalEmail %><br />
     <%= f.text_field :paypalEmail %>
+  </div>
+  <div class="field">
+    <%= f.label :university_id %><br />
+    <%= f.text_field :university_id %>
+  </div>
+  <div class="field">
+    <%= f.label :department_id %><br />
+    <%= f.text_field :department_id %>
+  </div>
+  <div class="field">
+    <%= f.label :major_id %><br />
+    <%= f.text_field :major_id %>
+  </div>
+  <div class="field">
+    <%= f.label :year %><br />
+    <%= f.text_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :bio %><br />
+    <%= f.text_area :bio %>
   </div>
 <%if false%>
   <div class="field">
@@ -63,11 +85,14 @@
     <% f.number_field :active %>
   </div>
 <%end%>
+<%if params[:action] == 'register'%>
   <div class="field">
     <%= f.label :tutor %><br />
     <%= f.check_box :tutor %>
   </div>
+<%end%>
   <div class="actions">
     <%= f.submit %>
   </div>
+</div><!--useradv div end-->
 <% end %>

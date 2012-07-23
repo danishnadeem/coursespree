@@ -14,11 +14,11 @@ class MeetingsController < ApplicationController
     if params[:type]=='requested'
       @meetings = Meeting.find_all_by_user_id(session[:user_id])
     elsif params[:type]=='pending'
-      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 0])
+      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", Tutor.find_by_user_id(session[:user_id]).id, 0])
     elsif params[:type]=='past'
       @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 1])
     else
-      @meetings = Meeting.find_all_by_user_id(session[:user_id])
+      @meetings = Meeting.all
     end
 
     
@@ -63,7 +63,10 @@ class MeetingsController < ApplicationController
   # POST /meetings.json
   def create
     @meeting = Meeting.new(params[:meeting])
-    
+    @meeting.attendeePW = rand(36**20).to_s(36)
+    @meeting.moderatorPW = rand(36**20).to_s(36)
+    @meeting.user_id = session[:user_id]
+    @meeting.name = @meeting.subject + Time.now.strftime('%y%m%d%h%m%s')
 
     respond_to do |format|
       if @meeting.save

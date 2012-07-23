@@ -11,7 +11,16 @@
     <header>Tutor Center</header>
     <nav><%=navlinks%></nav>
     <div id='authlink'><%=authlink%></div>
+    <div class="fix"></div>
     <%= yield %>
+    <div class="fix"></div>
+    
+    <footer>
+      &copy;coursespree.com<%=Time.now.year%>
+    </footer>
+  
   </div><!--container-->
+  Current Controller : <%=params[:controller]%><br />
+  Current Action: <%=params[:action]%>
 </body>
 </html>

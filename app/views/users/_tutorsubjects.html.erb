@@ -1,0 +1,23 @@
+<%if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id != session[:user_id]%>
+  <div class="title">Tutor Specialities:</div>
+  <%@user.tutor.subjects_tutors.each do |st|%>
+    <div class="subject"><%=st.subject.title %></div>
+  <%end%>
+<%elsif (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id == session[:user_id]%>
+  
+  <div class="title">Edit your specialities:</div>
+  <%@user.tutor.subjects_tutors.each do |st|%>
+    <div class="subject"><%=  st.subject.title %><%=link_to 'X ',st, method: :delete %></div>
+  <%end%>
+  
+  <div class="title">Click to add new:</div>
+ 
+  <%@user.available_subjects.each do |sub|%>
+     <div class="subject"><%=link_to sub.title,:controller => 'subjects_tutors',:action => 'select', :sid=> sub.id%> </div>
+  <%end%>
+  <%=form_for @subject do |f|%>
+    <div class="title">Add new if yours are not show above:</div>
+    <div><%= f.text_field :title%></div>
+    <div><%=f.submit 'create'%></div>
+  <%end%>
+<%end%>

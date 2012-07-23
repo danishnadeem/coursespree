@@ -1,14 +1,29 @@
 class User < ActiveRecord::Base
-  attr_accessible :active, :avatar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
+  attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, :avatar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
   
   has_many :meetings
   has_one :tutor
   has_one :superadmin
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" }
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  }
 
   validates_uniqueness_of :username
   validates_confirmation_of :password
   validate :password_non_blank
+  
+  def availabilities
+    self.tutor.tutor_availabilities.count
+  end
+  
+  def fullname
+    fName + " " + lName
+  end
+  
+  def subjects
+    self.tutor.subjects_tutors.all.map{|st| st.subject}
+  end
+  def available_subjects
+    Subject.all - subjects
+  end
   
   def usertype
     tutor = Tutor.find_by_user_id(id)

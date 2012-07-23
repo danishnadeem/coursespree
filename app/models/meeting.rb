@@ -1,5 +1,5 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
+  attr_accessible :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor

@@ -1,5 +1,15 @@
 <h1>New meeting</h1>
-
-<%= render 'form' %>
-
+<div id="schedulecontainer">
+  <div id="meetinginfo">
+    <h3>Meeting Info:</h3>
+    Tutor: <%= meetinginfo.tutor.user.fullname %><br />
+    Scheduled at the following <%= dayofweek(meetinginfo.dayofweek) %><br />
+    Time: <%= meetinginfo.start_time.strftime('%H:%M')%><br />
+    Duration: <%= pluralize(meetinginfo.length, 'hour')%><br />
+  </div>
+  <div id="meetingform">
+    <%= render 'form' %>
+  </div>
+<div class="fix"></div>
+</div>
 <%= link_to 'Back', meetings_path %>

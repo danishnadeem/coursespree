@@ -7,6 +7,11 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email
       t.string :fName
       t.string :lName
+      t.integer :university_id
+      t.integer :department_id
+      t.integer :year
+      t.integer :major_id
+      t.text :bio
       t.integer :gender
       t.date :dob
       t.string :paypalEmail

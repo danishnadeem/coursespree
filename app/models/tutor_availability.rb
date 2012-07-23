@@ -1,3 +1,9 @@
 class TutorAvailability < ActiveRecord::Base
-  attr_accessible :time_end, :time_start, :tutor_id, :weekly
+  attr_accessible :dayofweek, :length, :start_time, :tutor_id, :weeksche_mark
+  belongs_to :tutor
+  
+  def end_time
+    start_time + 3600*length
+  end
+  
 end

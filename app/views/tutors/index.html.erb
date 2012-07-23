@@ -1,28 +1,36 @@
-<h1>Listing tutors</h1>
-
-<table>
-  <tr>
-    <th>User</th>
-    <th>University</th>
-    <th>rating</th>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
+<%=render 'searchtutor'%>
+<br />
+<div id="matchedsubs"> <%=matlinks%></div>
+<div class="title">Click on picture to see tutor profile</div><br />
 <% @tutors.each do |tutor| %>
-  <tr>
-    <td><%= link_to tutor.user.username, tutor %></td>
-    <td><%= tutor.university %></td>
-    <td>average rating<%= tutor.approved %></td>
-    <td><%= link_to 'Show', tutor %></td>
-    <td><%= link_to 'Edit', edit_tutor_path(tutor) %></td>
-    <td><%= link_to 'Destroy', tutor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <td><%= link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %></td>
-  </tr>
+<div class="tuteritem">
+  <div class="avatar">
+    <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+  </div><!--avatar div end-->
+  <div class="tutordescription">
+    <div>
+      Name:<%= tutor.user.fullname%>
+    </div>
+    <div>
+    University:<%= tutor.user.university_id %>
+    </div>
+    <div>
+    average rating<%= tutor.approved %>
+    </div>
+    <%if false%><!--if admin-->
+    <%= link_to 'Show', tutor %>
+    <%= link_to 'Edit', edit_tutor_path(tutor) %>
+    <%= link_to 'Destroy', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%end%>
+  </div><!--tutordescription div end-->
+  <div class="tutorschedule">
+    <%= link_to 'Monday 2:00 - 4:00'%>
+  </div><!--tutorschedule div end-->
+  
+  <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
+</div><!--tutoritem div end-->
 <% end %>
-</table>
+
 
 <br />
 

@@ -2,8 +2,8 @@ class TutorAvailabilitiesController < ApplicationController
   # GET /tutor_availabilities
   # GET /tutor_availabilities.json
   def index
-    @tutor_availabilities = TutorAvailability.all
-
+    @tutor_availabilities = TutorAvailability.find_all_by_tutor_id(session[:tutor_id])
+    @tutor_availability = TutorAvailability.new
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tutor_availabilities }
@@ -15,6 +15,7 @@ class TutorAvailabilitiesController < ApplicationController
   def show
     @tutor_availability = TutorAvailability.find(params[:id])
 
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @tutor_availability }
@@ -44,7 +45,7 @@ class TutorAvailabilitiesController < ApplicationController
 
     respond_to do |format|
       if @tutor_availability.save
-        format.html { redirect_to @tutor_availability, notice: 'Tutor availability was successfully created.' }
+        format.html { redirect_to tutor_availabilities_path, notice: 'Tutor availability was successfully created.' }
         format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
       else
         format.html { render action: "new" }

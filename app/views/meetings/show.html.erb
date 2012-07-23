@@ -11,11 +11,6 @@
 </p>
 
 <p>
-  <b>Classlink:</b>
-  <%= @meeting.classlink %>
-</p>
-
-<p>
   <b>Subject:</b>
   <%= @meeting.subject %>
 </p>
@@ -27,42 +22,45 @@
 
 <p>
   <b>Tutor:</b>
-  <%= @meeting.tutor.user.username %>
+  <%= @meeting.tutor.user.fullname %>
+</p>
+<p>
+  <b>Student:</b>
+  <%= @meeting.user.username %>
 </p>
 
 <p>
-  <b>Price:</b>
-  <%= @meeting.price %>
+  <b>Message to the tutor:</b>
+  <%= @meeting.message %>
 </p>
 
-<p>
-  <b>Rating:</b>
-  <%= @meeting.rating %>
-</p>
 
 <p>
   <b>Status:</b>
   <%= @meeting.accept == 1? 'scheduled': 'waiting tutor response' %>
 </p>
 <p>
-  <%if @meeting.accept == 0 && @meeting.tutor.user.id == session[:user_id]%>
+  <%if @meeting.accept == 0 && @meeting.tutor_id == session[:tutor_id]%>
     <%=link_to 'accept', :controller => 'meetings', :action => 'show', :accept=>'1'%>
   <% end %>
 </p>
 
 <%if @meeting.accept == 1 && current_user.usertype == 'tutor' %>
   <div class="bbbmeetingoption">
-    <h3>video conference options</h3>
+    <b>video conference options</b> 
   <% if current_user.usertype == 'tutor'%>
     <%= link_to 'create meeting', bbb_api_base_url + "create?" + @meeting.creatstring + "&checksum=" + sha1(@meeting.createsum), :id=>'create' %><br />
     <%= link_to 'start meeting', bbb_api_base_url + "join?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.tujoinsum), :target => "_blank", :id=>'tutorjoin' %><br />
-    <%= link_to 'check meeting status', bbb_api_base_url + "isMeetingRunning?" + @meeting.chkstring + "&checksum=" + sha1(@meeting.chksum), :id=>'ismeetingrunning' %><br />
-    <%= link_to 'meeting info', bbb_api_base_url + "getMeetingInfo?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.infosum),:id =>'meetinginfo' %><br />
-    <%= link_to 'end meeting', bbb_api_base_url + "end?" + @meeting.endstring + "&checksum=" + sha1(@meeting.endsum), :id=> 'endmeeting' %><br />
-  <%elsif current_user.usertype == 'student'%>
-    <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
+    <%if true%>
+      <%= link_to 'check meeting status', bbb_api_base_url + "isMeetingRunning?" + @meeting.chkstring + "&checksum=" + sha1(@meeting.chksum), :id=>'ismeetingrunning' %><br />
+      <%= link_to 'meeting info', bbb_api_base_url + "getMeetingInfo?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.infosum),:id =>'meetinginfo' %><br />
+      <%= link_to 'end meeting', bbb_api_base_url + "end?" + @meeting.endstring + "&checksum=" + sha1(@meeting.endsum), :id=> 'endmeeting' %><br />
+    <%end%>
   <% end%>
   </div>
+<%elsif current_user.usertype == 'student' && @meeting.accept == 1%>
+    <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
+  
 <%end%>
 
 <%= link_to 'Edit', edit_meeting_path(@meeting) %> |
