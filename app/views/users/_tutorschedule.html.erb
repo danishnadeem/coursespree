@@ -1,23 +1,40 @@
-<%if @user.usertype =='tutor'%>
+<% if @user.usertype =='tutor'%>
   <%= schedule_mgmt%>
+  <b>Your Open Schedules:</b>
   <% @user.tutor.tutor_availabilities.each do |avlb|%>
   <div class="scheduleitem">
-    <b>Your Open Schedules:</b><br />
     <%= dayofweek(avlb.dayofweek)%>
     <%= avlb.start_time.strftime('%H:%M')%>
     Duration: <%=pluralize(avlb.length, 'hour')%>
     <%= schedulelink(avlb.id) %>
   </div>
   <%end%>
+  <br />
+<% end%>
+<% if @user.usertype =='tutor' && @user.id.to_s == session[:user_id].to_s %>
   <div>
      <b>You will be hosting the following sessions:</b>
     <% youaretutor.each do |m| %>
       <div>
         <%= link_to m.name, m%>
+        On <%=m.start_time.strftime('%m/%d/%y')%>
         Student: <%= m.user.fullname%>
       </div>
     <%end%>
   </div>
+    <br />
+<% end%>
+<% if @user.usertype =='student' && @user.id.to_s == session[:user_id].to_s %>
+  <div>
+     <b>You will be attending the following sessions:</b>
+    <% youarestudent.each do |m| %>
+      <div>
+        <%= link_to m.name, m%>
+        On <%=m.start_time.strftime('%m/%d/%y')%>
+        Tutor: <%= m.tutor.user.fullname%>
+      </div>
+    <%end%>
+  </div>
+    <br />
+<% end%>
 
-  
-<%end%>

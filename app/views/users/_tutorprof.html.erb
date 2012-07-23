@@ -4,9 +4,11 @@
   <h3>Tutor Profile</h3>
   <div id="tutormaterial">
     <%=link_to 'resume.pdf', @user.tutor.resume.url%>
-    <%=link_to 'transcript.pdf', @user.tutor.transcript.url%>
+    <%=link_to 'transcript.pdf', @user.tutor.transcript.url%><br />
+    Your hourly rate as private tutor: <%=@user.tutor.rate %>
     <%=docupdate_link %>
-  </div>
+  </div><!--tutormaterial div end-->
+  <br />
   <div id="subjectlist">
     <!--if the user being viewed is tutor, display tutor specialty-->
     <%if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id != session[:user_id]%>

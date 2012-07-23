@@ -1,5 +1,5 @@
 Findtutor::Application.routes.draw do
-  
+  get 'meetings/payment_made'
   get 'tutors/mgmt'
   get 'tutors/approve'
   get 'subjects_tutors/select'

@@ -17,7 +17,7 @@ module TutorsHelper
   
   def schedulelink(av_id)
     if session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
-      link_to 'select tutor', new_meeting_url(av_id)
+      link_to 'select tutor',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
     end
   end
   
@@ -61,9 +61,7 @@ module TutorsHelper
     end
   end
   
-  def youaretutor
-    Meeting.find(:all, :conditions => ['tutor_id = ? AND accept = ?', session[:tutor_id], 1])
-  end
+
   
 end
 

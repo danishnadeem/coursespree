@@ -1,5 +1,9 @@
 class MeetingsController < ApplicationController
   
+  def payment_made
+    redirect_to '/'
+  end
+  
   def bbb_api_base_url
     "http://198.101.200.137/bigbluebutton/api/"
   end

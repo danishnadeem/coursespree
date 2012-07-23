@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723014523) do
+ActiveRecord::Schema.define(:version => 20120723131023) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(:version => 20120723014523) do
     t.float    "price"
     t.integer  "rating"
     t.integer  "accept",      :default => 0
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "status"
     t.text     "message"
+    t.boolean  "paid",        :default => false
+    t.datetime "trandate"
   end
 
   create_table "subjects", :force => true do |t|
@@ -63,9 +65,9 @@ ActiveRecord::Schema.define(:version => 20120723014523) do
 
   create_table "tutors", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "approved",                :default => 0
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.integer  "approved",                                              :default => 0
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
     t.string   "resume_file_name"
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
@@ -74,6 +76,7 @@ ActiveRecord::Schema.define(:version => 20120723014523) do
     t.string   "transcript_content_type"
     t.integer  "transcript_file_size"
     t.datetime "transcript_updated_at"
+    t.decimal  "rate",                    :precision => 5, :scale => 2, :default => 0.0
   end
 
   create_table "users", :force => true do |t|

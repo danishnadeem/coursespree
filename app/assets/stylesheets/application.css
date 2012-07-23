@@ -116,10 +116,16 @@ nav{
     padding: 0 10px 0 10px;
     background: lightgrey;
 }
+.title{
+    font-weight: bold;
+}
+.subject{
+    padding-left: 10px;
+}
 /* end of tutor search result page*/
 /*meeting scheduling page*/
 #schedulecontainer{
-    width: 600px;
+    width: 700px;
 
 }
 #meetingform{
@@ -129,6 +135,9 @@ nav{
     float: left;
 }
 /*end of meeting scheduling page*/
+
+
+
 footer{
     text-align: center;
     background: grey;

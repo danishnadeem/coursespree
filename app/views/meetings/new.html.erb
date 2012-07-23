@@ -1,4 +1,4 @@
-<h1>New meeting</h1>
+<h1>Request meeting with tutor</h1>
 <div id="schedulecontainer">
   <div id="meetinginfo">
     <h3>Meeting Info:</h3>
@@ -6,10 +6,12 @@
     Scheduled at the following <%= dayofweek(meetinginfo.dayofweek) %><br />
     Time: <%= meetinginfo.start_time.strftime('%H:%M')%><br />
     Duration: <%= pluralize(meetinginfo.length, 'hour')%><br />
+    Tutor Rate: $<%= meetinginfo.tutor.rate%><br />
+    Price for this meeting: $<%= meetinginfo.tutor.rate * meetinginfo.length %>
   </div>
   <div id="meetingform">
     <%= render 'form' %>
   </div>
 <div class="fix"></div>
 </div>
-<%= link_to 'Back', meetings_path %>
+<%= link_to 'Back', :back %>

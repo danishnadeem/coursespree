@@ -12,7 +12,6 @@
   <% end %>
 
   <div class="field">
-    
     <%= f.hidden_field :user_id, :value => params[:uid] %>
     <%= f.hidden_field :approved, :value => 0 %>
   </div>
@@ -23,6 +22,10 @@
   <div class="field">
     <%= f.label :resume %><br />
     <%= f.file_field :resume %>
+  </div>
+  <div class="field">
+    <%= f.label :rate %><br />
+    <%= f.text_field :rate %>
   </div>
   <%if false%>
   <div class="field">
