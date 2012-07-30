@@ -4,7 +4,7 @@ class MeetingsController < ApplicationController
     puts params.inspect
     
     if !params.nil?
-      m = Meeting.find(17)
+      m = Meeting.all.first
       m.paid = true
       m.save
     end
@@ -21,7 +21,7 @@ class MeetingsController < ApplicationController
   
   
   def payment
-    
+
       if request.post? && !params[:mid].nil?
         #redirect_to(:back, notice: params[:oid])
         

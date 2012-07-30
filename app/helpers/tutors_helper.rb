@@ -3,7 +3,7 @@ module TutorsHelper
     link_to keyword, :controller => 'tutors', :action => 'index'
   end
   
-  def matlinks
+  def matchlinks
     display = "Matched Subjects: "
     if !@matches.nil? && @matches.count > 0
       @matches.each do  |mat|
@@ -16,7 +16,7 @@ module TutorsHelper
   end
   
   def schedulelink(av_id)
-    if session[:tutor_id] && session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
+    if session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
       link_to 'select tutor',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
     end
   end
