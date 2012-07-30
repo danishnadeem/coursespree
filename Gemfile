@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 gem 'therubyracer'
 gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+gem 'paypal_adaptive'
+gem 'nokogiri'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

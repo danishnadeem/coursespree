@@ -24,7 +24,7 @@
   </div>
     <br />
 <% end%>
-<% if @user.usertype =='student' && @user.id.to_s == session[:user_id].to_s %>
+<% if @user.id.to_s == session[:user_id].to_s %>
   <div>
      <b>You will be attending the following sessions:</b>
     <% youarestudent.each do |m| %>

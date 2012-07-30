@@ -21,10 +21,10 @@ module MeetingsHelper
   def youarestudent
     Meeting.find(:all, :conditions => ['user_id = ? AND accept = ?', session[:user_id], 1])
   end
-  
+
   def paymentlink
     if @meeting.accept == 1 && @meeting.user_id == session[:user_id] && @meeting.paid == false
-      link_to 'Make payment'
+      button_to 'pay', :controller => 'meetings', :action => 'payment', :mid=> @meeting.id
     end 
   end
   

@@ -1,5 +1,69 @@
 class MeetingsController < ApplicationController
   
+  def ipn_notification
+    puts params.inspect
+    
+    if !params.nil?
+      m = Meeting.find(17)
+      m.paid = true
+      m.save
+    end
+    
+    #  uri = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate" + msg_body
+    #  response = Net::HTTP.get(URI.parse(uri))    
+    
+  end
+  def canceled_payment_request
+  end
+  
+  def completed_payment_request
+  end  
+  
+  
+  def payment
+    
+      if request.post? && !params[:mid].nil?
+        #redirect_to(:back, notice: params[:oid])
+        
+        if !Meeting.find(params[:mid])
+          redirect_to(:back, notice: "invalid order")
+          return
+        end
+        meeting = Meeting.find(params[:mid])
+        receiver1 = "seller_1343182998_biz@gmail.com"
+        receiver2 = meeting.tutor.user.paypalEmail
+        
+        meeting_price =meeting.tutor.rate*meeting.duration.to_i
+        site_commission = meeting_price*0.2
+        price =  "%.2f" % meeting_price
+        commission = "%.2f" % site_commission
+        pay_request = PaypalAdaptive::Request.new
+        serverbase = "http://198.101.226.133/"
+        #serverbase = "http://localhost:3000/"
+        
+        data = {
+              "returnUrl" => serverbase + "meetings/" + params[:mid].to_s, 
+              "requestEnvelope" => {"errorLanguage" => "en_US"},
+              "currencyCode"=>"USD",  
+              "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>commission},{"email"=>receiver2, "amount"=>price}]},
+              "cancelUrl"=> serverbase + "meetings/" + params[:mid].to_s,
+              "actionType"=>"PAY",
+              "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
+              }
+        
+        pay_response = pay_request.pay(data)
+        
+        if pay_response.success?
+          redirect_to pay_response.approve_paypal_payment_url
+        else
+          puts pay_response.errors.first['message']
+          redirect_to failed_payment_url
+        end        
+        
+        return
+      end
+  end
+  
   def payment_made
     redirect_to '/'
   end

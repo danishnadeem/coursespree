@@ -1,0 +1,25 @@
+development:
+  environment: "sandbox"
+  username: "seller_1343182998_biz_api1.gmail.com"
+  password: "1343183022"
+  signature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AiYZWY7TMIPUhi.ALaYcQFv4Xpff"
+  application_id: "APP-80W284485P519543T"
+  paypal_endpoint: "https://svcs.sandbox.paypal.com/AdaptivePayments/"
+  ssl_cert_file:
+
+test:
+  environment: "sandbox"
+  username: "sandbox_username"
+  password: "sandbox_password"
+  signature: "sandbox_signature"
+  application_id: "sandbox_app_id"
+  ssl_cert_file:
+
+production:
+  environment: "sandbox"
+  username: "seller_1343182998_biz_api1.gmail.com"
+  password: "1343183022"
+  signature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AiYZWY7TMIPUhi.ALaYcQFv4Xpff"
+  application_id: "APP-80W284485P519543T"
+  paypal_endpoint: "https://svcs.sandbox.paypal.com/AdaptivePayments/"
+  ssl_cert_file:

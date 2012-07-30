@@ -5,10 +5,6 @@
   <%= @meeting.name %>
 </p>
 
-<p>
-  <b>Duration:</b>
-  <%= @meeting.duration %>
-</p>
 
 <p>
   <b>Subject:</b>
@@ -35,7 +31,7 @@
 </p>
 <p>
   <b>Tutor Price/hour:</b>
-  $<%= @meeting.tutor.rate %>
+  $<%= @meeting.tutor.rate %>, <b>Length:</b> <%= pluralize(@meeting.duration,'hour') %>, total cost for this meeting:  $<%= @meeting.tutor.rate.to_d*@meeting.duration.to_d %>
 </p>
 
 <p>
@@ -54,13 +50,13 @@
   <%= paymentlink%>
 </p>
 
+<p>Meeting Status: to be checked via ajax</p>
 
 
-
-<%if @meeting.accept == 1 && current_user.usertype == 'tutor' %>
+<%if @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
   <div class="bbbmeetingoption">
     <b>video conference options</b> 
-  <% if current_user.usertype == 'tutor'%>
+  <% if current_user.usertype == 'tutor' %>
     <%= link_to 'create meeting', bbb_api_base_url + "create?" + @meeting.creatstring + "&checksum=" + sha1(@meeting.createsum), :id=>'create' %><br />
     <%= link_to 'start meeting', bbb_api_base_url + "join?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.tujoinsum), :target => "_blank", :id=>'tutorjoin' %><br />
     <%if true%>
@@ -70,7 +66,7 @@
     <%end%>
   <% end%>
   </div>
-<%elsif current_user.usertype == 'student' && @meeting.accept == 1%>
+<%elsif  @meeting.accept == 1 && @meeting.user = current_user%>
     <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
   
 <%end%>

@@ -1,12 +1,17 @@
 Findtutor::Application.routes.draw do
+  get 'meetings/ipn_notification'
+  get 'meetings/canceled_payment_request'
+  get 'meetings/completed_payment_request'
+  post 'meetings/payment'
   get 'meetings/payment_made'
   get 'tutors/mgmt'
   get 'tutors/approve'
   get 'subjects_tutors/select'
+  
   resources :superadmins
 
+  
   resources :tutor_availabilities
-
   resources :subjects_tutors
 
   resources :subjects

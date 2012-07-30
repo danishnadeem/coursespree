@@ -1,5 +1,5 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
+  attr_accessible :paid, :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
@@ -9,6 +9,7 @@ class Meeting < ActiveRecord::Base
       'meetingID=' + id.to_s
     end
   end
+  
   def p_name
     if !name.nil?
       '&name=' + name.to_s
