@@ -56,7 +56,7 @@ module TutorsHelper
   end
   
   def schedule_mgmt
-    if params[:id].to_s == session[:user_id].to_s && !session[:tutor_id].nil?
+    if params[:id].to_s == session[:user_id].to_s
       link_to 'Manage', :controller => 'tutor_availabilities', :action => 'index'
     end
   end
