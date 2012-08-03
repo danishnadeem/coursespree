@@ -1,22 +1,26 @@
 <%=render 'searchtutor'%>
 <br />
 <div id="matchedsubs"> <%=matchlinks%></div>
-<div class="title">Click on picture to see tutor profile</div><br />
+<h2>Click on picture to see tutor profile</h2>
+<table id="tutors">
+  <thead>
+    <tr>
+      <th width="70"></th>
+      <th width="210">Tutor Name</th>
+      <th>Availability</th>
+    </tr>
+  </thead>  
+</table>
 <% @tutors.each do |tutor| %>
+
 <div class="tuteritem">
   <div class="avatar">
     <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
   </div><!--avatar div end-->
   <div class="tutordescription">
-    <div>
-      Name:<%= tutor.user.fullname%>-<%=tutor.user.username%>
-    </div >
-    <div>
-    University:<%= tutor.user.university_id %>
-    </div>
-    <div>
-    average rating<%= tutor.approved %>
-    </div>
+    <h3><%= tutor.user.fullname%>-<%=tutor.user.username%></h3>
+    <p>University:<%= tutor.user.university_id %></p>
+    <p>Average rating<%= tutor.approved %></p>
     <%if false%><!--if admin-->
     <%= link_to 'Show', tutor %>
     <%= link_to 'Edit', edit_tutor_path(tutor) %>
@@ -28,6 +32,7 @@
   </div><!--tutorschedule div end-->
   
   <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
+  <div class="fix"></div>
 </div><!--tutoritem div end-->
 <% end %>
 

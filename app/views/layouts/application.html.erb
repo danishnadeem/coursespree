@@ -7,19 +7,65 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div id='container'>
-    <header>Tutor Center</header>
-    <nav><%=navlinks%></nav>
-    <div id='authlink'><%=authlink%></div>
+    <div id='header-container'>
+      <header>
+   <div id="logo">
+				<div id="logo-img">
+                                  <%= image_tag 'logo.png'%>
+				</div>
+				<h1>Course<span class="yellow">Spree</span></h1>
+			</div>
+			<div id="searchbar">
+			<div class="searchbar-padding">
+			<form method="get" class="searchform">
+		       <input type="text" class="field s" name="s" value="Search…" onfocus="if ( this.value == 'Search…' ) { this.value = ''; }" onblur="if ( this.value == '' ) { this.value = 'Search…'; }">
+		       <input type="image" src="/assets/ico-search.png" class="search-submit" name="submit" alt="Submit">
+		    </form>
+				
+	  
+			</div>
+			</div>
+			<div class="fix"></div>
+			<nav>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Services<span class="parent"></span></a>
+						<ul>
+							<li><a href="#">Tutoring Service</a></li>
+							<li><a href="#">Homework Help</a></li>
+							<li><a href="#">Class Notes</a></li>
+							<li><a href="#">Video Lectures</a></li>
+							<div class="fix"></div>
+						</ul>
+					</li>
+					<li><a href="#">FAQs</a></li>
+					<li><a href="#">About Us</a></li>
+					<li style="float:right"><a href="#" style="background-color: #17adb5">Log In</a></li>
+					<li style="float:right"><a href="#" style="background-color: #17adb5">Register</a></li>
+					<div class="fix"></div>
+				</ul>
+			</nav>
+		</header>
+    </div><!-- header container end -->
+     <div id="subnav-container">
+        <div id="subnav">
+        <nav><%=navlinks%></nav>
+        <div id='authlink'><%=authlink%></div>
+        </div>
+     </div>
+     
+     <div id='container'>
     <div class="fix"></div>
     <%= yield %>
     <div class="fix"></div>
+      </div><!--container-->
     
+    <div id="footer-container">
     <footer>
       &copy;coursespree.com<%=Time.now.year%>
     </footer>
-  
-  </div><!--container-->
+    </div><!-- footer container end -->
+
   Current Controller : <%=params[:controller]%><br />
   Current Action: <%=params[:action]%>
 </body>
