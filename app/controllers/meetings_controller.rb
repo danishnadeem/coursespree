@@ -1,5 +1,12 @@
 class MeetingsController < ApplicationController
-  protect_from_forgery :except => 'ipn_notification'
+  #protect_from_forgery :except => :ipn_notification
+  before_filter :authticate, :except => :ipn_notification
+  def authticate
+    unless User.find_by_id(session[:user_id])
+      flash[:notice] = "Please log in."
+      redirect_to :controller => 'admin', :action => 'login'
+    end    
+  end
   
   def ipn_notification
     puts params.inspect
