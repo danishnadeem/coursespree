@@ -12,7 +12,7 @@ module TutorAvailabilitiesHelper
       'Friday'
     elsif i==6
       'Saturday'
-    elsif i==7
+    elsif i==0
       'Sunday'
     else
       'errorinput'

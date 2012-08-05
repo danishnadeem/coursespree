@@ -3,7 +3,7 @@
   <div id="meetinginfo">
     <h3>Meeting Info:</h3>
     Tutor: <%= meetinginfo.tutor.user.fullname %><br />
-    Scheduled at the following <%= dayofweek(meetinginfo.dayofweek) %><br />
+    Date: <%= meetinginfo.start_time.strftime('%D') %><br />
     Time: <%= meetinginfo.start_time.strftime('%H:%M')%><br />
     Duration: <%= pluralize(meetinginfo.length, 'hour')%><br />
     Tutor Rate: $<%= meetinginfo.tutor.rate%><br />

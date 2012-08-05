@@ -12,21 +12,19 @@
   <% end %>
 <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
 
-  <div class="field">
-    <%= f.label :dayofweek %><br />
-    <%= f.select :dayofweek, [['Monday', 1],['Tuesday', 2],['Wednesday', 3],['Thursday', 4],['Friday', 5],['Saturday', 6],['Sunday', 7]] %>
 
-    <%= f.label :repeat_weekly %>
-    <%= f.check_box :weeksche_mark %>
-  </div>
   <div class="field">
     <%= f.label :start_time %><br />
-    <%= f.time_select :start_time, { :default => Time.now.change(:hour => 8), :simple_time_select => true, 
-:minute_interval => 20, :time_separator => "", :start_hour => 8, :end_hour => 20 } %>
+    <%= f.datetime_select :start_time, {  :default => Time.now.change(:hour => 8),
+                                      :simple_time_select => true, 
+                                      :minute_interval => 20,
+                                      :time_separator => "",
+                                      :start_hour => 8,
+                                      :end_hour => 20 } %>
   </div>
   <div class="field">
     <%= f.label :length_in_hours %><br />
-    <%= f.text_field :length %>
+    <%= f.select :length, [1,1.5,2,2.5,3,3.5,4] %>
   </div>
 
   <div class="actions">

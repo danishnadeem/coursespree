@@ -2,10 +2,10 @@
 
 <table>
   <tr>
-    <th>Day of week</th>
-    <th>Time start</th>
-    <th>Time end</th>
-    <th>Weekly</th>
+    <th>Date</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Taken</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,17 +13,18 @@
 
 <% @tutor_availabilities.each do |ta| %>
   <tr>
-    <td><%= dayofweek(ta.dayofweek) %></td>
+    <td><%= ta.start_time.strftime('%D') %> <%=dayofweek(ta.start_time.wday)%></td>
     <td><%= ta.start_time.strftime('%H:%M') %></td>
     <td><%= ta.end_time.strftime('%H:%M') %></td>
-    <td><%= ta.weeksche_mark %></td>
+    <td><%= ta.taken %></td>
     <td><%= link_to 'Show', ta %></td>
+    <%if ta.taken == 0%>
     <td><%= link_to 'Edit', edit_tutor_availability_path(ta) %></td>
     <td><%= link_to 'Destroy', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
   </tr>
 <% end %>
 </table>
 <br />
 <h2>Add New Time Slot</h2>
 <%= render 'form'%>
-<%= link_to 'New Tutor availability', new_tutor_availability_path %>

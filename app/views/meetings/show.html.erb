@@ -13,7 +13,7 @@
 
 <p>
   <b>Start time:</b>
-  <%= @meeting.start_time %>
+  <%=  %>
 </p>
 
 <p>
@@ -31,7 +31,7 @@
 </p>
 <p>
   <b>Tutor Price/hour:</b>
-  $<%= @meeting.tutor.rate %>, <b>Length:</b> <%= pluralize(@meeting.duration,'hour') %>, total cost for this meeting:  $<%= @meeting.tutor.rate.to_d*@meeting.duration.to_d %>
+  $<%= @meeting.tutor.rate %>, <b>Length:</b><%=@meeting.tutor_availability.length %>, total cost for this meeting:  <%=@meeting.tutor_availability.length*@meeting.tutor.rate %>
 </p>
 
 <p>

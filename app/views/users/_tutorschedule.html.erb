@@ -3,7 +3,7 @@
   <b>Your Open Schedules:</b>
   <% @user.tutor.tutor_availabilities.each do |avlb|%>
   <div class="scheduleitem">
-    <%= dayofweek(avlb.dayofweek)%>
+    <%= dayofweek(avlb.start_time.wday)%>
     <%= avlb.start_time.strftime('%H:%M')%>
     Duration: <%=pluralize(avlb.length, 'hour')%>
     <%= schedulelink(avlb.id) %>
@@ -17,7 +17,7 @@
     <% youaretutor.each do |m| %>
       <div>
         <%= link_to m.name, m%>
-        On <%=m.start_time.strftime('%m/%d/%y')%>
+        On <!--m.start_time.strftime('%m/%d/%y')-->
         Student: <%= m.user.fullname%>
       </div>
     <%end%>
@@ -31,7 +31,7 @@
     <% youarestudent.each do |m| %>
       <div>
         <%= link_to m.name, m%>
-        On <%=m.start_time.strftime('%m/%d/%y')%>
+        On start time
         Tutor: <%= m.tutor.user.fullname%>
       </div>
     <%end%>

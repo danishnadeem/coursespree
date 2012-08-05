@@ -11,27 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120723131023) do
+ActiveRecord::Schema.define(:version => 20120804153419) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
     t.string   "attendeePW"
     t.string   "moderatorPW"
-    t.string   "duration"
     t.string   "classlink"
     t.string   "subject"
-    t.datetime "start_time"
     t.integer  "tutor_id"
     t.integer  "user_id"
     t.float    "price"
     t.integer  "rating"
-    t.integer  "accept",      :default => 0
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.integer  "accept",                :default => 0
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.integer  "status"
     t.text     "message"
-    t.boolean  "paid",        :default => false
+    t.boolean  "paid",                  :default => false
     t.datetime "trandate"
+    t.integer  "tutor_availability_id"
   end
 
   create_table "subjects", :force => true do |t|
@@ -55,12 +54,11 @@ ActiveRecord::Schema.define(:version => 20120723131023) do
 
   create_table "tutor_availabilities", :force => true do |t|
     t.integer  "tutor_id"
-    t.integer  "dayofweek"
     t.datetime "start_time"
     t.integer  "length"
-    t.integer  "weeksche_mark"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+    t.integer  "taken",      :default => 0
   end
 
   create_table "tutors", :force => true do |t|

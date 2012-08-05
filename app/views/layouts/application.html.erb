@@ -49,24 +49,68 @@
     </div><!-- header container end -->
      <div id="subnav-container">
         <div id="subnav">
-        <nav><%=navlinks%></nav>
-        <div id='authlink'><%=authlink%></div>
-        </div>
-     </div>
+	  <nav><%=navlinks%></nav>
+	  <div id='authlink'><%=authlink%></div>
+        </div><!--subnav div end-->
+     </div><!--subnav-container div end-->
      
-     <div id='container'>
-    <div class="fix"></div>
-    <%= yield %>
-    <div class="fix"></div>
-      </div><!--container-->
+    <div id='container'>
+	<div class="fix"></div>
+	<%= yield %>
+	<div class="fix"></div>
+    </div><!--container-->
     
     <div id="footer-container">
+      <div class="fix"></div>
     <footer>
-      &copy;coursespree.com<%=Time.now.year%>
+			<div class="footer-padding">
+			<div id="footer-name">
+			<h3>CourseSpree</h3>
+			<p>235 Harrison St.<br />
+			Syracuse, NY 13202</p>
+			</div><!-- footer name end -->
+			<nav>
+				<ul>
+					<li><a href="#">Services</a>
+						<ul>
+							<li><a href="#">Hire Tutors</a></li>
+							<li><a href="#">Homework Help</a></li>
+							<li><a href="#">Buy Notes</a></li>
+							<li><a href="#">Sell Notes</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Help</a>
+						<ul>
+							<li><a href="#">Getting Started</a></li>
+							<li><a href="#">How To</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Submit a Dispute</a></li>
+						</ul>
+					</li>
+					<li><a href="#">About Us</a>
+						<ul>
+							<li><a href="#">Pricing</a></li>
+							<li><a href="#">Meet the Team</a></li>
+							<li><a href="#">Press</a></li>
+							<li><a href="#">Contact Us</a></li>
+						</ul>
+					</li>
+					
+				</ul>
+				
+			</nav>
+			
+			<div id="footer-social">
+			  <div id="footer-social-padding">
+				  <span>Follow us...</span>
+				  <a href="#"><%=image_tag 'ico-footer-twitter.png', :title=>"Follow us on Twitter", :alt=>""%></a>
+				  <a href="#"><%=image_tag 'ico-footer-facebook.png', :title=>"Follow us on Facebook", :alt=>""%></a>
+			  </div>
+			</div>
+			<div class="fix"></div>
+			</div><!-- padding end -->
     </footer>
+    
     </div><!-- footer container end -->
-
-  Current Controller : <%=params[:controller]%><br />
-  Current Action: <%=params[:action]%>
 </body>
 </html>

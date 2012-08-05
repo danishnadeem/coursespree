@@ -33,10 +33,10 @@ class MeetingsController < ApplicationController
         receiver1 = "seller_1343182998_biz@gmail.com"
         receiver2 = meeting.tutor.user.paypalEmail
         
-        meeting_price =meeting.tutor.rate*meeting.duration.to_i
-        site_commission = meeting_price*0.2
+        meeting_price =meeting.tutor.rate*meeting.tutor_availability.length
+        ##site_commission = meeting_price*0.2 # not used
         price =  "%.2f" % meeting_price
-        commission = "%.2f" % site_commission
+        ##commission = "%.2f" % site_commission #not used
         pay_request = PaypalAdaptive::Request.new
         serverbase = "http://198.101.226.133/"
         #serverbase = "http://localhost:3000/"
@@ -45,7 +45,7 @@ class MeetingsController < ApplicationController
               "returnUrl" => serverbase + "meetings/" + params[:mid].to_s, 
               "requestEnvelope" => {"errorLanguage" => "en_US"},
               "currencyCode"=>"USD",  
-              "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>commission},{"email"=>receiver2, "amount"=>price}]},
+              "receiverList"=>{"receiver"=>[{"email"=>receiver2, "amount"=>price}]},
               "cancelUrl"=> serverbase + "meetings/" + params[:mid].to_s,
               "actionType"=>"PAY",
               "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
@@ -134,10 +134,11 @@ class MeetingsController < ApplicationController
     @meeting.attendeePW = rand(36**20).to_s(36)
     @meeting.moderatorPW = rand(36**20).to_s(36)
     @meeting.user_id = session[:user_id]
-    @meeting.name = @meeting.subject + Time.now.strftime('%y%m%d%h%m%s')
+    @meeting.name = @meeting.subject + Time.now.strftime('_%y%m%d')
 
     respond_to do |format|
       if @meeting.save
+
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
         format.json { render json: @meeting, status: :created, location: @meeting }
       else

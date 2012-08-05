@@ -1,8 +1,9 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :paid, :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
+  attr_accessible :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
+  belongs_to :tutor_availability
   #parameter to pass in meeting creation
   def s_id
     if !id.nil?
@@ -26,8 +27,8 @@ class Meeting < ActiveRecord::Base
     end
   end
   def p_duration
-    if !duration.nil?
-    '&duration=' + duration.to_s
+    if !tutor_availability.nil?
+    tutor_availability.length.to_s
     end
   end
   def p_logout
