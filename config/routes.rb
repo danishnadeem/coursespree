@@ -1,5 +1,5 @@
 Findtutor::Application.routes.draw do
-  get 'meetings/ipn_notification'
+  post 'meetings/ipn_notification'
   get 'meetings/canceled_payment_request'
   get 'meetings/completed_payment_request'
   post 'meetings/payment'
