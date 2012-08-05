@@ -13,20 +13,16 @@ class MeetingsController < ApplicationController
   end
   
   def ipn_notification
-    puts "here goes inspect method"
-    puts params.inspect
+    #puts "here goes inspect method"
+    #puts params.inspect
     #puts ("status is : " + params["status"]).inspect
-    params
-    if !params.nil?
-    puts "here goes inspect method2"
-    puts params.inspect      
-      params = "cmd=_notify-validate&#{params}"
-      puts "here goes inspect method 3"
-      puts params.inspect
+    
+    if !params.nil? && params[:status] == "COMPLETED"
+      #need to update code to verify paypal payment
       #to be tested
-      #m = Meeting.find_by_paykey(params[:pay_key])
-      #m.paid = true
-      #m.save
+      m = Meeting.find_by_paykey(params[:pay_key])
+      m.paid = true
+      m.save
     end
     
     #  uri = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate" + msg_body
@@ -68,7 +64,7 @@ class MeetingsController < ApplicationController
               "receiverList"=>{"receiver"=>[{"email"=>receiver2, "amount"=>price}]},
               "cancelUrl"=> serverbase + "meetings/" + params[:mid].to_s,
               "actionType"=>"PAY",
-              "ipnNotificationUrl"=>serverbase + "ipn_notification"
+              "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
               }
         
         pay_response = pay_request.pay(data)
@@ -106,7 +102,7 @@ class MeetingsController < ApplicationController
     if params[:type]=='requested'
       @meetings = Meeting.find_all_by_user_id(session[:user_id])
     elsif params[:type]=='pending'
-      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", Tutor.find_by_user_id(session[:user_id]).id, 0])
+      @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:tutor_id], 0])
     elsif params[:type]=='past'
       @meetings = Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", session[:user_id], 1])
     else
