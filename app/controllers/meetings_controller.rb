@@ -1,5 +1,6 @@
 class MeetingsController < ApplicationController
-  protect_from_forgery :except => :ipn_notification 
+  protect_from_forgery :except => 'ipn_notification'
+  
   def ipn_notification
     puts params.inspect
     
