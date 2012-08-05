@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery :except => :ipn_notification 
+  protect_from_forgery
   
   before_filter :authticate, :except => [:login]
   
