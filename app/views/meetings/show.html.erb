@@ -22,7 +22,7 @@
 </p>
 <p>
   <b>Student:</b>
-  <%= @meeting.user.fullname %>
+  <%= @meeting.user.fullname %><%= @meeting.user.id %>
 </p>
 
 <p>
@@ -36,12 +36,12 @@
 
 <p>
   <b>Payment Status:</b>
-  <%= @meeting.paid %>
+  <%= @meeting.paid ? "Paid":"waiting for payment" %>
 </p>
 
 <p>
   <b>Status:</b>
-  <%= meetingstatus %>
+  <%= tutor_response %>
 </p>
 <p>
   <%= acceptlink%>
@@ -50,10 +50,10 @@
   <%= paymentlink%>
 </p>
 
-<p>Meeting Status: to be checked via ajax</p>
+<div id="getstatus"><%=link_to "refresh meeting status", :mid=>@meeting.id%><div id="status" style="display: inline;"> status</div></div>
 
-
-<%if @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
+<!--if current tutor is expected tutor for this meeting, display start meeting option-->
+<%if @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
   <div class="bbbmeetingoption">
     <b>video conference options</b> 
   <% if current_user.usertype == 'tutor' %>
@@ -66,7 +66,11 @@
     <%end%>
   <% end%>
   </div>
-<%elsif  @meeting.accept == 1 && @meeting.user = current_user%>
+  
+  
+  <!--if current user is student, display joining link-->
+<%elsif  @meeting.accept == 1 && @meeting.user_id == session[:user_id]%>
+ 
     <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
   
 <%end%>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120804153419) do
+ActiveRecord::Schema.define(:version => 20120805195009) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20120804153419) do
     t.boolean  "paid",                  :default => false
     t.datetime "trandate"
     t.integer  "tutor_availability_id"
+    t.string   "paykey"
   end
 
   create_table "subjects", :force => true do |t|

@@ -22,10 +22,7 @@
     <%= link_to 'Edit', edit_tutor_path(tutor.user) %>
     <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
   </div><!--tutorschedule div end-->
-  <div class="tutorprof">
-    
-  </div>
-  
-  <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
+
+<div class="fix"></div>
 </div><!--tutoritem div end-->
 <%end%>

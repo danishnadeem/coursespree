@@ -28,7 +28,7 @@ module MeetingsHelper
     end 
   end
   
-  def meetingstatus
+  def tutor_response
     if @meeting.accept == 1
       'scheduled'
     else

@@ -10,10 +10,21 @@
       </ul>
     </div>
   <% end %>
-    
+    <%if params[:action] == 'new'%>
     <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
     <%= f.hidden_field :tutor_availability_id, :value => meetinginfo.id %>
-
+    <%btntext = "Request Apointment"%>
+    <%elsif params[:action] == 'edit'%>
+      <%btntext = "Update Meeting"%>
+  <div class="field">
+    <%= f.label 'accept:' %><br />
+    <%= f.text_field :accept %>
+  </div>
+  <div class="field">
+    <%= f.label 'paid:' %><br />
+    <%= f.text_field :paid %>
+  </div>    
+    <%end%><!--edit test end-->
   <div class="field">
     <%= f.label :subject %><br />
     <%= f.select :subject, [["math",1],["chemistry",2],["physics",3]] %>
@@ -23,6 +34,6 @@
     <%= f.text_area :message, :size => "50x8" %>
   </div>
   <div class="actions">
-    <%= f.submit 'Request Appointment' %>
+    <%= f.submit btntext %>
   </div>
 <%end%>

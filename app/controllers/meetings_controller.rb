@@ -8,11 +8,16 @@ class MeetingsController < ApplicationController
     end    
   end
   
+  def accept
+    
+  end
+  
   def ipn_notification
     puts params.inspect
+    puts params['transaction'].status.inspect
     
     if !params.nil?
-      m = Meeting.all.first
+      m = Meeting.find_by_paykey(params[:pay_key])
       m.paid = true
       m.save
     end
@@ -63,6 +68,10 @@ class MeetingsController < ApplicationController
         
         if pay_response.success?
           redirect_to pay_response.approve_paypal_payment_url
+          #puts (pay_response['payKey'] + "test").inspect
+          meeting.paykey = pay_response['payKey']
+          #store paykey into the meeting data base 
+          meeting.save
         else
           puts pay_response.errors.first['message']
           redirect_to failed_payment_url
@@ -108,9 +117,11 @@ class MeetingsController < ApplicationController
   # GET /meetings/1.json
   def show
     @meeting = Meeting.find(params[:id])
-    if !params[:accept].nil? && params[:accept] == '1'
+    if !params[:accept].nil? && params[:accept] == '1' && @meeting.tutor_id == session[:tutor_id]
+      #only tutor for the meeting can accept the meeting
       @meeting.accept = 1
       @meeting.save
+    elsif !params[:accept].nil? && params[:accept] == '1' && @meeting.tutor_id != session[:tutor_id]
     end
     
     respond_to do |format|
@@ -142,6 +153,7 @@ class MeetingsController < ApplicationController
     @meeting.attendeePW = rand(36**20).to_s(36)
     @meeting.moderatorPW = rand(36**20).to_s(36)
     @meeting.user_id = session[:user_id]
+    puts session[:user_id].inspect
     @meeting.name = @meeting.subject + Time.now.strftime('_%y%m%d')
 
     respond_to do |format|

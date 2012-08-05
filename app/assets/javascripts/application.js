@@ -24,14 +24,16 @@ $(document).ready(function(){
 
         $.ajax({
             type: "GET"    ,
-            url: creat_link,
+            url: creat_link
+
+            
         });//ajax end
+        //alert("ajaxed");
         
-    
+    //return false
     //alert('tutor join clicked');
     //return false
     });//tutorjoin click end
-    
     
     
 });
