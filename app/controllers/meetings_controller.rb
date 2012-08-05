@@ -14,7 +14,7 @@ class MeetingsController < ApplicationController
   
   def ipn_notification
     puts params.inspect
-    
+    puts ("status is : " + params["status"]).inspect
     
     if !params.nil?
       m = Meeting.find_by_paykey(params[:pay_key])
