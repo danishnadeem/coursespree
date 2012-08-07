@@ -47,20 +47,27 @@ class Meeting < ActiveRecord::Base
     '&duration=' + (tutor_availability.length*60).to_s
     end
   end
+  
   def p_logout
     '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1'
   end
+  
   def p_recd
     '&record=true'
   end
   
   #parameter to pass in joining meeting
   #will use meetingID from above
-  def p_fullname
+  def p_st_fullname
     if !user.username.nil?
       '&fullName='+ user.fullname
     end
   end
+  def p_tu_fullname
+    if !user.username.nil?
+      '&fullName='+ tutor.user.fullname
+    end
+  end  
   
   def p_apwd
     if !attendeePW.nil?
@@ -83,7 +90,7 @@ class Meeting < ActiveRecord::Base
   end
   #querystring to be used for join meeting as student
   def stjoinstring
-    ( s_id + p_fullname  + p_apwd ).gsub(' ', '+')
+    ( s_id + p_st_fullname  + p_apwd ).gsub(' ', '+')
   end
   #prep for sha1 sum of querystring-joining meeting as student
   def stjoinsum
@@ -91,7 +98,7 @@ class Meeting < ActiveRecord::Base
   end
   #qstring to join room as tutor
   def tujoinstring
-    ( s_id + p_fullname  + p_mpwd ).gsub(' ', '+')
+    ( s_id + p_tu_fullname  + p_mpwd ).gsub(' ', '+')
   end
   #prep fir sha1 sum of join as tutor
   def tujoinsum
