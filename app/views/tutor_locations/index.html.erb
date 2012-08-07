@@ -1,0 +1,25 @@
+<h1>Listing tutor locations</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>University</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @tutor_locations.each do |tutor_location| %>
+  <tr>
+    <td><%= tutor_location.name %></td>
+    <td><%= tutor_location.university.name %></td>
+    <td><%= link_to 'Show', tutor_location %></td>
+    <td><%= link_to 'Edit', edit_tutor_location_path(tutor_location) %></td>
+    <td><%= link_to 'Destroy', tutor_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Tutor location', new_tutor_location_path %>

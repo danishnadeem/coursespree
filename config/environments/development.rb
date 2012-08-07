@@ -33,7 +33,7 @@ Findtutor::Application.configure do
   config.assets.compress = false
   
   #Do not use compiled assets
-  config.serve_static_assets = false
+  config.serve_static_assets = true
   
   # Expands the lines which load the assets
   config.assets.debug = true

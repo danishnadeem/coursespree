@@ -2,7 +2,7 @@ class TutorAvailabilitiesController < ApplicationController
   # GET /tutor_availabilities
   # GET /tutor_availabilities.json
   def index
-    @tutor_availabilities = TutorAvailability.find_all_by_tutor_id(session[:tutor_id])
+    @tutor_availabilities = TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND start_time >= ?", session[:tutor_id], Time.now])
     @tutor_availability = TutorAvailability.new
     respond_to do |format|
       format.html # index.html.erb
@@ -41,10 +41,19 @@ class TutorAvailabilitiesController < ApplicationController
   # POST /tutor_availabilities
   # POST /tutor_availabilities.json
   def create
+    cnt = params[:tutor_availability][:repeat].to_i - 1
+    params[:tutor_availability].delete :repeat
     @tutor_availability = TutorAvailability.new(params[:tutor_availability])
 
     respond_to do |format|
       if @tutor_availability.save
+        if cnt > 0
+          for i in 1..cnt
+            new_ta = TutorAvailability.new(params[:tutor_availability])
+            new_ta.start_time = @tutor_availability.start_time + 604800*i
+            new_ta.save
+          end
+        end
         format.html { redirect_to tutor_availabilities_path, notice: 'Tutor availability was successfully created.' }
         format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
       else

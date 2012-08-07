@@ -1,19 +1,19 @@
 module TutorAvailabilitiesHelper
   def dayofweek(i)
     if i==1
-      'Monday'
+      'Mon'
     elsif i==2
-      'Tuesday'
+      'Tue'
     elsif i==3
-      'Wednesday'
+      'Wed'
     elsif i==4
-      'Thursday'
+      'Thur'
     elsif i==5
-      'Friday'
+      'Fri'
     elsif i==6
-      'Saturday'
+      'Sat'
     elsif i==0
-      'Sunday'
+      'Sun'
     else
       'errorinput'
     end

@@ -6,6 +6,8 @@ gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem 'paypal_adaptive'
 gem 'nokogiri'
 
+gem 'date_validator'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

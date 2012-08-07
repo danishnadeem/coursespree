@@ -1,79 +1,103 @@
 <p id="notice"><%= notice %></p>
-
-<p>
-  <b>Meeting Name:</b>
+<div id="meetingshow">
+<div class="meetingline">
+  <div class="inlinetitle">Name:</div>
   <%= @meeting.name %>
-</p>
+</div>
+<div class="meetingline">
+  <div class="inlinetitle">Type:</div>
+  <%= @meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
+</div>
+<%if @meeting.tutor_availability.timetype == 1%>
+  <div class="meetingline">
+    <div class="inlinetitle">Location: </div>
+    <%=@meeting.location.name%>
+  </div>
+<%end%>
+
+<div class="meetingline">
+  <div class="inlinetitle">Subject:</div>
+  <%= @meeting.subject.title %>
+</div>
+
+<div class="meetingline">
+  <div class="inlinetitle">Date:</div>
+  <%= @meeting.tutor_availability.start_time.strftime("%D") %>
+</div>
+<div class="meetingline">
+  <div class="inlinetitle">Duration:</div>
+  <%= @meeting.tutor_availability.start_time.strftime("%H:%M") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
+</div>
 
 
-<p>
-  <b>Subject:</b>
-  <%= @meeting.subject %>
-</p>
-
-<p>
-  <b>Start time:</b>
-  <%=  %>
-</p>
-
-<p>
-  <b>Tutor:</b>
+<div class="meetingline">
+  <div class="inlinetitle">Tutor:</div>
   <%= @meeting.tutor.user.fullname %>
-</p>
-<p>
-  <b>Student:</b>
-  <%= @meeting.user.fullname %><%= @meeting.user.id %>
-</p>
+</div>
+<div class="meetingline">
+  <div class="inlinetitle">Student:</div>
+  <%= @meeting.user.fullname %>
+</div>
 
-<p>
-  <b>Message to the tutor:</b>
+<div class="meetingline">
+  <div class="inlinetitle">Message to the tutor:</div>
   <%= @meeting.message %>
-</p>
-<p>
-  <b>Tutor Price/hour:</b>
-  $<%= @meeting.tutor.rate %>, <b>Length:</b><%=@meeting.tutor_availability.length %>, total cost for this meeting:  <%=@meeting.tutor_availability.length*@meeting.tutor.rate %>
-</p>
+</div>
+<div class="meetingline">
+  <div class="inlinetitle">Price for this meeting:</div>
+  $<%=@meeting.tutor_availability.length*@meeting.tutor.rate %>
+</div>
 
-<p>
-  <b>Payment Status:</b>
+<div class="meetingline">
+  <div class="inlinetitle">Payment Status:</div>
   <%= @meeting.paid ? "Paid":"waiting for payment" %>
-</p>
+</div>
 
-<p>
-  <b>Status:</b>
-  <%= tutor_response %>
-</p>
-<p>
+
+<br />
+<div class="meetingline">
   <%= acceptlink%>
-</p>
-<p>
+</div>
+<div class="meetingline">
   <%= paymentlink%>
-</p>
+</div>
 
-<div id="getstatus"><%=link_to "refresh meeting status", :mid=>@meeting.id%><div id="status" style="display: inline;"> status</div></div>
+<%if  @meeting.tutor_availability.timetype == 1 %>
+  
+<div class="meetingline">
+  <div class="inlinetitle">Meeting Location:</div>
+  <%=@meeting.location.name%>
+</div>
 
 <!--if current tutor is expected tutor for this meeting, display start meeting option-->
-<%if @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
+<%elsif @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
   <div class="bbbmeetingoption">
-    <b>video conference options</b> 
+    <div class="inlinetitle">video conference options</div> 
   <% if current_user.usertype == 'tutor' %>
     <%= link_to 'create meeting', bbb_api_base_url + "create?" + @meeting.creatstring + "&checksum=" + sha1(@meeting.createsum), :id=>'create' %><br />
-    <%= link_to 'start meeting', bbb_api_base_url + "join?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.tujoinsum), :target => "_blank", :id=>'tutorjoin' %><br />
-    <%if true%>
-      <%= link_to 'check meeting status', bbb_api_base_url + "isMeetingRunning?" + @meeting.chkstring + "&checksum=" + sha1(@meeting.chksum), :id=>'ismeetingrunning' %><br />
-      <%= link_to 'meeting info', bbb_api_base_url + "getMeetingInfo?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.infosum),:id =>'meetinginfo' %><br />
-      <%= link_to 'end meeting', bbb_api_base_url + "end?" + @meeting.endstring + "&checksum=" + sha1(@meeting.endsum), :id=> 'endmeeting' %><br />
-    <%end%>
+    <%= link_to 'start meeting', bbb_api_base_url + "join?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.tujoinsum), :target => "_blank", :id=>'tutorjoin_'+@meeting.id.to_s %><br />
+      <%if true || current_user.usertype == "superadmin"%><!--administration only-->
+        <%= link_to 'check meeting status', bbb_api_base_url + "isMeetingRunning?" + @meeting.chkstring + "&checksum=" + sha1(@meeting.chksum), :id=>'ismeetingrunning' %><br />
+        <%= link_to 'meeting info', bbb_api_base_url + "getMeetingInfo?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.infosum),:id =>'meetinginfo' %><br />
+        <%= link_to 'end meeting', bbb_api_base_url + "end?" + @meeting.endstring + "&checksum=" + sha1(@meeting.endsum), :id=> 'endmeeting' %><br />
+      <%end%>
   <% end%>
   </div>
   
   
   <!--if current user is student, display joining link-->
 <%elsif  @meeting.accept == 1 && @meeting.user_id == session[:user_id]%>
- 
+    <div class="meetingline">
+      <div class="inlinetitle">Status:</div>
+      <%= tutor_response(@meeting.status) %>
+    </div>    
     <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
-  
+  <br />
 <%end%>
 
-<%= link_to 'Edit', edit_meeting_path(@meeting) %> |
 <%= link_to 'Back', meetings_path %>
+<%if session[:user_id] == @meeting.user_id%>
+| 
+<%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%end%>
+</div>

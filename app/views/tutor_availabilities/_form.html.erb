@@ -10,9 +10,13 @@
       </ul>
     </div>
   <% end %>
+  <%if params[:action] == "index" || params[:action] == "edit"%>
 <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
 
-
+  <div class="field">
+    <%= f.label :timetype  %>
+    <%= f.select :timetype, [["Virtual", 0],["Loaction Based",1 ]] %>
+  </div> 
   <div class="field">
     <%= f.label :start_time %><br />
     <%= f.datetime_select :start_time, {  :default => Time.now.change(:hour => 8),
@@ -26,8 +30,14 @@
     <%= f.label :length_in_hours %><br />
     <%= f.select :length, [1,1.5,2,2.5,3,3.5,4] %>
   </div>
-
+  <%if params[:action] == "index" %>
+  <div class="field">
+    <%= f.label :repeat  %>
+    <%= f.select :repeat, [1,2,3,4,5] %> weeks
+  </div>  
+<%end%>
   <div class="actions">
     <%= f.submit 'create time slot' %>
   </div>
+  <%end%>
 <% end %>

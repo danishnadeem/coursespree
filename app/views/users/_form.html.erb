@@ -39,7 +39,7 @@
   </div>
   <div class="field">
     <%= f.label :gender %><br />
-    <%= f.number_field :gender %>
+    <%= f.select :gender, [["female",0],["male",1],["hidden",2]] %>
   </div>
   <div class="field">
     <%= f.label :dob %><br />
@@ -58,7 +58,7 @@
   </div>
   <div class="field">
     <%= f.label :university_id %><br />
-    <%= f.text_field :university_id %>
+    <%= f.select :university_id, univs_and_ids %>
   </div>
   <div class="field">
     <%= f.label :department_id %><br />

@@ -14,13 +14,12 @@ class TutorsController < ApplicationController
       @tutors = Array.new
       subjects = Subject.find(:all, :conditions => ['title LIKE ?', '%' + params[:subject] + '%' ])
       #find all matching subjects
+      
+      
       if subjects.count >0 
         @matches = Array.new
-      
         subjects.each do |sub|
-    
           @matches.push(sub.title)
-          
           # for each subject, look for tutors in the bridge table
           # not sure about the find all tutor within selected subject
           subtuts = SubjectsTutor.find_all_by_subject_id(sub.id)
@@ -30,12 +29,14 @@ class TutorsController < ApplicationController
           tut = Tutor.find(:first, :conditions => ['id = ? AND approved = ?', st.tutor_id, 1])
             if tut && !@tutors.include?(tut)
               @tutors.push(tut)
-            end#end if tutor displayed already
-          end#end subtuts.each
+            end#end if reducing duplicate
+          end#end subtuts bridge table.each
         end#end subs.each
       end#end if sub.count>0
+      
+      
     else #if no matching subject found
-      @tutors = Tutor.find_all_by_approved(1)
+      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1], :limit => 3)
     end
     
     #remove self if current user is tutor

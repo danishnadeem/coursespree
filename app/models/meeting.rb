@@ -1,9 +1,25 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :classlink, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject, :tutor_id, :user_id
+  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject_id, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
   belongs_to :tutor_availability
+  belongs_to :subject
+  belongs_to :tutor_location
+  
+  #callback method to release tutor's schedule when cancel the meeting
+  before_destroy do |meeting|
+    ta = TutorAvailability.find(meeting.tutor_availability_id)
+    if ta.taken == 1
+      ta.taken = 0
+      ta.save
+    end
+  end
+  
+  def location
+    TutorLocation.find(location_id)
+  end
+  
   #parameter to pass in meeting creation
   def s_id
     if !id.nil?
@@ -28,11 +44,11 @@ class Meeting < ActiveRecord::Base
   end
   def p_duration
     if !tutor_availability.nil?
-    tutor_availability.length.to_s
+    '&duration=' + (tutor_availability.length*60).to_s
     end
   end
   def p_logout
-    '&logoutURL=http://localhost:3000'
+    '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1'
   end
   def p_recd
     '&record=true'
@@ -42,18 +58,18 @@ class Meeting < ActiveRecord::Base
   #will use meetingID from above
   def p_fullname
     if !user.username.nil?
-      '&fullName='+ user.username
+      '&fullName='+ user.fullname
     end
   end
   
   def p_apwd
     if !attendeePW.nil?
-    '&password=' + attendeePW.to_s
+    '&password=' + attendeePW
     end
   end
   def p_mpwd
     if !attendeePW.nil?
-    '&password=' + moderatorPW.to_s
+    '&password=' + moderatorPW
     end
   end
 

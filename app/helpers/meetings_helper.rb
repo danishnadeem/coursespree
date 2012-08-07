@@ -1,7 +1,24 @@
 module MeetingsHelper
+  
+  def meetingstatus(i)
+    if i == 0
+      "initiated"
+    elsif i == -1
+      "rejected"
+    elsif i == 1
+      "accepted"
+    elsif i == 2
+      "paid"
+    elsif i == 3
+      "started"
+    elsif i == 4
+      "finished"
+    end
+  end
+  
   def meetingheader
     if params[:type]== 'pending'
-      'Pending Meetings'
+      'You received following appointments'
     elsif  params[:type]=='past'
       'Past Meetings'
     elsif  params[:type]=='requested'
@@ -10,16 +27,20 @@ module MeetingsHelper
   end
   
   def meetinginfo
-    #to be used at new meeting page
-    TutorAvailability.find(params[:avlb_id])
+    if params[:action] == 'new'
+      #to be used at new meeting page
+      TutorAvailability.find(params[:avlb_id])
+    elsif params[:action] == 'edit'
+      @meeting.tutor_availability
+    end
   end
   
   def youaretutor
-    Meeting.find(:all, :conditions => ['tutor_id = ? AND accept = ?', session[:tutor_id], 1])
+    Meeting.find(:all, :conditions => ['tutor_id = ? AND accept = ? AND status != 3', session[:tutor_id], 1])
   end
   
   def youarestudent
-    Meeting.find(:all, :conditions => ['user_id = ? AND accept = ?', session[:user_id], 1])
+    Meeting.find(:all, :conditions => ['user_id = ? AND accept = ? AND status != 3', session[:user_id], 1])
   end
 
   def paymentlink
@@ -28,17 +49,23 @@ module MeetingsHelper
     end 
   end
   
-  def tutor_response
-    if @meeting.accept == 1
+  def tutor_response(i)
+    if i == 1
       'scheduled'
+    elsif i == -1
+      'rejected'
+    elsif i == 2
+      'started'
+    elsif i == 3
+      'finished'
     else
-      'waiting tutor response'
+      'waiting'
     end
   end
   
   def acceptlink
     if @meeting.accept == 0 && @meeting.tutor_id == session[:tutor_id]
-      link_to 'accept', :controller => 'meetings', :action => 'show', :accept=>'1'
+      (link_to 'accept', :controller => 'meetings', :action => 'show', :accept=>1) + " | " + (link_to 'reject', :controller => 'meetings', :action => 'show', :accept=>-1)
     end 
   end
 

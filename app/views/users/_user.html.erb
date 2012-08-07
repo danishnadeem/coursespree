@@ -3,7 +3,10 @@
 <div class="profavatar"><%=image_tag @user.avatar.url(:thumb)%></div>
 
   <div class="profileitem">Name: <%=@user.fullname%></div>
-  <div class="profileitem">University: <%=@user.university_id%></div>
+  <div class="profileitem">University: <%=@user.university.name%></div>
   <div class="profileitem">Department & Major: to be added to user model</div>
   <div class="profileitem">Degree & Year:  to be added to user model</div>
   <div class="profileitem">Bio: <%= @user.bio%></div>
+<%if @user.id == session[:user_id]%>
+<%= link_to 'Edit', edit_user_path(@user) %>
+<%end%>  

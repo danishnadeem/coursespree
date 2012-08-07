@@ -13,4 +13,27 @@ class Tutor < ActiveRecord::Base
   #validates_presence_of :transcript, :resume
   validates_uniqueness_of :user_id
   
+  def open_virtual_slots
+    TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND taken = ? AND timetype = ? AND start_time >= ?", id, 0, 0 ,Time.now], :limit => 5, :order => "start_time")
+  end
+  def open_faced_slots
+    TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND taken = ? AND timetype = ? AND start_time >= ?", id, 0, 1 ,Time.now], :limit => 5, :order => "start_time")
+  end
+    
+  
+  def open_durations
+  end
+  
+  def subjects
+    subjects_tutors.all.map{|st| st.subject}
+  end
+  
+  def subjs_and_ids
+    subjects.map{|s| [s.title,s.id]}.push(["Other",7])
+  end
+  
+  def available_subjects
+    Subject.all - subjects
+  end
+  
 end

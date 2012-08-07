@@ -1,6 +1,19 @@
 <h1>Editing meeting</h1>
 
-<%= render 'form' %>
-
+<div id="schedulecontainer">
+  <div id="meetinginfo">
+    <h3>Meeting Info:</h3>
+    Tutor: <%= meetinginfo.tutor.user.fullname %><br />
+    Date: <%= meetinginfo.start_time.strftime('%D') %><br />
+    Time: <%= meetinginfo.start_time.strftime('%H:%M')%><br />
+    Duration: <%= pluralize(meetinginfo.length, 'hour')%><br />
+    Tutor Rate: $<%= meetinginfo.tutor.rate%><br />
+    Price for this meeting: $<%= meetinginfo.tutor.rate * meetinginfo.length %>
+  </div>
+  <div id="meetingform">
+    <%= render 'form' %>
+  </div>
+<div class="fix"></div>
+</div>
 <%= link_to 'Show', @meeting %> |
 <%= link_to 'Back', meetings_path %>

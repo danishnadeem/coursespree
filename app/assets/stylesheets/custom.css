@@ -167,7 +167,6 @@ list-style: none;
 }
 
 
-
 #header-container {
     height: 110px;
     background-image: url('header-bg.jpg');
@@ -414,12 +413,7 @@ padding-right: 20px;
     
     background: DarkSalmon ;
 }
-#profavatar{
-    float: left;
-    height: 60px;
-    width: 60px;
-    margin: auto;
-}
+
 #tutor_profile{
     margin: 10px;
     padding: 10px;
@@ -466,13 +460,19 @@ padding-right: 20px;
 }
 
 .search-tutors form {
-    width: 400px;
+    width: 420px;
     height: 75px;
     margin: 0px auto;
+    /*background: yellow;*/
 }
 
-.search-tutors input {
-   /* float: left;*/
+.search-tutors input#subject {
+   float: left;
+   width: 300px;
+}
+.search-tutors input#tutorsearchbtn {
+	display: inline;
+	width: 100px;
 }
 
 
@@ -546,9 +546,21 @@ padding-right: 20px;
 }
 .title{
     font-weight: bold;
+    padding: 2px;
 }
-.subject{
+.item{
+    padding: 2px;
     padding-left: 10px;
+}
+.inlinetitle{
+    font-weight: bold;
+    padding: 2px;
+    display: inline;
+}
+.inlineitem{
+	padding: 2px;
+    padding-left: 10px;
+    display: inline;
 }
 /* end of tutor search result page*/
 /*meeting scheduling page*/
@@ -564,6 +576,38 @@ padding-right: 20px;
 }
 /*end of meeting scheduling page*/
 
+/*start of meeting index page(table formatting)*/
+#meetingheader{
+	margin: 10px;
+	font-size: large;
+	font-weight: bold;
+}
+table#meetinglist{
+	margin-top: 10px;
+}
+table#meetinglist th{
+	font-weight: bold;
+}
+table#meetinglist tr{
+	line-height: 20px;
+}
+table#meetinglist tr:hover {
+	background: lightgrey;
+}
+table#meetinglist td{
+	padding: 10px;
+}
+#meetingshow{
+	margin: 20px 0 20px 0;
+}
+.meetingline{
+	
+	line-height: 30px;
+}
+
+/*end of meeting index page(table formatting)*/
+
+/*footer style start*/
 #footer-container {
 background-color: #dcdcdc;
 }

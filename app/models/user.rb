@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
   attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, :avatar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
   
+  
   has_many :meetings
   has_one :tutor
   has_one :superadmin
+  belongs_to :university
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
                     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension"
@@ -19,16 +21,14 @@ class User < ActiveRecord::Base
     fName + " " + lName
   end
   
-  def subjects
-    self.tutor.subjects_tutors.all.map{|st| st.subject}
-  end
-  def available_subjects
-    Subject.all - subjects
+  def locations_and_ids
+    TutorLocation.find_all_by_university_id(university_id).map{|l| [l.name, l.id]}
   end
   
   def usertype
     tutor = Tutor.find_by_user_id(id)
     su = Superadmin.find_by_user_id(id)
+    #univ_admin = UnivsityAdmin.find_by_user_id(id)
     if tutor && tutor.approved == 1
       'tutor'
     elsif tutor && tutor.approved == 0

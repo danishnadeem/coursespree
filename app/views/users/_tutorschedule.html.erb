@@ -1,19 +1,41 @@
 <% if @user.usertype =='tutor'%>
-  <%= schedule_mgmt%>
-  <b>Your Open Schedules:</b>
-  <% @user.tutor.tutor_availabilities.each do |avlb|%>
-  <div class="scheduleitem">
+  <%= schedule_mgmt_link%>
+  <div class="title">
+    <%=@user.tutor.open_virtual_slots.count > 0 ? "Open Virtual Meetings":""%>
+  </div>
+  <% @user.tutor.open_virtual_slots.each do |avlb|%>
+  <div class="item">
     <%= dayofweek(avlb.start_time.wday)%>
-    <%= avlb.start_time.strftime('%H:%M')%>
-    Duration: <%=pluralize(avlb.length, 'hour')%>
+    <%= avlb.start_time.strftime('%D %H:%M')%>~<%= avlb.end_time.strftime('%H:%M %p')%>
+    
+    <%= schedulelink(avlb.id) %>
+  </div>
+  <%end%>
+  <div  class="title">
+    <%=@user.tutor.open_faced_slots.count > 0 ? "Open Face2Face Meetings":""%>
+  </div>
+  <% @user.tutor.open_faced_slots.each do |avlb|%>
+  
+  <div class="item">
+    <%= dayofweek(avlb.start_time.wday)%>
+    <%= avlb.start_time.strftime('%D %H:%M')%>~<%= avlb.end_time.strftime('%H:%M %p')%>
+    
     <%= schedulelink(avlb.id) %>
   </div>
   <%end%>
   <br />
-<% end%>
+<% end%><!--end if user is tutor-->
+
+<%if youaretutor.count > 0 || youarestudent.count > 0%>
+  <div class="title">Reminder</div>
+  <%else%>
+    Your don't have any active schedule
+<%end%>
 <% if @user.usertype =='tutor' && @user.id.to_s == session[:user_id].to_s %>
   <div>
+    <%if youaretutor.count > 0%>
      <b>You will be hosting the following sessions:</b>
+    <%end%>
     <% youaretutor.each do |m| %>
       <div>
         <%= link_to m.name, m%>
@@ -25,9 +47,12 @@
     <br />
 <% end%>
 
+
 <% if @user.id.to_s == session[:user_id].to_s %>
   <div>
+    <%if youarestudent.count > 0%>
      <b>You will be attending the following sessions:</b>
+     <%end%>
     <% youarestudent.each do |m| %>
       <div>
         <%= link_to m.name, m%>

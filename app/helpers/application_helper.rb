@@ -1,5 +1,11 @@
 module ApplicationHelper
-  
+  def current_admin?
+    if User.find(session[:user_id]).usertype == "superadmin"
+      true
+    else
+      false
+    end
+  end
   def current_user
     if !session[:user_id].nil?
       User.find(session[:user_id])
@@ -72,39 +78,50 @@ module ApplicationHelper
   end
   
   def meetings
-    link_to 'Requested Meetings', :controller => 'meetings', :type => 'requested' 
+    link_to 'Waiting Tutor Response', :controller => 'meetings', :type => 'requested' 
   end
   
-  def past
-    link_to 'Past Meetings', :controller => 'meetings', :type => 'past' 
+  def attend
+    link_to 'You Will Attend', :controller => 'meetings', :type => 'attending' 
   end
 
+  def past
+    link_to 'Past Meetings', :controller=> 'meetings', :type => 'past'
+  end
 #navigation link definition for admin
 
   def user_mgmt
-    link_to 'user management', users_path
+    link_to 'users', users_path
   end
   
   def subject_mgmt
-    link_to 'subject management', subjects_path
+    link_to 'subjects', subjects_path
   end
 
   def tutor_mgmt
-    link_to 'tutor management', :controller => 'tutors', :action => 'mgmt', :type=> 'pending'
+    link_to 'tutors', :controller => 'tutors', :action => 'mgmt', :type=> 'pending'
   end
   
   def meeting_mgmt
-    link_to 'meeting_management', meetings_path
+    link_to 'meetings', meetings_path
+  end
+  
+  def univ_mgmt
+    link_to 'universities', universities_path
+  end
+  
+  def location_mgmt
+    link_to 'tutor locations',  tutor_locations_path
   end
 #navigation link
   def navlinks
     if !session[:user_id].nil?# if user logged in display nav links 
       if current_user.usertype == 'tutor'# if user is tutor
-        findtutor + " | " + meetings  + " | " + past
+        findtutor + " | " + meetings  + " | " + attend  + " | " + past
       elsif current_user.usertype == 'student' || current_user.usertype == 'tem_tutor'#if user is student
         findtutor + " | " + meetings
       elsif current_user.usertype == 'superadmin'#if user is administrator
-        user_mgmt + " | " + subject_mgmt + " | " + tutor_mgmt + " | " + meeting_mgmt
+        tutor_mgmt + " | " + user_mgmt + " | " + subject_mgmt + " | " + meeting_mgmt + " | " + univ_mgmt + " | " + location_mgmt
       end
     end
   end

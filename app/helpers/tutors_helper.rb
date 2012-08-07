@@ -17,7 +17,7 @@ module TutorsHelper
   
   def schedulelink(av_id)
     if params[:id].to_s != session[:user_id].to_s #session[:user_id].nil? || session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
-      link_to 'select tutor',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
+      link_to 'make appointment',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
     end
   end
   
@@ -55,9 +55,9 @@ module TutorsHelper
     pendting_tutor + ' | ' + current_tutor + ' | ' + all_tutors
   end
   
-  def schedule_mgmt
+  def schedule_mgmt_link
     if params[:id].to_s == session[:user_id].to_s
-      link_to 'Manage', :controller => 'tutor_availabilities', :action => 'index'
+      link_to 'Manage Open Schedule', :controller => 'tutor_availabilities', :action => 'index'
     end
   end
   

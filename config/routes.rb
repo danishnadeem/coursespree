@@ -1,4 +1,8 @@
 Findtutor::Application.routes.draw do
+  resources :tutor_locations
+
+  resources :universities
+
   post 'meetings/ipn_notification'
   get 'meetings/ipn_notification'
   get 'meetings/canceled_payment_request'

@@ -11,14 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120805195009) do
+ActiveRecord::Schema.define(:version => 20120806204628) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
     t.string   "attendeePW"
     t.string   "moderatorPW"
-    t.string   "classlink"
-    t.string   "subject"
     t.integer  "tutor_id"
     t.integer  "user_id"
     t.float    "price"
@@ -32,6 +30,8 @@ ActiveRecord::Schema.define(:version => 20120805195009) do
     t.datetime "trandate"
     t.integer  "tutor_availability_id"
     t.string   "paykey"
+    t.integer  "location_id"
+    t.integer  "subject_id"
   end
 
   create_table "subjects", :force => true do |t|
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(:version => 20120805195009) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "taken",      :default => 0
+    t.integer  "timetype"
+  end
+
+  create_table "tutor_locations", :force => true do |t|
+    t.string   "name"
+    t.integer  "university_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "tutors", :force => true do |t|
@@ -76,6 +84,13 @@ ActiveRecord::Schema.define(:version => 20120805195009) do
     t.integer  "transcript_file_size"
     t.datetime "transcript_updated_at"
     t.decimal  "rate",                    :precision => 5, :scale => 2, :default => 0.0
+  end
+
+  create_table "universities", :force => true do |t|
+    t.string   "name"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

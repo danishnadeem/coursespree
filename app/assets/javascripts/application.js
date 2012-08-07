@@ -16,20 +16,27 @@
 
 $(document).ready(function(){
 //alert('application js called');
-    $('#create').hide();
+    //$('#create').hide();
     
     $('#tutorjoin').click(function(){
     
     var creat_link = $('#create').attr('href');
-
+    //var serverbase = 'http://localhost:3000'
+    var serverbase = "http://198.101.226.133"
+    var startlink = serverbase + '/meetings/' + $(this).attr('id').substr(10,2) + '?started=2'
         $.ajax({
-            type: "GET"    ,
+            type: "GET",
             url: creat_link
-
-            
         });//ajax end
         //alert("ajaxed");
+        setTimeout(function(){
         
+        $.ajax({
+            type: "GET",
+            url: startlink
+        });
+            
+            },1000);
     //return false
     //alert('tutor join clicked');
     //return false

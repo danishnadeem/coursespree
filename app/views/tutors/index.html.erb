@@ -1,13 +1,13 @@
 <%=render 'searchtutor'%>
 <br />
 <div id="matchedsubs"> <%=matchlinks%></div>
-<h2>Click on picture to see tutor profile</h2>
+<h2>Click on picture or name to see their open schedules</h2>
 <table id="tutors">
   <thead>
     <tr>
       <th width="70"></th>
-      <th width="210">Tutor Name</th>
-      <th>Availability</th>
+      <th width="210">Tutor</th>
+      <th>Specialities</th>
     </tr>
   </thead>  
 </table>
@@ -18,9 +18,9 @@
     <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
   </div><!--avatar div end-->
   <div class="tutordescription">
-    <h3><%= tutor.user.fullname%>-<%=tutor.user.username%></h3>
-    <p>University:<%= tutor.user.university_id %></p>
-    <p>Average rating<%= tutor.approved %></p>
+    <h3><%=link_to tutor.user.fullname, tutor.user%></h3>
+    <p><%= tutor.user.university.name %></p>
+    
     <%if false%><!--if admin-->
     <%= link_to 'Show', tutor %>
     <%= link_to 'Edit', edit_tutor_path(tutor) %>
@@ -28,7 +28,10 @@
     <%end%>
   </div><!--tutordescription div end-->
   <div class="tutorschedule">
-    <%= link_to 'Monday 2:00 - 4:00'%>
+    <% tutor.subjects.each do |sub|%>
+      <%=sub.title%>
+    <%end%>
+    
   </div><!--tutorschedule div end-->
   
   <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
@@ -39,4 +42,4 @@
 
 <br />
 
-<%= link_to 'New Tutor', new_tutor_path %>
+<% link_to 'New Tutor', new_tutor_path %>

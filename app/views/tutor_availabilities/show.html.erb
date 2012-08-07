@@ -4,10 +4,7 @@
   <b>Tutor:</b>
   <%= @tutor_availability.tutor_id %>
 </p>
-<p>
-  <b>Day of week:</b>
-  <%= @tutor_availability.dayofweek %>
-</p>
+
 
 <p>
   <b>Start Time:</b>
@@ -17,11 +14,6 @@
 <p>
   <b>End Time:</b>
   <%= @tutor_availability.start_time + 3600*@tutor_availability.length%>
-</p>
-
-<p>
-  <b>Weekly:</b>
-  <%= @tutor_availability.weeksche_mark %>
 </p>
 
 
