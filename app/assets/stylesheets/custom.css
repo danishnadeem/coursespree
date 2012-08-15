@@ -411,35 +411,36 @@ padding-right: 20px;
     width: 500px;
     padding: 10px;
     
-    background: DarkSalmon ;
+    background: white ;
 }
 
 #tutor_profile{
     margin: 10px;
     padding: 10px;
     width: 500px;
-    background: DarkSalmon ;
+    background: white ;
 }
 .column2{
     width: 460px;
-    background: #123456;
+    background: brown;
     float: right;
 }
 /*column 2 content*/
 #tutorschedule{
-    margin: 10px;
+    margin: 10px 10px 10px 0;
+    margin-left: 0px;
     padding: 10px;
     width: 420px;
     
     float: right;
-    background: DarkSalmon ;
+    background: white ;
 }
 #rating{
     margin: 10px;
     padding: 10px;
     width: 420px;
     float: right;
-    background: DarkSalmon ;
+    background: white ;
 }
 /*end of user profile page style*/
 
