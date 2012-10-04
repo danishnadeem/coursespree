@@ -189,6 +189,18 @@ def bbb_api_base_url
       end# end if post payment with correct meeting
   end
   
+  def joinmeeting
+    meeting = Meeting.find(params[:id])
+    if current_user.usertype == "tutor"
+      #request = Typhoeus::Request.new(meeting.createuri)
+      response = Typhoeus::Request.get(meeting.createuri)
+      redirect_to meeting.tujoinuri
+    elsif current_user.usertype == "student"
+      redirect_to meeting.stjoinuri
+    end
+  end
+  
+  
   def ipn_notification
     # debug info #########################
     #puts "here goes inspect method"

@@ -2,7 +2,8 @@ Findtutor::Application.routes.draw do
   resources :tutor_locations
 
   resources :universities
-
+  get 'meetings/joinmeeting'
+  get 'meetings/createmeeting'
   post 'meetings/ipn_notification'
   get 'meetings/ipn_notification'
   get 'meetings/canceled_payment_request'

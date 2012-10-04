@@ -6,6 +6,7 @@ class TutorAvailability < ActiveRecord::Base
   
   validate :start_time_taken
   validate :end_time_taken
+  
   validates :start_time,
   :date => { :after => Time.now, :before => Time.now + 1.year }
   
@@ -14,10 +15,6 @@ class TutorAvailability < ActiveRecord::Base
   end
 
   def repeat
-  end
-  
-  def duration
-    start_time.strftime("%H:%M") + "~" + end_time.strftime("%H:%M")
   end
   
   def start_time_taken

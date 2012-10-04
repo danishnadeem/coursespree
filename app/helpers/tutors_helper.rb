@@ -16,8 +16,10 @@ module TutorsHelper
   end
   
   def schedulelink(av_id)
-    if params[:id].to_s != session[:user_id].to_s #session[:user_id].nil? || session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
+    if defined? session[:user_id] && params[:id].to_s != session[:user_id].to_s 
       link_to 'make appointment',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
+    elsif !defined? session[:user_id]
+      "sign up and login to make your reservation with this tutor"
     end
   end
   

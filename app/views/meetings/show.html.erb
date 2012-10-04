@@ -52,7 +52,11 @@
   <div class="inlinetitle">Payment Status:</div>
   <%= @meeting.paid ? "Paid":"waiting for payment" %>
 </div>
-
+  <div class="inlinetitle">Meeting Status:</div>
+  
+<div class="meetingline">
+  
+</div>
 
 <br />
 <div class="meetingline">
@@ -72,13 +76,12 @@
 <!--if current tutor is expected tutor for this meeting, display start meeting option-->
 <%elsif @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
   <div class="bbbmeetingoption">
-    <div class="inlinetitle">video conference options</div> 
+    <div class="inlinetitle">video conference options</div> <br />
   <% if current_user.usertype == 'tutor' %>
-    <%= link_to 'create meeting', bbb_api_base_url + "create?" + @meeting.creatstring + "&checksum=" + sha1(@meeting.createsum), :id=>'create' %><br />
-    <%= link_to 'start meeting', bbb_api_base_url + "join?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.tujoinsum), :target => "_blank", :id=>'tutorjoin_'+@meeting.id.to_s %><br />
+    <%= link_to 'start meeting', :controller =>"meetings", :action=>"joinmeeting", :id=>@meeting.id %><br />
       <%if true || current_user.usertype == "superadmin"%><!--administration only-->
         <%= link_to 'check meeting status', bbb_api_base_url + "isMeetingRunning?" + @meeting.chkstring + "&checksum=" + sha1(@meeting.chksum), :id=>'ismeetingrunning' %><br />
-        <%= link_to 'meeting info', bbb_api_base_url + "getMeetingInfo?" + @meeting.tujoinstring + "&checksum=" + sha1(@meeting.infosum),:id =>'meetinginfo' %><br />
+        
         <%= link_to 'end meeting', bbb_api_base_url + "end?" + @meeting.endstring + "&checksum=" + sha1(@meeting.endsum), :id=> 'endmeeting' %><br />
       <%end%>
   <% end%>
@@ -91,7 +94,7 @@
       <div class="inlinetitle">Status:</div>
       <%= tutor_response(@meeting.status) %>
     </div>    
-    <%= link_to 'student join meeting', bbb_api_base_url + "join?" + @meeting.stjoinstring + "&checksum=" + sha1(@meeting.stjoinsum), :target => "_blank",:id=>'studjoin' %><br />
+    <%= link_to 'student join meeting',:controller =>"meetings", :action=>"joinmeeting", :id=>@meeting.id,  :target => "_blank" %><br />
   <br />
 <%end%>
 

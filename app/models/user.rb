@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   end
   
   def fullname
-    fName + " " + lName
+    fName.capitalize + " " + lName.capitalize
   end
   
   def locations_and_ids

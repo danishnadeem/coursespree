@@ -7,7 +7,7 @@
     
     <th>Name</th>
     <th>Start date</th>
-    <th>Duration</th>
+    <th>Length</th>
     <th>Payment</th>
     <th>Subject</th>
     <th>Tutor</th>
@@ -19,7 +19,7 @@
   <tr>
     <td><%= link_to meeting.name, meeting %></td>
     <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
-    <td><%= meeting.tutor_availability.duration%></td>
+    <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
     <td><%= meeting.paid ? "paid":"waiting" %></td>
     <td><%= Subject.find(meeting.subject).title %></td>
     

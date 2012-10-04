@@ -5,6 +5,9 @@ gem 'therubyracer'
 gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem 'paypal_adaptive'
 gem 'nokogiri'
+gem 'typhoeus'
+
+gem 'rb-readline'
 
 gem 'date_validator'
 

@@ -7,10 +7,10 @@ class Meeting < ActiveRecord::Base
   belongs_to :subject
   belongs_to :tutor_location
   
-  #callback method to release tutor's schedule when cancel the meeting
+  #callback method to release tutor's schedule when cancel the meeting while the start time didn't pass
   before_destroy do |meeting|
     ta = TutorAvailability.find(meeting.tutor_availability_id)
-    if ta.taken == 1
+    if ta.taken == 1 && ta.start_time < Time.now
       ta.taken = 0
       ta.save
     end
@@ -81,29 +81,93 @@ class Meeting < ActiveRecord::Base
   end
 
   #querystring to be used for create meeting
-  def creatstring
-    ( s_id + p_name  + p_modpw + p_attpd + p_duration + p_logout + p_recd).gsub(' ', '+')
+  #def creatstring
+  #  #( s_id + p_name  + p_modpw + p_attpd + p_duration + p_logout + p_recd).gsub(' ', '+')
+  #  start_str = 'meetingID=' + id.to_s + '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1&record=true'
+  #  if !name.nil?
+  #    start_str+=('&name=' + name.to_s)
+  #  end
+  #  
+  #  if !moderatorPW.nil?
+  #    start_str+='&moderatorPW=' + moderatorPW.to_s
+  #  end
+  #  
+  #  if !attendeePW.nil?
+  #    start_str+='&attendeePW=' + attendeePW.to_s
+  #  end
+  #  
+  #  if !tutor_availability.nil?
+  #    start_str+='&duration=' + (tutor_availability.length*60).to_s
+  #  end
+  #  # prep for sha1 sum of querystring-meeting creation
+  #    return start_str.gsub(' ','+')
+  #end
+  # commented because combined directly
+  
+  def createuri
+    start_str = 'meetingID=' + id.to_s 
+    if !name.nil?
+      start_str+=('&name=' + name.to_s)
+    end
+    
+    if !moderatorPW.nil?
+      start_str+='&moderatorPW=' + moderatorPW.to_s
+    end
+    
+    if !attendeePW.nil?
+      start_str+='&attendeePW=' + attendeePW.to_s
+    end
+    
+    if !tutor_availability.nil?
+      start_str+='&duration=' + (tutor_availability.length*60).to_s + '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1&record=true'
+    end #finishing up the querystring to calculate checksum
+    #
+    start_str.gsub!(" ","+")
+    'http://198.101.200.137/bigbluebutton/api/create?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('create' + start_str + SALT)
   end
-  # prep for sha1 sum of querystring-meeting creation
-  def createsum
-    'create' + creatstring + SALT
-  end
+  
   #querystring to be used for join meeting as student
-  def stjoinstring
-    ( s_id + p_st_fullname  + p_apwd ).gsub(' ', '+')
+  def stjoinuri
+    start_str = 'meetingID=' + id.to_s
+    if !user.username.nil?
+      start_str+='&fullName='+ user.fullname
+    end    
+    
+    if !attendeePW.nil?
+      start_str+='&password=' + attendeePW
+    end    
+    
+    start_str.gsub!(' ', '+')
+    'http://198.101.200.137/bigbluebutton/api/join?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('join' + start_str + SALT)
   end
   #prep for sha1 sum of querystring-joining meeting as student
-  def stjoinsum
-    'join' + stjoinstring + SALT
+  #def stjoinsum
+  #  'join' + stjoinstring + SALT
+  #end
+  
+  #request uri to join room as tutor
+  def tujoinuri
+    start_str = 'meetingID=' + id.to_s
+    if !user.username.nil?
+      start_str+='&fullName='+ tutor.user.fullname
+    end    
+    
+    if !moderatorPW.nil?
+      start_str+='&password=' + moderatorPW
+    end    
+    start_str.gsub!(' ', '+')
+    
+    
+    'http://198.101.200.137/bigbluebutton/api/join?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('join' + start_str + SALT)
   end
-  #qstring to join room as tutor
-  def tujoinstring
-    ( s_id + p_tu_fullname  + p_mpwd ).gsub(' ', '+')
-  end
+  
+  
   #prep fir sha1 sum of join as tutor
-  def tujoinsum
-    'join' + tujoinstring + SALT
-  end
+  #def tujoinsum
+  #  'join' + tujoinstring + SALT
+  #end
+  
+  
   #prep for sha1 of getmeetinginfo
   def infosum
     'getMeetingInfo' + tujoinstring + SALT

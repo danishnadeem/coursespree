@@ -4,7 +4,7 @@
   <div class="title">Tutor Profile</div>
     
   <div id="tutormaterial">
-    <%if @user.id == session[:user_id] || User.find(session[:user_id]).usertype == "superadmin"%>
+    <%if defined? session[:user_id] && @user.id == session[:user_id] || User.find(session[:user_id]).usertype == "superadmin"%>
       <%=link_to 'resume.pdf', @user.tutor.resume.url%>
       <%=link_to 'transcript.pdf', @user.tutor.transcript.url%><br />
     <%end%>
@@ -14,7 +14,8 @@
 
   <br />
   <div id="subjectlist">
-    <!--if the user being viewed is a tutor, display specialty of this user-->
+    <!--if current user is viewing tutor profile, display specialty of this user-->
+    <!--if tutor start-->
     <%if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id != session[:user_id]%>
       <div class="title">Tutor Specialities:</div><!--div title-->
         <%if @user.tutor.subjects.count > 0 %>
@@ -26,7 +27,7 @@
         <%end%>  
         
     <!--if the current user is a tutor seeing self, display specialty manage panel-->
-    <%elsif (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') && @user.id == session[:user_id]%>
+    <%elsif (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') &&  @user.id == session[:user_id]%>
       
       <div class="title">Edit your specialities:</div><!--div title-->
       <%@user.tutor.subjects_tutors.each do |st|%>
@@ -42,7 +43,8 @@
         <div class="title">Add new if yours are not show above:</div><!--div title-->
         <div><%= f.text_field :title%></div><!--div title-->
         <div><%=f.submit 'create'%></div><!---->
-      <%end%>
-    <%end%>
+      <%end%><!--form for subject end-->
+    <%end%><!--if tutor end-->
+    
   </div><!--subjectlist end-->
 <%end%>
