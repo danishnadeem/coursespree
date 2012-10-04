@@ -11,6 +11,9 @@
 
 /db/*.sqlite3
 
+/public/assets/resume
+/public/assets/useravatar
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
