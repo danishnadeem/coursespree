@@ -8,7 +8,7 @@ gem 'nokogiri'
 gem 'typhoeus'
 
 gem 'rb-readline'
-
+gem 'activerecord-postgresql-adapter'
 gem 'date_validator'
 
 # Bundle edge Rails instead:
