@@ -132,12 +132,11 @@ class TutorsController < ApplicationController
   def mgmt
     
     @tutors = Tutor.find_all_by_approved(0)
-    session[:pendtut_cnt] = @tutors.count
+    #session[:pendtut_cnt] = @tutors.count
     if params[:type] == 'pending'
       if @tutors.count <1
         redirect_to :action =>'mgmt', :type => 'current'
       end
-    @tutors
     elsif params[:type] == 'current'
     @tutors = Tutor.find_all_by_approved(1)
     else

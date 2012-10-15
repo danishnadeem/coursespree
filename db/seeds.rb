@@ -60,3 +60,8 @@ Tutor.create(
   :user_id => User.find_by_username("tutor2"),
   :approved => 1
 )
+Superadmin.create(:user_id=> 1)
+
+University.create(
+  :name => "syracuse university"
+)

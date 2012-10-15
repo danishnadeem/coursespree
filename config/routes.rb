@@ -1,6 +1,8 @@
 Findtutor::Application.routes.draw do
+  
+  match "auth/:provider/callback" => "admin#oauth"
+  
   resources :tutor_locations
-
   resources :universities
   get 'meetings/joinmeeting'
   get 'meetings/createmeeting'

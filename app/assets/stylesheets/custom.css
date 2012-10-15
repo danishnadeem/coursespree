@@ -354,7 +354,7 @@ padding-right: 20px;
 }
 
 #subnav-container nav {
-    width: 640px;
+    width: 600px;
     height: 30px;
     margin: 0px auto;
     line-height: 30px;
@@ -378,9 +378,10 @@ padding-right: 20px;
 #authlink {
     height: 30px;
     float: right;
-    width: 300px;
+    width: 400px;
     text-align: right;
     line-height: 30px;
+    /*background: yellow;*/
 }
 
 #authlink a {

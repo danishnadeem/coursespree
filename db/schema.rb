@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120806204628) do
+ActiveRecord::Schema.define(:version => 20121011190412) do
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -117,6 +117,9 @@ ActiveRecord::Schema.define(:version => 20120806204628) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "fb_uid"
+    t.string   "fb_token"
+    t.datetime "fb_token_expire"
   end
 
 end

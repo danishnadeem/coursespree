@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   
-  before_filter :authticate, :except => ["login","index","show"]
+  before_filter :authticate, :except => ["login","logout","index","show","oauth"]
   
   def authticate
     unless User.find_by_id(session[:user_id])
@@ -11,8 +11,11 @@ class ApplicationController < ActionController::Base
   end
   
   def current_user
-    if defined? session[:user_id] && !session[:user_id].nil?
+    if session[:user_id]
+      puts defined? session[:user_id]
       User.find session[:user_id]
+    else
+      nil
     end
   end
   

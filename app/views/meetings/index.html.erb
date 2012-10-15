@@ -25,7 +25,7 @@
     
     <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
     <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
-    <td><%= tutor_response(meeting.accept) %></td>
+    <td><%= meeting_status(meeting.accept) %></td>
     <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0%>
     <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
     <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>

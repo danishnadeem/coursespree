@@ -58,7 +58,7 @@ module TutorsHelper
   end
   
   def schedule_mgmt_link
-    if params[:id].to_s == session[:user_id].to_s
+    if session[:user_id] &&( params[:id].to_s == session[:user_id].to_s || current_user.usertype == "superadmin")
       link_to 'Manage Open Schedule', :controller => 'tutor_availabilities', :action => 'index'
     end
   end

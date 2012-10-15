@@ -1,5 +1,6 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id, :duration, :moderatorPW, :name, :price, :rating, :start_time, :subject_id, :tutor_id, :user_id
+  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
+                  :duration, :moderatorPW, :name, :price, :rating, :subject_id, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
@@ -7,17 +8,24 @@ class Meeting < ActiveRecord::Base
   belongs_to :subject
   belongs_to :tutor_location
   
-  #callback method to release tutor's schedule when cancel the meeting while the start time didn't pass
+  #callback method to release tutor's schedule when cancel the meeting while the meeting didn't happen
   before_destroy do |meeting|
-    ta = TutorAvailability.find(meeting.tutor_availability_id)
-    if ta.taken == 1 && ta.start_time < Time.now
+    ta = meeting.tutor_availability
+    #puts "before debug"
+    #p ta.start_time.to_s + " time " + Time.now.to_s
+    #puts ta.start_time > Time.now
+    if ta.taken == 1 && ta.start_time > Time.now
       ta.taken = 0
-      ta.save
+      ta.save!
     end
   end
   
   def location
     TutorLocation.find(location_id)
+  end
+  
+  def buildurl(req_str,action)
+    'http://198.101.200.137/bigbluebutton/api/' + action +'?' + req_str + '&checksum=' + Digest::SHA1.hexdigest(action + req_str + SALT)
   end
   
   #parameter to pass in meeting creation
@@ -123,7 +131,7 @@ class Meeting < ActiveRecord::Base
     end #finishing up the querystring to calculate checksum
     #
     start_str.gsub!(" ","+")
-    'http://198.101.200.137/bigbluebutton/api/create?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('create' + start_str + SALT)
+    buildurl(start_str,"create")
   end
   
   #querystring to be used for join meeting as student
@@ -138,7 +146,7 @@ class Meeting < ActiveRecord::Base
     end    
     
     start_str.gsub!(' ', '+')
-    'http://198.101.200.137/bigbluebutton/api/join?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('join' + start_str + SALT)
+    buildurl(start_str,"join")
   end
   #prep for sha1 sum of querystring-joining meeting as student
   #def stjoinsum
@@ -156,9 +164,7 @@ class Meeting < ActiveRecord::Base
       start_str+='&password=' + moderatorPW
     end    
     start_str.gsub!(' ', '+')
-    
-    
-    'http://198.101.200.137/bigbluebutton/api/join?' + start_str + '&checksum=' + Digest::SHA1.hexdigest('join' + start_str + SALT)
+    buildurl(start_str,"join")
   end
   
   
@@ -169,26 +175,25 @@ class Meeting < ActiveRecord::Base
   
   
   #prep for sha1 of getmeetinginfo
-  def infosum
-    'getMeetingInfo' + tujoinstring + SALT
-  end
+  #meeting info api call not used
+  #def infosum
+  #  'getMeetingInfo' + tujoinstring + SALT
+  #end
   
   #qstring to check meeting status
-  def chkstring
-    s_id.gsub(' ', '+')
-  end
+  #def chkstring
+  #  s_id.gsub(' ', '+')
+  #end
   #prep for sha1 sum of qstring of check meeting status
-  def chksum
-    'isMeetingRunning' + chkstring + SALT
+  def runningurl
+    buildurl('meetingID=' + id.to_s,"isMeetingRunning")
   end
 
   def endstring
     (s_id + p_mpwd).gsub(' ', '+')
   end
-  def endsum
-    'end' + endstring + SALT
+  def endurl
+    buildurl(('meetingID=' + id.to_s + '&password=' + moderatorPW.to_s).gsub(' ', '+'), "end")
   end
-  
-  
   
 end

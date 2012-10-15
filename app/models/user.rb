@@ -12,6 +12,33 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
   validates_confirmation_of :password
   validate :password_non_blank
+
+  def self.from_omniauth(auth)
+    return if auth.provider != "facebook"
+    where(:fb_uid => auth.uid).first_or_initialize.tap do |user|
+      user.fb_uid =auth.uid
+      user.fb_token = auth.credentials.token
+      user.fb_token_expire =Time.at(auth.credentials.expires_at)
+      
+      if user.new_record?
+        user.fName = auth.extra.raw_info.first_name
+        user.lName = auth.extra.raw_info.last_name
+        user.username = auth.extra.raw_info.username
+        user.dob = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y')
+        user.password = auth.extra.raw_info.username
+        user.university_id = University.first.id
+        user.active = 1
+      end
+      user.save!
+      #user.provider = auth.provider
+      #user.uid = auth.uid
+      #user.name = auth.info.name
+      #user.oauth_token = auth.credentials.token
+      #user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      #user.save!
+    end
+  end
+
   
   def availabilities
     self.tutor.tutor_availabilities.count
@@ -64,7 +91,7 @@ class User < ActiveRecord::Base
   private
 
   def password_non_blank
-    errors.add(:password, "Missing") if pwd.blank?
+    errors.add(:password, "Missing") if pwd.blank?  
   end
 
   def self.encrypted_password(pswd, seed)

@@ -20,7 +20,7 @@
   <div class="tutorschedule">
     <%= approve_link(tutor)%><br />
     <%= link_to 'Show', tutor.user %> | 
-    <%= link_to 'Edit', edit_tutor_path(tutor.user) %> | 
+    <%= link_to 'Edit', edit_tutor_path(tutor) %> | 
     <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
   </div><!--tutorschedule div end-->
 

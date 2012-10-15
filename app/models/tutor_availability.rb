@@ -9,6 +9,7 @@ class TutorAvailability < ActiveRecord::Base
   
   validates :start_time,
   :date => { :after => Time.now, :before => Time.now + 1.year }
+  validates_presence_of :tutor_id
   
   def end_time
     start_time + 3600*length

@@ -1,7 +1,7 @@
 <h3>User Profile</h3>
 
 <div class="profavatar"><%=image_tag @user.avatar.url(:thumb)%></div>
-
+  <div class="profileitem">User Name: <%=@user.username%></div>
   <div class="profileitem">Name: <%=@user.fullname%></div>
   <div class="profileitem">University: <%=@user.university.name%></div>
   <div class="profileitem">Department & Major: to be added to user model</div>

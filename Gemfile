@@ -7,6 +7,8 @@ gem 'paypal_adaptive'
 gem 'nokogiri'
 gem 'typhoeus'
 
+gem 'omniauth-facebook'
+
 gem 'rb-readline'
 gem 'activerecord-postgresql-adapter'
 gem 'date_validator'

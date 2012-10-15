@@ -13,7 +13,15 @@
 
   <div class="field">
     <%= f.hidden_field :user_id, :value => params[:uid] %>
-    <%= f.hidden_field :approved, :value => 0 %>
+    <%if controller.action_name == "new"%>
+      <%= f.hidden_field :approved, :value => 0 %>
+    <%elsif current_user.usertype == "superadmin"%>
+      <div class="field">
+        <%= f.label :approved %><br />
+        <%= f.text_field :approved %>
+      </div>
+    <%end%>
+    
   </div>
   <div class="field">
     <%= f.label :transcript %><br />
