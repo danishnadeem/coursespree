@@ -31,8 +31,8 @@ class AdminController < ApplicationController
     user = User.from_omniauth(env["omniauth.auth"])
     session[:oauth] = true
     session[:user_id] = user.id
-    session[:tutor_id] = user.tutor_id if defined? user.tutor_id
-    p session
+    session[:username] = user.username
+    session[:tutor_id] = user.tutor.id if Tutor.find_by_user_id(user.id)
     if Time.now - user.created_at < 30# newly created within 30s
       flash[:notice] = "please complete your profile"
       redirect_to edit_user_url(user)
