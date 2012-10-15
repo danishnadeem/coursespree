@@ -61,7 +61,7 @@ class Meeting < ActiveRecord::Base
   end
   
   def logouturl
-    Rails.env == 'production'? "http://etutor.herokuapp.com/": "http://localhost:3000/"
+    Rails.env == 'production'? "http://etutor.herokuapp.com/meetings/": "http://localhost:3000/meetings/"
   end
   
   def p_recd
