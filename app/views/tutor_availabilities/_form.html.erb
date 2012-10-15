@@ -12,6 +12,7 @@
   <% end %>
   <%if params[:action] == "index" || params[:action] == "edit"%>
     <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
+    <%=session.inspect%>
   <div class="field">
     <%= f.label :Face_or_virtual  %>
     <%= f.select :timetype, [["Virtual", 0],["Face2face",1 ]] %>
