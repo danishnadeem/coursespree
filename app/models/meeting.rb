@@ -60,6 +60,10 @@ class Meeting < ActiveRecord::Base
     '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1'
   end
   
+  def logouturl
+    Rails.env == 'production'? "http://etutor.herokuapp.com/": "http://localhost:3000/"
+  end
+  
   def p_recd
     '&record=true'
   end
@@ -127,7 +131,7 @@ class Meeting < ActiveRecord::Base
     end
     
     if !tutor_availability.nil?
-      start_str+='&duration=' + (tutor_availability.length*60).to_s + '&logoutURL=http://localhost:3000/meetings/' + id.to_s + '?finish=1&record=true'
+      start_str+='&duration=' + (tutor_availability.length*60).to_s + '&logoutURL='+ logouturl + id.to_s + '?finish=1&record=true'
     end #finishing up the querystring to calculate checksum
     #
     start_str.gsub!(" ","+")
