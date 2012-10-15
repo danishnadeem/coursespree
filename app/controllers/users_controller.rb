@@ -12,8 +12,18 @@ class UsersController < ApplicationController
   end  
 
   def index
-    @users = User.all
+    if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
+      @users = User.find_all_by_university_id(params[:uid])
+    else
+      @users = User.first(5)
+    end
+      begin
+        @univ = University.find(params[:uid]).name
+      rescue ActiveRecord::RecordNotFound
+        @univ = "no university selected"
+      end    
 
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -55,8 +65,8 @@ class UsersController < ApplicationController
   def create
     #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
-    
     params[:user].delete :tutor
+    
     @user = User.new(params[:user])
     if params["addUniv"]["checked"] && params["newuniv"].length > 0
       newU = University.find_or_create_by_name(params["newuniv"])

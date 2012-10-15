@@ -1,5 +1,6 @@
 Findtutor::Application.routes.draw do
   
+  
   match "auth/:provider/callback" => "admin#oauth"
   
   resources :tutor_locations
@@ -12,6 +13,7 @@ Findtutor::Application.routes.draw do
   get 'meetings/completed_payment_request'
   post 'meetings/payment'
   get 'meetings/payment_made'
+  get 'tutors/addtutor'
   get 'tutors/mgmt'
   get 'tutors/approve'
   get 'subjects_tutors/select'

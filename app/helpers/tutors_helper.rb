@@ -38,7 +38,7 @@ module TutorsHelper
   end
   
   def pend_tut_cnt
-    '(' + session[:pendtut_cnt].to_s + ')'
+    '(' + Tutor.find_all_by_approved(0).count.to_s + ')'
   end
   
   def pendting_tutor
@@ -53,8 +53,12 @@ module TutorsHelper
     link_to 'all tutors', :action =>'mgmt' ,:type => 'all'
   end
   
+  def add_tutor
+    link_to 'new tutor', :action => 'addtutor'
+  end
+  
   def tutor_mgmt_links 
-    pendting_tutor + ' | ' + current_tutor + ' | ' + all_tutors
+    pendting_tutor + ' | ' + current_tutor + ' | ' + all_tutors + ' | ' + add_tutor
   end
   
   def schedule_mgmt_link

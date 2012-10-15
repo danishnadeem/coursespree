@@ -157,4 +157,10 @@ class TutorsController < ApplicationController
     end
   end
   
+  def addtutor
+    if request.post?
+      p params
+    end
+  end
+  
 end

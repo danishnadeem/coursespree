@@ -8,7 +8,8 @@ class User < ActiveRecord::Base
   belongs_to :university
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
                     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
-                    :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension"
+                    :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension",
+                    :default_url => "missing.png"
   validates_uniqueness_of :username
   validates_confirmation_of :password
   validate :password_non_blank
