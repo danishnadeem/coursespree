@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ 
  */
 #error_explanation {
   width: 450px;

@@ -155,6 +155,10 @@ h1, h2, h3, h4, h5, h6 {
 font-weight: normal;    
 }
 
+h2{
+	font-size: large;
+	font-weight: bold;
+}
 ul {
 list-style: none;
 }
@@ -427,6 +431,10 @@ padding-right: 20px;
     float: right;
 }
 /*column 2 content*/
+#newtimefm{
+	margin: 20px;
+	line-height: 25px;
+}
 #tutorschedule{
     margin: 10px 10px 10px 0;
     margin-left: 0px;

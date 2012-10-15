@@ -6,6 +6,7 @@ gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem 'paypal_adaptive'
 gem 'nokogiri'
 gem 'typhoeus'
+gem 'jquery_datepicker'
 
 gem 'omniauth-facebook'
 
