@@ -1,15 +1,18 @@
 <h2>Student by Universities</h2>
 <p>
+<div id="university_nav">
 <%=@univ%>
-<%University.first(10).each do |u|%>
-  | <%= link_to u.name, :uid=> u.id%>
-<%end%> | <%=link_to 'more'%>
-</p>
-<%if @users.count < 1 %>
-<div class="placeholder">
-  No students are present
-</div>
-<%end%>
+  <%University.first(10).each do |u|%>
+    | <%= link_to u.name, :uid=> u.id%>
+  <%end%> | <%=link_to 'more'%>
+  </p>
+  <%if @users.count < 1 %>
+  <div class="placeholder">
+    No students are present
+  </div>
+  <%end%>
+</div><!--university_nav div end-->
+
 <% @users.each do |user| %>
 <div class="useritem">
   <div class="avatarimg">
