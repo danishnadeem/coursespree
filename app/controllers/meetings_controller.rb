@@ -188,7 +188,7 @@ class MeetingsController < ApplicationController
       ##commission = "%.2f" % site_commission #not used
       pay_request = PaypalAdaptive::Request.new
       #      serverbase = "http://198.101.226.133/"
-      serverbase = "http://localhost:3000/"
+      serverbase = "hhttp://hidden-reef-7837.herokuapp.com/"
         
       data = {
         "returnUrl" => serverbase + "meetings/" + params[:mid].to_s,
