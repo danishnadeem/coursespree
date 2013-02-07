@@ -11,7 +11,10 @@
 	  <%= password_field_tag :password %>
 	</div>
 	
-	<div>
-	  <%= submit_tag "Login" %>
-	</div>
+	<div style="float: left;">
+	  <%= submit_tag "Login", :style=>"height: 27px; width: 100px;margin-top:2px;" %> or login with
+	</div> 
+      <div style="float: left;">
+	<%=link_to image_tag('ico-footer-facebook.png'), '/auth/facebook'%>
+      </div>	
       <% end %>

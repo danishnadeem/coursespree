@@ -1,45 +1,36 @@
-<%=render 'searchtutor'%>
-<br />
-<div id="matchedsubs"> <%=matchlinks%></div>
-<h2>Click on picture or name to see their open schedules</h2>
-<table id="tutors">
-  <thead>
-    <tr>
-      <th width="70"></th>
-      <th width="210">Tutor</th>
-      <th>Specialities</th>
-    </tr>
-  </thead>  
-</table>
-<% @tutors.each do |tutor| %>
-
-<div class="tuteritem">
-  <div class="avatar">
-    <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
-  </div><!--avatar div end-->
-  <div class="tutordescription">
-    <h3><%=link_to tutor.user.fullname, tutor.user%></h3>
-    <p><%= tutor.user.university.name %></p>
-    
-    <%if false%><!--if admin-->
-    <%= link_to 'Show', tutor %>
-    <%= link_to 'Edit', edit_tutor_path(tutor) %>
-    <%= link_to 'Destroy', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
-    <%end%>
-  </div><!--tutordescription div end-->
-  <div class="tutorschedule">
-    <% tutor.subjects.each do |sub|%>
-      <%=sub.title%>
-    <%end%>
-    
-  </div><!--tutorschedule div end-->
-  
-  <% link_to 'select tutor', new_meeting_url(:tutid => tutor.id) %>
-  <div class="fix"></div>
-</div><!--tutoritem div end-->
-<% end %>
 
 
-<br />
+ <!-- Main Content
+    ================================================== -->
+    <div class="container">
+      <div class="row">
+        <%=render 'searchtutor'%>
+      <div><!-- end row-->
+    </div><!-- end main content container-->
 
-<% link_to 'New Tutor', new_tutor_path %>
+    <!-- Search Results Section
+    ================================================== -->
+      <div class="container">
+        <% @tutors.each do |tutor| %>
+		<% if tutor.user %>
+        <div class="row">
+          <section id="search-result">
+            <div class="span4">
+                <section class="tutor-search">
+                  <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+                  <h4><%=link_to tutor.user.fullname, tutor.user%></h4>
+                  <h6><%= tutor.user.university.name %></h6>
+                </section>
+            </div>
+
+            <div class="span8">
+                <section class="tutor-skills">
+                  <h6><% tutor.subjects.each do |sub|%><%=sub.title%> <%end%></h6>
+                </section>
+            </div>
+          </section>
+        </div>
+		<% end %>
+		<% end %>
+	 </div>
+

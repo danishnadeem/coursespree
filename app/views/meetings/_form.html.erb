@@ -4,42 +4,46 @@
       <h2><%= pluralize(@meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
 
       <ul>
-      <% @meeting.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @meeting.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-  
-    <%if params[:action] == 'new'%>
+
+  <%if params[:action] == 'new'%>
     <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
     <%= f.hidden_field :tutor_availability_id, :value => meetinginfo.id %>
-      <%btntext = "Request Apointment"%>
-    <%elsif params[:action] == 'edit'%>
-      <%btntext = "Update Meeting"%>
-        <div class="field">
-          <%= f.label 'accept:' %><br />
-          <%= f.text_field :accept %>
-        </div>
-        <div class="field">
-          <%= f.label 'paid:' %><br />
-          <%= f.text_field :paid %>
-        </div>    
-    <%end%><!--edit test end-->
-    
+    <%btntext = "Request Apointment"%>
+  <%elsif params[:action] == 'edit'%>
+    <%btntext = "Update Meeting"%>
+    <div class="field">
+      <%= f.label 'accept:' %><br />
+      <%= f.text_field :accept %>
+    </div>
+    <div class="field">
+      <%= f.label 'paid:' %><br />
+      <%= f.text_field :paid %>
+    </div>
+  <%end%><!--edit test end-->
+
   <div class="field">
     <%= f.label :subject %><br />
     <%= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
   </div>
-<%if meetinginfo.timetype == 1  %><!--face2face meeting-->
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.select :location_id, meetinginfo.tutor.user.locations_and_ids %>
-  </div>
-<%end%>
+  <%if meetinginfo.timetype == 1  %><!--face2face meeting-->
+    <div class="field">
+      <%= f.label :location %><br />
+      <%= f.select :location_id, meetinginfo.tutor.user.locations_and_ids %>
+    </div>
+  <%end%>
   <div class="field">
     <%= f.label 'message to the tutor:' %><br />
     <%= f.text_area :message, :size => "50x8" %>
+  </div>
+  <div class="field">
+    <%= label_tag 'Enter code for free Meeting:' %><br />
+    <%= text_field_tag "code", "",:placeholder => "Code" %>
   </div>
   <div class="actions">
     <%= f.submit btntext %>

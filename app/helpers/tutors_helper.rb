@@ -16,8 +16,10 @@ module TutorsHelper
   end
   
   def schedulelink(av_id)
-    if params[:id].to_s != session[:user_id].to_s #session[:user_id].nil? || session[:tutor_id] != TutorAvailability.find(av_id).tutor_id
+    if defined? session[:user_id] && params[:id].to_s != session[:user_id].to_s 
       link_to 'make appointment',:controller => 'meetings', :action=> 'new',  :avlb_id => av_id
+    elsif !defined? session[:user_id]
+      "sign up and login to make your reservation with this tutor"
     end
   end
   
@@ -36,7 +38,7 @@ module TutorsHelper
   end
   
   def pend_tut_cnt
-    '(' + session[:pendtut_cnt].to_s + ')'
+    '(' + Tutor.find_all_by_approved(0).count.to_s + ')'
   end
   
   def pendting_tutor
@@ -51,12 +53,16 @@ module TutorsHelper
     link_to 'all tutors', :action =>'mgmt' ,:type => 'all'
   end
   
+  def add_tutor
+    link_to 'new tutor', :action => 'addtutor'
+  end
+  
   def tutor_mgmt_links 
-    pendting_tutor + ' | ' + current_tutor + ' | ' + all_tutors
+    pendting_tutor + ' | ' + current_tutor + ' | ' + all_tutors + ' | ' + add_tutor
   end
   
   def schedule_mgmt_link
-    if params[:id].to_s == session[:user_id].to_s
+    if session[:user_id] &&( params[:id].to_s == session[:user_id].to_s || current_user.usertype == "superadmin")
       link_to 'Manage Open Schedule', :controller => 'tutor_availabilities', :action => 'index'
     end
   end

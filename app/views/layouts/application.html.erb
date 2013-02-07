@@ -1,117 +1,217 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Findtutor</title>
-  <%= stylesheet_link_tag  "application","custom" %>
-  <%= javascript_include_tag "application" %>
+<!--
+  *************************************
+  Frontend CREATED BY NICK MANCINI using TWITTER BOOTSTRAP
+  Twitter: @N_Mancini
+  Electronic Mail: nmancini11@gmail.com
+  *************************************
+-->
+  <meta charset="utf-8">
+  <title>CourseSpree – Learn to get Paid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="CourseSpree, Buy, Sell, Notes, Homework, Tutors, Free"/> 
+  <meta name="author" content="Nick Mancini">
+
+  <!-- Le styles de stylo  -->
+  <%= stylesheet_link_tag  "bootstrap"%>
+  <%= stylesheet_link_tag  "bootstrap.min"%>
+  <%= stylesheet_link_tag  "styles"%>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
+
   <%= csrf_meta_tags %>
+<link rel="icon"  type="image/png"  href="/assets/favicon.png">  
+
+<!-- Editing! -->
 </head>
 <body>
-    <div id='header-container'>
-      <header>
-   <div id="logo">
-				<div id="logo-img">
-                                  <%= image_tag 'logo.png'%>
-				</div>
-				<h1>Course<span class="yellow">Spree</span></h1>
-			</div>
-			<div id="searchbar">
-			<div class="searchbar-padding">
-			<form method="get" class="searchform">
-		       <input type="text" class="field s" name="s" value="Search…" onfocus="if ( this.value == 'Search…' ) { this.value = ''; }" onblur="if ( this.value == '' ) { this.value = 'Search…'; }">
-		       <input type="image" src="/assets/ico-search.png" class="search-submit" name="submit" alt="Submit">
-		    </form>
-				
-	  
-			</div>
-			</div>
-			<div class="fix"></div>
-			<nav>
-				<ul>
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Services<span class="parent"></span></a>
-						<ul>
-							<li><a href="#">Tutoring Service</a></li>
-							<li><a href="#">Homework Help</a></li>
-							<li><a href="#">Class Notes</a></li>
-							<li><a href="#">Video Lectures</a></li>
-							<div class="fix"></div>
-						</ul>
-					</li>
-					<li><a href="#">FAQs</a></li>
-					<li><a href="#">About Us</a></li>
-					<li style="float:right"><a href="#" style="background-color: #17adb5">Log In</a></li>
-					<li style="float:right"><a href="#" style="background-color: #17adb5">Register</a></li>
-					<div class="fix"></div>
-				</ul>
-			</nav>
-		</header>
-    </div><!-- header container end -->
-     <div id="subnav-container">
-        <div id="subnav">
-	  <nav><%=navlinks%></nav>
-	  <div id='authlink'><%=authlink%></div>
-        </div><!--subnav div end-->
-     </div><!--subnav-container div end-->
+
+
+<!-- Navbar
+    ================================================== -->
+    <nav>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
      
-    <div id='container'>
-	<div class="fix"></div>
-	<%= yield %>
-	<div class="fix"></div>
-    </div><!--container-->
+          <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+     
+          <!-- Be sure to leave the brand out there if you want it shown -->
+          <a class="brand" id="logo" href="/" id="logo"><%=image_tag 'logo.png', :title=>"CourseSpree", :alt=>"CourseSpree", :class=>"hidden-phone"%></a>
+     
+          <!-- Everything you want hidden at 940px or less, place within here -->
+          <div class="nav-collapse">
+              <ul class="nav pull-right">
+                    <li><a class="nav" href="/">Home</a></li>
+                    <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Services
+                      <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/tutors/">Tutoring</a></li>
+                        <li><a href="#">Homework Help</a></li>
+                        <li><a href="#">Class Notes</a></li>
+                      </ul>
+                    </li>
+                    <li><a class="nav" href="/about/">About</a></li>
+					<% if current_user %>
+						<li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.username %><b class="caret"></b></a>
+							<ul class="dropdown-menu">
+							<li><%= link_to "View Profile", current_user %></li>
+							<li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
+							<% if current_user.usertype == "tutor" %>
+							<li><%= schedule_mgmt_link%></li>
+							<% else %>
+							<li><a href="http://coursespree.info/tutors/new?uid=<%= current_user.id %>">Apply To Be A Tutor</a></li>
+							<% end %>
+							<li><a href="/meetings/?type=pending">Pending Meetings</a></li>
+							<li><a href="/meetings/?type=attending">Future Meetings</a></li>
+							<li><a href="/meetings/?type=past">Past Meetings</a></li>
+							<li><%= link_to 'Logout', '/admin/logout' %></li>
+							
+							<% if current_user.usertype == "superadmin" %>
+							<li><a href="/tutors/mgmt?type=pending">Tutors</a></li>
+							<li><a href="/users">Users</a></li>
+							<li><a href="/subjects">Subjects</a></li>
+							<li><a href="/meetings">Meetings</a></li>
+							<li><a href="/universities">Universities</a></li>
+							<li><a href="/tutor_locations">Locations</a></li>
+							<% end %>
+							
+						  </ul>
+						</li>
+					<% else %>
+                    <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Login<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                        <li class="form">
+                            <form class="form-vertical" method="post" action="/admin/login/">
+							
+                              <div class="control-group">
+                                  <label class="control-label" for="inputEmail"><strong class="login">Username</strong></label>
+                                <div class="controls">
+                                  <input type="text" id="inputEmail" placeholder="Username" name="username">
+                                </div>
+                              </div>
+
+                              <div class="control-group">
+                                  <label class="control-label" for="inputPassword"><strong class="login">Password</strong></label>
+                                <div class="controls">
+                                  <input type="password" id="inputPassword" placeholder="Password" name="password" />
+                                </div>
+                              </div>
+
+                                <button type="submit" class="btn-primary btn-large">Sign in</button>
+                                <a class="login" href="/auth/facebook/"><%=image_tag 'f-login.png', :class=>"login" %></a>
+								 
+                              </form> 
+                        </li>
+                    </li>
+				   </ul></li>
+					<% end %>
+                  
+                  <li><form method="get" class="searchform" style="display:inline" action="/tutors/"><input type="text" class="search-query" placeholder="Search" name="subject" /></form></li>
+              </ul>
+
+          </div><!-- end nav collapse-->
+     
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  <%= yield %>
+  <%controller.action_name%>
     
-    <div id="footer-container">
-      <div class="fix"></div>
-    <footer>
-			<div class="footer-padding">
-			<div id="footer-name">
-			<h3>CourseSpree</h3>
-			<p>235 Harrison St.<br />
-			Syracuse, NY 13202</p>
-			</div><!-- footer name end -->
-			<nav>
-				<ul>
-					<li><a href="#">Services</a>
-						<ul>
-							<li><a href="#">Hire Tutors</a></li>
-							<li><a href="#">Homework Help</a></li>
-							<li><a href="#">Buy Notes</a></li>
-							<li><a href="#">Sell Notes</a></li>
-						</ul>
-					</li>
-					<li><a href="#">Help</a>
-						<ul>
-							<li><a href="#">Getting Started</a></li>
-							<li><a href="#">How To</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Submit a Dispute</a></li>
-						</ul>
-					</li>
-					<li><a href="#">About Us</a>
-						<ul>
-							<li><a href="#">Pricing</a></li>
-							<li><a href="#">Meet the Team</a></li>
-							<li><a href="#">Press</a></li>
-							<li><a href="#">Contact Us</a></li>
-						</ul>
-					</li>
-					
-				</ul>
-				
-			</nav>
-			
-			<div id="footer-social">
-			  <div id="footer-social-padding">
-				  <span>Follow us...</span>
-				  <a href="#"><%=image_tag 'ico-footer-twitter.png', :title=>"Follow us on Twitter", :alt=>""%></a>
-				  <a href="#"><%=image_tag 'ico-footer-facebook.png', :title=>"Follow us on Facebook", :alt=>""%></a>
-			  </div>
-			</div>
-			<div class="fix"></div>
-			</div><!-- padding end -->
-	      <div class="fix"></div>
+	
+<!-- Footer
+    ================================================== -->
+    <footer>  
+      <div id="footer-text" class="container">
+        <div class="row">
+          <div class="span4">
+            <h1>CourseSpree</h1>
+            <address>235 Harrison St<br>
+              Syracuse, NY 13202
+            </address>
+          </div>
+
+          <div class="span2">
+            <h4>Services</h4>
+              <ul>
+                <li><a class="nav" href="/tutors">Hire Tutors</a></li>
+                <li><a class="nav" href="/comingsoon">Homework Help</a></li>
+                <li><a class="nav" href="/comingsoon">Buy Notes</a></li>
+                <li><a class="nav" href="/comingsoon">Sell Notes</a></li>
+              </ul>
+          </div>
+
+          <div class="span2">
+            <h4>Help</h4>
+              <ul>
+                <li><a class="nav" href="/gettingstarted">Getting Started</a></li>
+                <li><a class="nav" href="/howtouse">How To Use The Site</a></li>
+                <li><a class="nav" href="/faq">Frequently Asked Questions</a></li>
+                <li><a class="nav" href="/contact">Submit A Dispute</a></li>
+              </ul>
+          </div>
+
+          <div class="span2">
+            <h4>About Us</h4>
+              <ul>
+                <li><a class="nav" href="/pricing">Pricing</a></li>
+                <li><a class="nav" href="/team">Meet The Team</a></li>
+                <li><a class="nav" href="/press">Press</a></li>
+                <li><a class="nav" href="/contact">Contact Us</a></li>
+              </ul>
+          </div>
+
+          <div class="span2">
+
+          </div>
+        </div>
+      </div>
     </footer>
-    
-    </div><!-- footer container end -->
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+	
+	
+<%= javascript_include_tag "application" %>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-33838513-1']);
+  _gaq.push(['_setDomainName', 'etutor.herokuapp.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>  	
+	
+	
 </body>
 </html>

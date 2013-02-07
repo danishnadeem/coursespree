@@ -17,13 +17,21 @@ module MeetingsHelper
   end
   
   def meetingheader
-    if params[:type]== 'pending'
-      'You received following appointments'
-    elsif  params[:type]=='past'
+    case params[:type]
+    when 'pending'
+      session[:tutor_id]? 'Received following appointment request':'Waiting tutor response'
+    when 'past'
       'Past Meetings'
-    elsif  params[:type]=='requested'
-      'Your Requested Meetings'
+    when 'attending'
+      'You will be attending'
     end
+    #if params[:type]== 'pending'
+    #  session[:tutor_id]? 'Received following appointment request':'Waiting tutor response'
+    #elsif  params[:type]=='past'
+    #  'Past Meetings'
+    #elsif  params[:type]=='attending'
+    #  'You will be attending'
+    #end
   end
   
   def meetinginfo
@@ -49,7 +57,7 @@ module MeetingsHelper
     end 
   end
   
-  def tutor_response(i)
+  def meeting_status(i)
     if i == 1
       'scheduled'
     elsif i == -1

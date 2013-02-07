@@ -1,20 +1,24 @@
 Findtutor::Application.routes.draw do
+  
+  match "auth/:provider/callback" => "admin#oauth"
+  
   resources :tutor_locations
-
   resources :universities
-
+  get 'meetings/joinmeeting'
+  get 'meetings/createmeeting'
   post 'meetings/ipn_notification'
   get 'meetings/ipn_notification'
   get 'meetings/canceled_payment_request'
   get 'meetings/completed_payment_request'
   post 'meetings/payment'
   get 'meetings/payment_made'
+  post  'tutors/addtutor'
+  get 'tutors/addtutor'
   get 'tutors/mgmt'
   get 'tutors/approve'
   get 'subjects_tutors/select'
   
   resources :superadmins
-
   
   resources :tutor_availabilities
   resources :subjects_tutors
@@ -24,11 +28,11 @@ Findtutor::Application.routes.draw do
   get "admin/login"
   post "admin/login"
   get "admin/logout"
-
-
+  
   match 'register' => 'users#register'
+  
   resources :tutors
-
+  
   resources :users
 
   resources :meetings
@@ -82,11 +86,24 @@ Findtutor::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'tutors#index'
+
+  root :to => 'pages#index'
+
+  match "/about"=>"pages#about"
+  match "/faq"=>"pages#faq"
+  match "/comingsoon"=>"pages#comingsoon"
+  match "/gettingstarted"=>"pages#gettingstarted"
+  match "/howtouse"=>"pages#howtouse"
+  match "/contact"=>"pages#contact"
+  match "/pricing"=>"pages#pricing"
+  match "/team"=>"pages#team"
+  match "/press"=>"pages#press"
+
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
+  
 end

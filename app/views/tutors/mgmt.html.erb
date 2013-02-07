@@ -1,8 +1,13 @@
 <%= tutor_mgmt_links %>
 <%@tutors.each do |tutor|%>
+
+<% if tutor.user %>
+
 <div class="tuteritem">
   <div class="avatar">
+  	<% if tutor.user.avatar %>
     <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+	<% end %>
   </div><!--avatar div end-->
   <div class="tutordescription">
     <div>
@@ -20,10 +25,14 @@
   <div class="tutorschedule">
     <%= approve_link(tutor)%><br />
     <%= link_to 'Show', tutor.user %> | 
-    <%= link_to 'Edit', edit_tutor_path(tutor.user) %> | 
+    <%= link_to 'Edit', edit_tutor_path(tutor) %> | 
+	<a href="/users/<%= tutor.user.id %>/edit/">Edit Personal</a> |
+	<a href="/users/<%= tutor.user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
     <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
   </div><!--tutorschedule div end-->
 
 <div class="fix"></div>
 </div><!--tutoritem div end-->
+
+<% end %>
 <%end%>

@@ -1,39 +1,34 @@
-
-<h1>Listing users</h1>
-
-<table>
-  <tr>
-    <th>Username</th>
-    
-    <th>Fullname</th>
-    <th>Avatar</th>
-    <th>Email</th>
-    <th>Paypalemail</th>
-    <th>Ave rating</th>
-    <th>usertype</th>
-    <th>Active</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<h2>Student by Universities</h2>
+<p>
+<div id="university_nav">
+<%=@univ%>
+  <%University.first(10).each do |u|%>
+    | <%= link_to u.name, :uid=> u.id%>
+  <%end%> | <%=link_to 'more'%>
+  </p>
+  <%if @users.count < 1 %>
+  <div class="placeholder">
+    No students are present
+  </div>
+  <%end%>
+</div><!--university_nav div end-->
 
 <% @users.each do |user| %>
-  <tr class="useritem">
-    <td><%= user.username %></td>
-    <td><%= user.fullname %></td>
-    <td><%=image_tag user.avatar.url(:thumb) %></td>
-    <td><%= user.email %></td>
-    <td><%= user.paypalEmail %></td>
-    <td>nothing yet<%= user.ave_rating %></td>
-    <td><%= user.usertype %></td>
-    <td><%= user.active %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+<div class="useritem">
+  <div class="avatarimg">
+    <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+  </div> 
+  <div class="usersname">
+    <%=link_to user.username, user%><br />
+    <%= link_to user.fullname, user%>
+	
+	<%if current_user.usertype == "superadmin"%>
+	<br/><a href="/users/<%= user.id %>/edit/">Edit</a>
+	<a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
+  	<% end %>
+	
+  </div>  
+</div>
 <% end %>
-</table>
 
-<br />
 
-<%= link_to 'New User', 'users/register' %>

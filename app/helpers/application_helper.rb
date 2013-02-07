@@ -1,29 +1,16 @@
 module ApplicationHelper
   def current_admin?
-    if User.find(session[:user_id]).usertype == "superadmin"
-      true
-    else
-      false
-    end
+    User.find(session[:user_id]).usertype == "superadmin"
   end
   def current_user
-    if !session[:user_id].nil?
+    if session[:user_id]
       User.find(session[:user_id])
     end
   end
   
-  def bbb_api_base_url
-    "http://198.101.200.137/bigbluebutton/api/"
-  end
-  
-  def sha1(string)
-    Digest::SHA1.hexdigest(string)
-  end
-  
 #link related with authentication definition
   def username
-    user = User.find(session[:user_id])
-    link_to user.username, user
+    link_to current_user.username + "(" + current_user.fullname + ")", current_user
   end
   
   def logout
@@ -39,15 +26,12 @@ module ApplicationHelper
   end
 
   def pendcnt
-   '('+Meeting.find(:all, :conditions=> ["tutor_id = ? and accept =?", Tutor.find_by_user_id(session[:user_id]).id, 0]).count.to_s+')'
+   '('+Meeting.find(:all, :conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]]).count.to_s+')'
   end
 
   def pending
-    if current_user.usertype == 'tutor'
-      link_to 'Pending Meetings' + pendcnt , :controller => 'meetings', :type => 'pending'
-    elsif current_user.usertype == 'student'|| current_user.usertype == 'tem_tutor'
-      link_to 'Your Meetings', :controller => 'meetings', :type => 'requested'
-    elsif current_user.usertype == 'superadmin'
+    if current_user.usertype != 'superadmin'
+      link_to 'Pending' + pendcnt , :controller => 'meetings', :type => 'pending'
     end
   end
 #authentication link usage
@@ -115,15 +99,15 @@ module ApplicationHelper
   end
 #navigation link
   def navlinks
-    if !session[:user_id].nil?# if user logged in display nav links 
-      if current_user.usertype == 'tutor'# if user is tutor
-        findtutor + " | " + meetings  + " | " + attend  + " | " + past
+      if !session[:user_id]
+      findtutor
+      elsif current_user.usertype == 'tutor'# if user is tutor
+        findtutor + " | "  + attend  + " | " + past
       elsif current_user.usertype == 'student' || current_user.usertype == 'tem_tutor'#if user is student
-        findtutor + " | " + meetings
+        findtutor + " | " + attend + " | " + past
       elsif current_user.usertype == 'superadmin'#if user is administrator
         tutor_mgmt + " | " + user_mgmt + " | " + subject_mgmt + " | " + meeting_mgmt + " | " + univ_mgmt + " | " + location_mgmt
       end
-    end
   end
   
 end

@@ -2,44 +2,61 @@
   <%=meetingheader%>
 </div>
 
-<table id="meetinglist">
-  <tr>
-    
-    <th>Name</th>
-    <th>Start date</th>
-    <th>Duration</th>
-    <th>Payment</th>
-    <th>Subject</th>
-    <th>Tutor</th>
-    <th>Student</th>
-    <th>Response</th>
-  </tr>
+<% if @meetings.length > 0 %>
 
-<% @meetings.each do |meeting| %>
-  <tr>
-    <td><%= link_to meeting.name, meeting %></td>
-    <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
-    <td><%= meeting.tutor_availability.duration%></td>
-    <td><%= meeting.paid ? "paid":"waiting" %></td>
-    <td><%= Subject.find(meeting.subject).title %></td>
-    
-    <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
-    <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
-    <td><%= tutor_response(meeting.accept) %></td>
-    <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0%>
-    <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
-    <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
-  <%end%>
-  
-    <%if current_admin? %>
-    <td><%= link_to 'Show', meeting %></td>
-    <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-    <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <%end%>
-  </tr>
-  
+  <table id="meetinglist">
+    <tr>
+      <th>Name</th>
+      <th>Start date</th>
+      <th>Length</th>
+      <th>Payment</th>
+      <th>Subject</th>
+      <th>Tutor</th>
+      <th>Student</th>
+      <th>Response</th>
+    </tr>
+
+    <% @meetings.each do |meeting| %>
+
+      <tr>
+        <td><%= link_to meeting.name, meeting %></td>
+        <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+        <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
+        <td>
+    <%#= meeting.paid ? "paid":"waiting" %>
+          <%if meeting.paid%>
+            paid
+          <%else%>
+            <%=link_to "Pay", '/meetings/payment'%>
+          <%end%>
+        </td>
+        <% if  meeting.tutor %>
+          <td><%= Subject.find(meeting.subject).title %></td>
+          <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
+          <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+          <td><%= meeting_status(meeting.accept) %></td>
+          <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0%>
+            <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
+            <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
+          <%else%>
+            <td colspan="2"></td>
+          <%end%>
+        <%else%>
+          <td colspan="6"></td>
+        <%end%>
+
+        <%if current_admin? %>
+          <td><%= link_to 'Show', meeting %></td>
+          <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+          <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
+      </tr>
+
+
+    <% end %>
+  </table>
+
 <% end %>
-</table>
 
 <br />
 

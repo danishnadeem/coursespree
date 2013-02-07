@@ -1,0 +1,443 @@
+/**********
+/**********
+/********** COURSESPREE CUSTOM STYLES *********/
+/**********
+/**********
+*/
+
+/**********
+/**********
+/********** HOME PAGE STYLES *********/
+/**********
+/**********
+*/
+
+nav ul {
+	padding-top: 0px;
+}
+
+a.nav {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+@media (min-width: 979px) {
+
+	nav {
+		margin-bottom: 100px;
+		background-color: #2f4850;
+	}
+	nav ul {
+	padding-top: 30px;
+}
+} 
+
+#landing {
+  background-repeat: no-repeat;
+  height: 400px;
+  margin: 0 0 0 0px;
+}
+
+#landing img {
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:-1;
+}
+
+.hero-unit {
+ 	background: none;
+}
+
+h1.landing {
+ 	color: white;
+ 	text-shadow: -2px -2px #444;
+ 	font-size: 4em;
+ }
+
+p.landing {
+ 	color: white;
+ 	margin-top: 10px;
+ 	font-size: 18px;
+ 	text-shadow: -1px -1px #444;
+ }
+
+ #full-landing-image {
+	  z-index: -999;
+	  min-height: 400px;
+	  max-height: 400px;  
+	  min-width: 1400px;
+	  width: 100%;
+	  height: auto;
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  padding-top: 100px;
+}
+
+#subsection {
+	text-align: center;
+	margin: 20px auto;
+	background-color: #fff;
+	vertical-align: center;
+	position: relative;
+	top: 0px;
+	padding-bottom: 5px;
+}
+
+p.subsection-description {
+	vertical-align: center;
+	font-weight: lighter;
+	color: #555;
+	font-size: 16px;
+	margin: 0 20px;
+	line-height: 20px;
+}
+
+h3.button {
+	color: white;
+	line-height: 60px;
+	font-size: 1.5em;
+	margin: 10px 40px 15px 40px;
+	background-color:  #c96581;
+	border-radius: 4px;
+}
+
+a.button {
+	color: white;
+}
+
+#subsection-left h3.button {
+	text-shadow: 1px 1px #c96581, -1px -1px #444;
+	background-color:  #c96581;
+}
+#subsection-right h3.button {
+	background-color:  #17adb5;
+	text-shadow: 1px 1px #17adb5, -1px -1px #444;
+}
+
+#subsection-middle h3.button {
+	background-color:  #e5d36d;
+	text-shadow: 1px 1px #ddd, -1px -1px #777;
+}
+
+footer {
+	background-color: #bbb;
+	padding: 10px 10px 20px 10px;
+	margin: 40px -20px 0 -20px;
+	bottom:0;
+	z-index:999999;
+}
+
+#footer-text {
+	color: #555;
+	text-decoration: none;
+}
+
+#footer-text a {
+	color: #555;
+	font-weight: lighter;
+	font-size: 14px;
+}
+
+#footer-text li {
+	list-style-type: none;
+	margin-left: -20px;
+}
+
+li.form {
+	margin: 10px;
+	border:;
+}
+
+ul.dropdown-menu {
+	background-color: #ddd;
+}
+
+strong.login {
+	color: #2f4850;
+}
+
+img.login {
+	border-radius: 4px;
+	float: right;
+	width: 130px;
+	height: 40px;
+	opacity:0.8;
+}
+
+a.login {
+	float: right;
+	margin: 0px auto;
+	padding: 0px;
+}
+
+a:hover .login{
+	opacity: 1;
+}
+
+
+/**********
+/**********
+/**********TUTOR STYLES *********/
+/**********
+/**********
+*/
+
+#tutor-profile {
+	height: 100%;
+	background-color: #ddd;
+	margin: 20px auto;
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#edit {
+	margin-top: -120px;
+	margin-right: 80px;
+}
+
+section.tutor-info {
+	float: left;
+	width: 100%;
+	margin-top: 0px;
+}
+
+section.tutor-info img{
+	margin: 0 5px 0 0;
+	float: left;
+}
+
+section.tutor-info h4{
+	line-height: 15px;
+	margin: 0px auto;
+}
+
+section.tutor-info h6{
+	line-height: 15px;
+}
+
+section.tutor-bio {
+	margin-top: 10px;
+}
+
+
+p.bio{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: lighter;
+	border-bottom: 1px solid #bbb;
+	border-top: 1px solid #bbb;
+}
+
+section.tutor-docs img{
+	margin: 0 25px 0 0;
+	float: left;
+	border-bottom: 1px solid #bbb;
+}
+
+
+section.tutor-docs {
+	margin: 0px auto;
+	height: 140px;
+	border-bottom: 1px solid #bbb;	
+}
+
+#tutor-rate {
+	float: left;
+}
+
+p.hourly-rate {
+	letter-spacing:-2px;
+	text-shadow: -1.5px -1.5px 2px #666;
+	font-weight: bolder;
+	line-height: 45px;
+	font-size: 48px;
+	color: #eee;
+}
+
+p.rate {
+	font-weight: bolder;
+	line-height: 10px;
+	font-size: 24px;
+	color: #444;
+	margin-top: 10px;
+	float: left;
+}
+
+p.rate1 {
+	font-weight: bolder;right
+	line-height: 25px;
+	font-size: 14px;
+	color: #888;
+	float: left;
+}
+
+#appointment {
+	background-color: #ddd;
+	border-radius: 4px;
+	display: block;
+	height: 80px;
+	margin-left: 30px;
+}
+
+
+
+.date {
+	height: 70px;
+	background: #fcfcfc; 
+	background: linear-gradient(top, #fcfcfc 0%,#dad8d8 100%); 
+	background: -moz-linear-gradient(top, #fcfcfc 0%, #dad8d8 100%); 
+	background: -webkit-linear-gradient(top, #fcfcfc 0%,#dad8d8 100%); 
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+	-webkit-box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+	margin: 5px;
+}
+
+.date p {
+	font-family: Helvetica, sans-serif; 
+	font-size: 24px; text-align: center; color: #9e9e9e; 
+	line-height: 32px;
+}
+
+.date p span {
+	background: #2f4850; 
+	background: linear-gradient(top, #36a7ad  0%, #2f4850 100%);
+	background: -moz-linear-gradient(top, #36a7ad  0%, #2f4850 100%);
+	background: -webkit-linear-gradient(top, #36a7ad  0%, #2f4850 100%);
+	font-size: 20px; font-weight: bold; color: #fff; text-transform: uppercase; 	
+	display: block;
+	height: 30px;
+	line-height: 28px;
+	border-top: 3px solid #17adb5;
+	border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	padding: 3px 0 3px 0;
+}
+
+p.time {
+	font-weight: bolder;
+	font-size: 36px;
+	color: #999;
+	float: left;
+}
+
+p.time1 {
+	font-weight: bolder;
+	line-height: 0px;
+	margin-left: 5px;
+	font-size: 14px;
+	color: #888;
+	float: left;
+}
+
+#appointment-info {
+	margin: 10px;
+
+}
+
+.apttime {
+	float: right;
+	margin: 30px 0px 0 5px;
+}
+
+#Graduation {
+	margin-right: 145px;
+}
+
+#bio {
+	width: 97%;
+	margin-right: 20px;
+}
+
+.availability {
+	width: 24%;
+}
+
+.search-query {
+	margin-top: 10px;
+}
+
+
+/**********
+/**********
+/********** SEARCH PAGE STYLES *********/
+/**********
+/**********
+*/
+input#search {
+	margin-top: 8px;
+	height: 30px;
+}
+
+#search-unit {
+	margin: 10px;
+	padding: 10px;
+	border-bottom: 2px solid #bbb;
+	background-color: #2f4850;
+	color: white;
+	text-align: center;
+}
+
+
+#search-unit h1{
+	text-shadow: -2px -2px #444;
+}
+
+#search-unit p{
+	text-shadow: -1px -1px #444;
+}
+
+section#search-result {
+	height: 50px;
+	margin: 10px 0px;
+	border-bottom: 1px solid #bbb;
+}
+
+section.tutor-search {
+	float: left;
+	width: 100%;
+	margin-top: 0px;
+}
+
+section.tutor-skills {
+	border-left: 1px solid #bbb;
+	height: 40px;
+	padding-left: 10px;
+	margin-top: -10px;
+}
+
+section.tutor-search img{
+	margin: 0 5px 0 0;
+	float: left;
+}
+
+section.tutor-search h4{
+	line-height: 15px;
+	margin: 0px auto;
+}
+
+section.tutor-search h6{
+	line-height: 15px;
+}
+
+#facebook  {
+	padding: 7px 10px 12px 10px;
+	background-color: #3B5998;
+	color: white;
+	margin: 10px 10px;
+}
+
+a.facebook  {
+	text-shadow: -1px -1px #444;
+	text-decoration: none;
+	border: 1px solid #29629E;
+}
+
+a:hover.facebook {
+	color: white;
+}

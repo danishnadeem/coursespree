@@ -25,5 +25,20 @@ class AdminController < ApplicationController
     flash[:notice] = "Logged Out"
     redirect_to(:action => "login")
   end
+
+  def oauth
+    #raise request.env["omniauth.auth"].to_yaml
+    user = User.from_omniauth(env["omniauth.auth"])
+    session[:oauth] = true
+    session[:user_id] = user.id
+    session[:username] = user.username
+    session[:tutor_id] = user.tutor.id if Tutor.find_by_user_id(user.id)
+    if Time.now - user.created_at < 30# newly created within 30s
+      flash[:notice] = "please complete your profile"
+      redirect_to edit_user_url(user)
+    else
+      redirect_to user
+    end 
+  end
   
 end

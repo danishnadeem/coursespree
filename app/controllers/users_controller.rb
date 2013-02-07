@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register]
+  before_filter :authticate, :except => [:create, :register, :index,:show]
   
   def authticate
     unless User.find_by_id(session[:user_id])
@@ -12,8 +12,18 @@ class UsersController < ApplicationController
   end  
 
   def index
-    @users = User.all
+    if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
+      @users = User.find_all_by_university_id(params[:uid])
+    else
+      @users = User.first(5)
+    end
+      begin
+        @univ = University.find(params[:uid]).name
+      rescue ActiveRecord::RecordNotFound
+        @univ = "no university selected"
+      end    
 
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @users }
@@ -25,7 +35,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @subject = Subject.new
-    
+    if @user.usertype == "tutor" && current_user &&current_user.usertype == "superadmin"
+      session[:tutor_id] = @user.tutor.id
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
@@ -53,17 +65,24 @@ class UsersController < ApplicationController
   def create
     #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
-    
     params[:user].delete :tutor
+    
     @user = User.new(params[:user])
     
+	#if params["addUniv"]["checked"] && params["newuniv"].length > 0
+    #  newU = University.find_or_create_by_name(params["newuniv"])
+    #  newU.save!
+    #   @user.university_id = newU.id
+    #end
+    
+	
     respond_to do |format|
       # if apply to be tutor on registration redirect to tutor application page after registration succeed
       if @user.save && !tu.nil? && tu == "1"
         session[:user_id] = @user.id
         format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
         format.json { render json: @user, status: :created, location: @user }
-      elsif @user.save && !tu.nil? && tu == "0"
+      elsif @user.save 
         session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
         format.json { render json: @user, status: :created, location: @user }
@@ -95,6 +114,9 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
+    if @user.id == session[:user_id]
+      reset_session
+    end
 
     respond_to do |format|
       format.html { redirect_to users_url }

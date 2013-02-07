@@ -1,0 +1,97 @@
+<div id="landing" class="container">
+  <%=image_tag 'background.png', :title=>"CourseSpree", :alt=>"full screen background image", :id=>"full-landing-image"%>
+    <div class="container">
+      <header class="hero-unit">
+        <div class="span5">
+          <h1 class="landing">Find a tutor now!</h1>
+          <p class="landing">Helping students succeed academically</p>
+		  
+		  
+		  <% if !current_user %>
+          <!-- Button to trigger modal -->
+          
+          <a href="/register/" role="button" class="btn btn-primary btn-large" data-toggle="modal"><strong>Join For Free</strong></a>
+
+          <a href="/auth/facebook/" id="facebook" role="button" class="btn-large facebook"><strong>Connect With Facebook</strong></a>
+           
+            <!-- Modal -->
+            <div class="modal hide fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="false">×</button>
+                <h3 id="myModalLabel">Register</h3>
+              </div>
+              <div class="modal-body">
+                    <form class="form-vertical" method="post" action="/register/">
+                        <div class="control-group">
+                            <label class="control-label" for="inputFirstName"><strong class="login">Personal Info</strong></label>
+                          <div class="controls">
+                            <input name="user[fName]" type="text" id="inputEmail" target="active" placeholder="First Name">
+                            <input name="user[lName]" type="text" id="inputEmail" placeholder="Last Name">
+                          </div>
+
+                          <div class="control-group">
+                            <label class="control-label" for="inputEmail"><strong class="login">Account</strong></label>
+                          <div class="controls">
+                            <input type="text" id="inputEmail" placeholder="Email" name="user[email]>
+                            <select>
+                              <option>Syracuse University</option>
+                              <option>LeMoyne College</option>
+                              <option>SUNY ESF</option>
+                              <option>SUNY Oswego</option>
+                              <option>Cortland</option>
+                            </select>
+                          </div>
+                            <label class="control-label" for="inputPassword"><strong class="login">Password</strong></label>
+                          <div class="controls">
+                            <input type="password" id="inputPassword" placeholder="Password">
+                            <input type="password" id="inputPassword" placeholder="Re-Enter Password">
+                          </div>
+                        </div>
+
+                      </form>
+                </div>
+                
+                <div class="modal-footer">
+
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                  <button class="btn btn-primary">Register</button>
+
+                </div>
+             </div><!-- end Modal div-->
+
+          </div>
+		  <% end %>
+      </header>
+    </div>
+</div>
+
+
+    <!-- Subsection
+    ================================================== -->
+      <div id="subsection" class="container">
+        <div class="row">
+          <div id="subsection-left" class="span4">
+            <h2 class="subsection-description">Find A Tutor Near You<h2>
+            <p class="subsection-description">Hire a tutor for virtual or location based sessions near your campus</p>
+		    <%=image_tag 'find-tutor.png' %>
+            <h3 class="button"><a href="/tutors/" class="button">Find Tutors</a></h3>
+          </div>
+
+          <div id="subsection-middle" class="span4">
+            <h2 class="subsection-description">Need Homework Help<h2>
+            <p class="subsection-description">Get subject specific help by
+            posting a question.</p>
+		    <%=image_tag 'question.png' %>
+            <h3 class="button">Coming Soon<h3>
+          </div>
+
+          <div id="subsection-right" class="span4">
+            <h2 class="subsection-description">Buy & Sell Class Notes<h2>
+            <p class="subsection-description">Publish your class notes and study 
+            guides to start earning revenue.</p>
+		    <%=image_tag 'sell-notes.png' %>
+            <h3 class="button">Coming Soon<h3>
+          </div>
+
+        </div>
+      </div>

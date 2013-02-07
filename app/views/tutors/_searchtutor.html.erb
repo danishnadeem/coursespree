@@ -1,9 +1,9 @@
-        <div class="search-tutors">
-          <form>
-            <h3>Search tutor based on subjects:</h3>
-            <input type="text" name="subject" id="subject" />
-            <input type="submit" id="tutorsearchbtn" value="search" />
-            <div id="notice"></div>
-          </form>
-          <div class="fix"></div>
-        </div>
+<form method="get" id="search-unit" class="hero-unit search-tutors">
+  <h1>Find Tutors On Your Campus</h1>
+  <p>CourseSpree is here to pair you with the best tutors on your campus to ensure your academic success.</p>
+  <p>
+	<input id="search" class="input-xxlarge" type="text" placeholder="Astrophysics" name="subject" id="subject">
+	<a class="btn btn-info btn-large" id="tutorsearchbtn" onclick="$(this).closest('form').submit();">Search</a>
+  </p>
+
+</div>

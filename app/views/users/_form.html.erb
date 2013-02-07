@@ -1,3 +1,4 @@
+<div id="notice"><%=notice%></div>
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
@@ -27,23 +28,23 @@
   </div>
   <div class="field">
     <%= f.label :email %><br />
-    <%= f.text_field :email %>
+    <%= f.email_field :email %>
   </div>
   <div class="field">
-    <%= f.label :fName %><br />
+    <%= f.label :fName, "First Name" %><br />
     <%= f.text_field :fName %>
   </div>
   <div class="field">
-    <%= f.label :lName %><br />
+    <%= f.label :lName, "Last Name" %><br />
     <%= f.text_field :lName %>
   </div>
   <div class="field">
     <%= f.label :gender %><br />
-    <%= f.select :gender, [["female",0],["male",1],["hidden",2]] %>
+    <%= f.select :gender, [["hidden",2],["male",1],["female",0]] %>
   </div>
   <div class="field">
     <%= f.label :dob %><br />
-    <%= f.date_select :dob %>
+    <%= f.date_select :dob,:start_year => 1940,:end_year=>2005, :default=> {:day=>1, :month=>1, :year=>1980} %>
   </div>
 </div><!--userbasic div end-->
 
@@ -53,12 +54,14 @@
     <%= f.file_field :avatar %>
   </div>
   <div class="field">
-    <%= f.label :paypalEmail %><br />
-    <%= f.text_field :paypalEmail %>
+    <%= f.label :paypalEmail, "Paypal Email" %><br />
+    <%= f.email_field :paypalEmail %>
   </div>
   <div class="field">
     <%= f.label :university_id %><br />
-    <%= f.select :university_id, univs_and_ids %>
+    <%= f.select :university_id, univs_and_ids, :prompt=> "select a university or add new.."%>
+    Add new<%=check_box_tag "addUniv", :checked => true %>
+    <%=text_field_tag "newuniv" %>    
   </div>
   <div class="field">
     <%= f.label :department_id %><br />
@@ -78,22 +81,18 @@
   </div>
 <%if false%>
   <div class="field">
-    <% f.label :fb_ID %><br />
-    <% f.text_field :fb_ID %>
-  </div>
-  <div class="field">
     <% f.label :active %><br />
     <% f.number_field :active %>
   </div>
 <%end%>
-<%if params[:action] == 'register'%>
+<%if params[:action] == 'register' && false%>
   <div class="field">
     <%= f.label :tutor %><br />
     <%= f.check_box :tutor %>
   </div>
 <%end%>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit :value=> userbtn_text %><!--from user helper-->
   </div>
 </div><!--useradv div end-->
 <% end %>

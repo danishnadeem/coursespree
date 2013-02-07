@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120806204628) do
+ActiveRecord::Schema.define(:version => 20130207095501) do
+
+  create_table "free_codes", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "code"
+    t.boolean  "is_active",  :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
 
   create_table "meetings", :force => true do |t|
     t.string   "name"
@@ -32,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20120806204628) do
     t.string   "paykey"
     t.integer  "location_id"
     t.integer  "subject_id"
+    t.boolean  "has_code",              :default => false
   end
 
   create_table "subjects", :force => true do |t|
@@ -117,6 +126,9 @@ ActiveRecord::Schema.define(:version => 20120806204628) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "fb_uid"
+    t.string   "fb_token"
+    t.datetime "fb_token_expire"
   end
 
 end
