@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!--
-  *************************************
-  Frontend CREATED BY NICK MANCINI using TWITTER BOOTSTRAP
-  Twitter: @N_Mancini
-  Electronic Mail: nmancini11@gmail.com
-  *************************************
--->
-  <meta charset="utf-8">
-  <title>CourseSpree – Learn to get Paid</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="keywords" content="CourseSpree, Buy, Sell, Notes, Homework, Tutors, Free"/> 
-  <meta name="author" content="Nick Mancini">
+  <head>
+    <!--
+      *************************************
+      Frontend CREATED BY NICK MANCINI using TWITTER BOOTSTRAP
+      Twitter: @N_Mancini
+      Electronic Mail: nmancini11@gmail.com
+      *************************************
+    -->
+    <meta charset="utf-8">
+    <title>CourseSpree – Learn to get Paid</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="CourseSpree, Buy, Sell, Notes, Homework, Tutors, Free"/>
+    <meta name="author" content="Nick Mancini">
 
-  <!-- Le styles de stylo  -->
-  <%= stylesheet_link_tag  "bootstrap"%>
-  <%= stylesheet_link_tag  "bootstrap.min"%>
-  <%= stylesheet_link_tag  "styles"%>
+    <!-- Le styles de stylo  -->
+    <%= stylesheet_link_tag  "bootstrap"%>
+    <%= stylesheet_link_tag  "bootstrap.min"%>
+    <%= stylesheet_link_tag  "styles"%>
 
-	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
@@ -32,104 +32,105 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon-57-precomposed.png">
 
-  <%= csrf_meta_tags %>
-<link rel="icon"  type="image/png"  href="/assets/favicon.png">  
+    <%= csrf_meta_tags %>
+    <link rel="icon"  type="image/png"  href="/assets/favicon.png">
 
-<!-- Editing! -->
-</head>
-<body>
+    <!-- Editing! -->
+  </head>
+  <body>
 
 
-<!-- Navbar
-    ================================================== -->
-    <nav>
+    <!-- Navbar
+        ================================================== -->
+  <nav>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-     
+
           <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-     
+
           <!-- Be sure to leave the brand out there if you want it shown -->
           <a class="brand" id="logo" href="/" id="logo"><%=image_tag 'logo.png', :title=>"CourseSpree", :alt=>"CourseSpree", :class=>"hidden-phone"%></a>
-     
+
           <!-- Everything you want hidden at 940px or less, place within here -->
           <div class="nav-collapse">
-              <ul class="nav pull-right">
-                    <li><a class="nav" href="/">Home</a></li>
-                    <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Services
-                      <b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="/tutors/">Tutoring</a></li>
-                        <li><a href="#">Homework Help</a></li>
-                        <li><a href="#">Class Notes</a></li>
-                      </ul>
-                    </li>
-                    <li><a class="nav" href="/about/">About</a></li>
-					<% if current_user %>
-						<li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.username %><b class="caret"></b></a>
-							<ul class="dropdown-menu">
-							<li><%= link_to "View Profile", current_user %></li>
-							<li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
-							<% if current_user.usertype == "tutor" %>
-							<li><%= schedule_mgmt_link%></li>
-							<% else %>
-							<li><a href="http://coursespree.info/tutors/new?uid=<%= current_user.id %>">Apply To Be A Tutor</a></li>
-							<% end %>
-							<li><a href="/meetings/?type=pending">Pending Meetings</a></li>
-							<li><a href="/meetings/?type=attending">Future Meetings</a></li>
-							<li><a href="/meetings/?type=past">Past Meetings</a></li>
-							<li><%= link_to 'Logout', '/admin/logout' %></li>
-							
-							<% if current_user.usertype == "superadmin" %>
-							<li><a href="/tutors/mgmt?type=pending">Tutors</a></li>
-							<li><a href="/users">Users</a></li>
-							<li><a href="/subjects">Subjects</a></li>
-							<li><a href="/meetings">Meetings</a></li>
-							<li><a href="/universities">Universities</a></li>
-							<li><a href="/tutor_locations">Locations</a></li>
-							<% end %>
-							
-						  </ul>
-						</li>
-					<% else %>
-                    <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Login<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li class="form">
-                            <form class="form-vertical" method="post" action="/admin/login/">
-							
-                              <div class="control-group">
-                                  <label class="control-label" for="inputEmail"><strong class="login">Username</strong></label>
-                                <div class="controls">
-                                  <input type="text" id="inputEmail" placeholder="Username" name="username">
-                                </div>
-                              </div>
+            <ul class="nav pull-right">
+              <li><a class="nav" href="/">Home</a></li>
+              <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Services
+                  <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/tutors/">Tutoring</a></li>
+                  <li><a href="#">Homework Help</a></li>
+                  <li><a href="#">Class Notes</a></li>
+                </ul>
+              </li>
+              <li><a class="nav" href="/about/">About</a></li>
+              <% if current_user %>
+                <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.username %><b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "View Profile", current_user %></li>
+                    <li><%= link_to 'Edit Profile', edit_user_path(current_user) %></li>
+                    <% if current_user.usertype == "tutor" %>
+                      <li><%= schedule_mgmt_link%></li>
+                    <% else %>
+                      <li><a href="http://coursespree.info/tutors/new?uid=<%= current_user.id %>">Apply To Be A Tutor</a></li>
+                    <% end %>
+                    <li><a href="/meetings/?type=pending">Pending Meetings</a></li>
+                    <li><a href="/meetings/?type=attending">Future Meetings</a></li>
+                    <li><a href="/meetings/?type=past">Past Meetings</a></li>
+                    <li><a href="/meetings/?type=unpaid">Unpaid Meetings</a></li>
+                    <li><%= link_to 'Logout', '/admin/logout' %></li>
 
-                              <div class="control-group">
-                                  <label class="control-label" for="inputPassword"><strong class="login">Password</strong></label>
-                                <div class="controls">
-                                  <input type="password" id="inputPassword" placeholder="Password" name="password" />
-                                </div>
-                              </div>
+                    <% if current_user.usertype == "superadmin" %>
+                      <li><a href="/tutors/mgmt?type=pending">Tutors</a></li>
+                      <li><a href="/users">Users</a></li>
+                      <li><a href="/subjects">Subjects</a></li>
+                      <li><a href="/meetings">Meetings</a></li>
+                      <li><a href="/universities">Universities</a></li>
+                      <li><a href="/tutor_locations">Locations</a></li>
+                    <% end %>
 
-                                <button type="submit" class="btn-primary btn-large">Sign in</button>
-                                <a class="login" href="/auth/facebook/"><%=image_tag 'f-login.png', :class=>"login" %></a>
-								 
-                              </form> 
-                        </li>
+                  </ul>
+                </li>
+              <% else %>
+                <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">Login<b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="form">
+                      <form class="form-vertical" method="post" action="/admin/login/">
+
+                        <div class="control-group">
+                          <label class="control-label" for="inputEmail"><strong class="login">Username</strong></label>
+                          <div class="controls">
+                            <input type="text" id="inputEmail" placeholder="Username" name="username">
+                          </div>
+                        </div>
+
+                        <div class="control-group">
+                          <label class="control-label" for="inputPassword"><strong class="login">Password</strong></label>
+                          <div class="controls">
+                            <input type="password" id="inputPassword" placeholder="Password" name="password" />
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-large">Sign in</button>
+                        <a class="login" href="/auth/facebook/"><%=image_tag 'f-login.png', :class=>"login" %></a>
+
+                      </form>
                     </li>
-				   </ul></li>
-					<% end %>
-                  
-                  <li><form method="get" class="searchform" style="display:inline" action="/tutors/"><input type="text" class="search-query" placeholder="Search" name="subject" /></form></li>
-              </ul>
+                </li>
+              </ul></li>
+            <% end %>
+
+            <li><form method="get" class="searchform" style="display:inline" action="/tutors/"><input type="text" class="search-query" placeholder="Search" name="subject" /></form></li>
+            </ul>
 
           </div><!-- end nav collapse-->
-     
+
         </div>
       </div>
     </div>
@@ -138,80 +139,80 @@
 
   <%= yield %>
   <%controller.action_name%>
-    
-	
-<!-- Footer
-    ================================================== -->
-    <footer>  
-      <div id="footer-text" class="container">
-        <div class="row">
-          <div class="span4">
-            <h1>CourseSpree</h1>
-            <address>235 Harrison St<br>
-              Syracuse, NY 13202
-            </address>
-          </div>
 
-          <div class="span2">
-            <h4>Services</h4>
-              <ul>
-                <li><a class="nav" href="/tutors">Hire Tutors</a></li>
-                <li><a class="nav" href="/comingsoon">Homework Help</a></li>
-                <li><a class="nav" href="/comingsoon">Buy Notes</a></li>
-                <li><a class="nav" href="/comingsoon">Sell Notes</a></li>
-              </ul>
-          </div>
 
-          <div class="span2">
-            <h4>Help</h4>
-              <ul>
-                <li><a class="nav" href="/gettingstarted">Getting Started</a></li>
-                <li><a class="nav" href="/howtouse">How To Use The Site</a></li>
-                <li><a class="nav" href="/faq">Frequently Asked Questions</a></li>
-                <li><a class="nav" href="/contact">Submit A Dispute</a></li>
-              </ul>
-          </div>
+  <!-- Footer
+      ================================================== -->
+  <footer>
+    <div id="footer-text" class="container">
+      <div class="row">
+        <div class="span4">
+          <h1>CourseSpree</h1>
+          <address>235 Harrison St<br>
+            Syracuse, NY 13202
+          </address>
+        </div>
 
-          <div class="span2">
-            <h4>About Us</h4>
-              <ul>
-                <li><a class="nav" href="/pricing">Pricing</a></li>
-                <li><a class="nav" href="/team">Meet The Team</a></li>
-                <li><a class="nav" href="/press">Press</a></li>
-                <li><a class="nav" href="/contact">Contact Us</a></li>
-              </ul>
-          </div>
+        <div class="span2">
+          <h4>Services</h4>
+          <ul>
+            <li><a class="nav" href="/tutors">Hire Tutors</a></li>
+            <li><a class="nav" href="/comingsoon">Homework Help</a></li>
+            <li><a class="nav" href="/comingsoon">Buy Notes</a></li>
+            <li><a class="nav" href="/comingsoon">Sell Notes</a></li>
+          </ul>
+        </div>
 
-          <div class="span2">
+        <div class="span2">
+          <h4>Help</h4>
+          <ul>
+            <li><a class="nav" href="/gettingstarted">Getting Started</a></li>
+            <li><a class="nav" href="/howtouse">How To Use The Site</a></li>
+            <li><a class="nav" href="/faq">Frequently Asked Questions</a></li>
+            <li><a class="nav" href="/contact">Submit A Dispute</a></li>
+          </ul>
+        </div>
 
-          </div>
+        <div class="span2">
+          <h4>About Us</h4>
+          <ul>
+            <li><a class="nav" href="/pricing">Pricing</a></li>
+            <li><a class="nav" href="/team">Meet The Team</a></li>
+            <li><a class="nav" href="/press">Press</a></li>
+            <li><a class="nav" href="/contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="span2">
+
         </div>
       </div>
-    </footer>
+    </div>
+  </footer>
 
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+  <!-- Le javascript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
 
-	
-	
-<%= javascript_include_tag "application" %>
-<script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-33838513-1']);
-  _gaq.push(['_setDomainName', 'etutor.herokuapp.com']);
-  _gaq.push(['_trackPageview']);
 
-  (function() {
+  <%= javascript_include_tag "application" %>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33838513-1']);
+    _gaq.push(['_setDomainName', 'etutor.herokuapp.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+    })();
 
-</script>  	
-	
-	
+  </script>
+
+
 </body>
 </html>

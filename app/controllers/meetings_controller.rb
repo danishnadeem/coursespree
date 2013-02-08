@@ -22,6 +22,8 @@ class MeetingsController < ApplicationController
       @meetings = Meeting.find(:all, :conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3])
     elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
       @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+    elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
+      @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false])
     else
       @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
     end
@@ -179,9 +181,10 @@ class MeetingsController < ApplicationController
       end# end if meeting info is valid
       meeting = Meeting.find(params[:mid])
       receiver1 = "seller_1343182998_biz@gmail.com"
-      receiver2 = meeting.tutor.user.paypalEmail
+      receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
    
-        
+      p "aaaaaaaaaaaaaaaaaaaaa", receiver2
+      dddd
       meeting_price =meeting.tutor.rate*meeting.tutor_availability.length
       site_commission = meeting_price*0.2 # not used
       price =  "%.2f" % meeting_price
