@@ -183,8 +183,6 @@ class MeetingsController < ApplicationController
       receiver1 = "seller_1343182998_biz@gmail.com"
       receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
    
-      p "aaaaaaaaaaaaaaaaaaaaa", receiver2
-      dddd
       meeting_price =meeting.tutor.rate*meeting.tutor_availability.length
       site_commission = meeting_price*0.2 # not used
       price =  "%.2f" % meeting_price
