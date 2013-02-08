@@ -22,4 +22,4 @@ production:
   signature: "An5ns1Kso7MWUdW4ErQKJJJ4qi4-AiYZWY7TMIPUhi.ALaYcQFv4Xpff"
   application_id: "APP-80W284485P519543T"
   paypal_endpoint: "https://svcs.sandbox.paypal.com/AdaptivePayments/"
-  ssl_cert_file:
+#  ssl_cert_file:
