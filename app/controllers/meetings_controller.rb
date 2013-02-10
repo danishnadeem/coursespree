@@ -195,7 +195,7 @@ class MeetingsController < ApplicationController
         "returnUrl" => serverbase + "meetings/" + params[:mid].to_s,
         "requestEnvelope" => {"errorLanguage" => "en_US"},
         "currencyCode"=>"USD",
-        "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>price},{"email"=>receiver2, "amount"=> site_commission}]},
+        "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>site_commission},{"email"=>receiver2, "amount"=> price}]},
         "cancelUrl"=> serverbase + "meetings/" + params[:mid].to_s,
         "actionType"=>"PAY",
         "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
