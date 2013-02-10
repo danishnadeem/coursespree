@@ -180,7 +180,7 @@ class MeetingsController < ApplicationController
         return
       end# end if meeting info is valid
       meeting = Meeting.find(params[:mid])
-      receiver1 = "seller_1343182998_biz@gmail.com"
+      receiver1 = "admin_1360378287_biz@gmail.com"
       receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
    
       meeting_price =meeting.tutor.rate*meeting.tutor_availability.length
