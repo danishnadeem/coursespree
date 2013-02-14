@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_one :tutor
   has_one :superadmin
   belongs_to :university
+  belongs_to :department
+
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
                     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
                     :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension",

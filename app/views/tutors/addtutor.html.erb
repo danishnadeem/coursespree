@@ -1,7 +1,117 @@
 <h2>Add New Tutor</h2>
 <%=form_tag do %>
-How many new tutor are you trying to add
-<%=number_field_tag "username", 0, :size=>5 %>
-<%=submit_tag 'Add'%>
-
+  How many new tutor are you trying to add
+  <%=number_field_tag "username", 0, :size=>5 %>
+  <%=submit_tag 'Add'%>
 <%end%>
+
+<%if @from_add_user_as_tutor.blank?%>
+  <%users = User.all%>
+  <%users.each do |usr|%>
+    <%if usr.tutor.blank?%>
+      <br/>
+      Add user '<%= usr.username %>' as Tutor:
+      <%= form_for(@tutor) do |f| %>
+        <% if @tutor.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@tutor.errors.count, "error") %> prohibited this tutor from being saved:</h2>
+
+            <ul>
+              <% @tutor.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="field">
+          <%= f.hidden_field :user_id, :value => usr.id %>
+          <%if controller.action_name == "new"%>
+            <%= f.hidden_field :approved, :value => 0 %>
+          <%elsif current_user.usertype == "superadmin"%>
+            <div class="field">
+              <%= f.label :approved %><br />
+              <%= f.text_field :approved %>
+            </div>
+          <%end%>
+        </div>
+        <div class="field">
+          <%= f.label :transcript %><br />
+          <%= f.file_field :transcript %>
+        </div>
+        <div class="field">
+          <%= f.label :resume %><br />
+          <%= f.file_field :resume %>
+        </div>
+        <div class="field">
+          <%= f.label :rate %><br />
+          <%= f.text_field :rate %>
+        </div>
+        <%if false%>
+          <div class="field">
+            <%= f.label :university %><br />
+            <%= f.text_field :university %>
+          </div>
+          <div class="field">
+            <%= f.label :univ_identifier %><br />
+            <%= f.text_field :univ_identifier %>
+          </div>
+        <%end%>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      <% end %>
+    <%end%>
+  <%end%>
+<%else%>
+  <%= form_for(@tutor) do |f| %>
+    <% if @tutor.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@tutor.errors.count, "error") %> prohibited this tutor from being saved:</h2>
+
+        <ul>
+          <% @tutor.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.hidden_field :user_id, :value => @user_id %>
+      <%if controller.action_name == "new"%>
+        <%= f.hidden_field :approved, :value => 0 %>
+      <%elsif current_user.usertype == "superadmin"%>
+        <div class="field">
+          <%= f.label :approved %><br />
+          <%= f.text_field :approved %>
+        </div>
+      <%end%>
+    </div>
+    <div class="field">
+      <%= f.label :transcript %><br />
+      <%= f.file_field :transcript %>
+    </div>
+    <div class="field">
+      <%= f.label :resume %><br />
+      <%= f.file_field :resume %>
+    </div>
+    <div class="field">
+      <%= f.label :rate %><br />
+      <%= f.text_field :rate %>
+    </div>
+    <%if false%>
+      <div class="field">
+        <%= f.label :university %><br />
+        <%= f.text_field :university %>
+      </div>
+      <div class="field">
+        <%= f.label :univ_identifier %><br />
+        <%= f.text_field :univ_identifier %>
+      </div>
+    <%end%>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+<% end %>

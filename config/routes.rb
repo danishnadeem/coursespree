@@ -1,9 +1,12 @@
 Findtutor::Application.routes.draw do
   
+  resources :departments
+
   match "auth/:provider/callback" => "admin#oauth"
   
   resources :tutor_locations
   resources :universities
+
   get 'meetings/joinmeeting'
   get 'meetings/createmeeting'
   post 'meetings/ipn_notification'
@@ -12,7 +15,7 @@ Findtutor::Application.routes.draw do
   get 'meetings/completed_payment_request'
   post 'meetings/payment'
   get 'meetings/payment_made'
-  post  'tutors/addtutor'
+  post 'tutors/addtutor'
   get 'tutors/addtutor'
   get 'tutors/mgmt'
   get 'tutors/approve'
@@ -30,13 +33,30 @@ Findtutor::Application.routes.draw do
   get "admin/logout"
   
   match 'register' => 'users#register'
+  match 'payment_transaction' => 'admin#show_payments_transactions'
+
   
   resources :tutors
   
   resources :users
 
-  resources :meetings
+  resources :meetings do
+    collection do
+      get 'new_meeting'
+      post 'create_meeting'
+    end
+  end
 
+    resources :journals do
+    collection do
+      get 'add_video_to'
+    end
+  end
+
+
+  #match 'users/:id/register' => 'users#register'
+  #
+  #
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

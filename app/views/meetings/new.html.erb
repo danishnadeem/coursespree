@@ -1,19 +1,18 @@
-<h1>Request meeting with tutor</h1>
+<h1>Request for meeting</h1>
+
 <div id="schedulecontainer">
   <div id="meetinginfo">
     <h3>Meeting Info:</h3>
-    <div><div class="inlinetitle">Meeting Type: </div><div class="inlineitem"><%= meetinginfo.timetype == 0 ? "virtual":"face2face"%></div></div>
-    <div><div class="inlinetitle">Tutor:</div><div class="inlineitem"> <%= meetinginfo.tutor.user.fullname %></div></div>
-    <div><div class="inlinetitle">Date:</div> <div class="inlineitem"><%= meetinginfo.start_time.strftime('%D') %></div></div>
-    <div><div class="inlinetitle">Time: </div><div class="inlineitem"><%= meetinginfo.start_time.strftime('%H:%M')%></div></div>
-    <div><div class="inlinetitle">Duration:</div> <div class="inlineitem"><%= pluralize(meetinginfo.length, 'hour')%></div></div>
-    <div><div class="inlinetitle">Tutor Rate:</div> <div class="inlineitem">$<%= meetinginfo.tutor.rate%></div></div>
-    <div><div class="inlinetitle">Price for this meeting: </div><div class="inlineitem">$<%= meetinginfo.tutor.rate * meetinginfo.length %></div></div>
-    
+    Tutor: <%= meetinginfo.tutor.user.fullname %><br />
+    Date: <%= meetinginfo.start_time.strftime('%D') %><br />
+    Time: <%= meetinginfo.start_time.strftime('%H:%M')%><br />
+    Duration: <%= pluralize(meetinginfo.length, 'hour')%><br />
+    Tutor Rate: $<%= meetinginfo.tutor.rate%><br />
+    Price for this meeting: $<%= meetinginfo.tutor.rate * meetinginfo.length %>
   </div>
   <div id="meetingform">
     <%= render 'form' %>
   </div>
 <div class="fix"></div>
 </div>
-<%= link_to 'Back', :back %>
+<%= link_to 'Back', meetings_path %>

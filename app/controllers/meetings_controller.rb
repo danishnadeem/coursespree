@@ -98,6 +98,13 @@ class MeetingsController < ApplicationController
   # GET /meetings/new.json
   def new
     @meeting = Meeting.new
+    @students=[]
+    @usr = User.all
+    @usr.each do |usr|
+      if usr.usertype == "student"
+        @students << usr
+      end
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -105,25 +112,25 @@ class MeetingsController < ApplicationController
     end
   end
 
-  # GET /meetings/1/edit
-  def edit
-    @meeting = Meeting.find(params[:id])
-  end
-
-  # POST /meetings
-  # POST /meetings.json
   def create
     code = FreeCode.find_by_code(params[:code])
 
     @meeting = Meeting.new(params[:meeting])
     @meeting.attendeePW = rand(36**20).to_s(36)
     @meeting.moderatorPW = rand(36**20).to_s(36)
-    @meeting.user_id = session[:user_id]
+    
+    if current_user.username == "admin"
+      @meeting.user_id = params[:user_id]
+      @meeting.accept = 1.to_i
+    else
+      @meeting.user_id = session[:user_id]
+    end
     unless code.blank?
       @meeting.has_code = true
     end
     #puts session[:user_id].inspect
     @meeting.name = Subject.find(@meeting.subject_id).title + Time.now.strftime('_%y%m%d%h%m')
+
     if @meeting.tutor.rate == 0
       @meeting.paid = true
     end
@@ -142,11 +149,114 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def create_1
+    someerrorsthere
+    code = FreeCode.find_by_code(params[:code])
+
+    @meeting = Meeting.new(params[:meeting])
+    @meeting.attendeePW = rand(36**20).to_s(36)
+    @meeting.moderatorPW = rand(36**20).to_s(36)
+    @meeting.user_id = session[:user_id]
+    unless code.blank?
+      @meeting.has_code = true
+    end
+    #puts session[:user_id].inspect
+    @meeting.name = Subject.find_by_id(params[:subject])
+    if @meeting.tutor && @meeting.tutor.rate == 0
+      @meeting.paid = true
+    end
+    @meeting.status = 0
+    respond_to do |format|
+      if @meeting.save
+        ta = TutorAvailability.find(@meeting.tutor_availability_id)
+        ta.taken = 1
+        ta.save
+        format.html { render action: "new", notice: 'Meeting was successfully created.' }
+        format.json { render json: @meeting, status: :created, location: @meeting }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @meeting.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  #
+  #  def new_meeting
+  #    @meeting = Meeting.new
+  #    @students = []
+  #    @usr = User.all
+  #    @usr.each do |usr|
+  #      if usr.usertype == "student"
+  #        @students << usr
+  #      end
+  #    end
+  #
+  #    respond_to do |format|
+  #      format.html # new.html.erb
+  #      format.json { render json: @meeting }
+  #    end
+  #  end
+  #
+  #  def create_meeting
+  #    code = FreeCode.find_by_code(params[:code])
+  #
+  #    @meeting = Meeting.new(params[:meeting])
+  #    @meeting.attendeePW = rand(36**20).to_s(36)
+  #    @meeting.moderatorPW = rand(36**20).to_s(36)
+  #    @meeting.user_id = params[:user_id]
+  #
+  #    puts "gggggggggggggggggggggggggggggggggg",@meeting.tutor_id
+  #
+  #
+  #    @tutor_avlb = TutorAvailability.where(:tutor_id => @meeting.tutor_id)
+  #
+  #   @tutor_avlb = TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND taken = ? AND timetype = ? AND start_time >= ?", @meeting.tutor_id, 0, 0 ,Time.now], :limit => 5, :order => "start_time")
+  #   TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND taken = ? AND timetype = ? AND start_time >= ?", id, 0, 1 ,Time.now], :limit => 5, :order => "start_time")
+  #
+  #
+  #    #    @tutor_avlb_id = @tutor_avlb.id
+  ##@tutor_avlb = TutorAvailability.all
+  #    puts "gggggggggggggggggggggggggggggggggg",@tutor_avlb.inspect
+  #ccccc
+  #
+  #    @meeting.tutor_availability_id = @tutor_avlb_id
+  #    unless code.blank?
+  #      @meeting.has_code = true
+  #    end
+  #    #puts session[:user_id].inspect
+  #    @meeting.name = Subject.find(@meeting.subject_id).title + Time.now.strftime('_%y%m%d%h%m')
+  #
+  #    if @meeting.tutor.rate == 0
+  #      @meeting.paid = true
+  #    end
+  #    @meeting.status = 0
+  #    respond_to do |format|
+  #      if @meeting.save
+  #        ta = TutorAvailability.find_by_tutor_id(params[:tutor_id]) unless params[:tutor_id].blank?
+  #        ta.taken = 1
+  #        ta.save
+  #        format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
+  #        format.json { render json: @meeting, status: :created, location: @meeting }
+  #      else
+  #        format.html { render action: "new" }
+  #        format.json { render json: @meeting.errors, status: :unprocessable_entity }
+  #      end
+  #    end
+  #  end
+
+
+  # GET /meetings/1/edit
+  def edit
+    @meeting = Meeting.find(params[:id])
+  end
+
+  # POST /meetings
+  # POST /meetings.json
+
   # PUT /meetings/1
   # PUT /meetings/1.json
   def update
     @meeting = Meeting.find(params[:id])
-
     
     respond_to do |format|
       if @meeting.update_attributes(params[:meeting])
@@ -187,10 +297,12 @@ class MeetingsController < ApplicationController
       site_commission = meeting_price*0.2 # not used
       price =  "%.2f" % meeting_price
       ##commission = "%.2f" % site_commission #not used
+
+
       pay_request = PaypalAdaptive::Request.new
       #      serverbase = "http://198.101.226.133/"
       serverbase = "http://hidden-reef-7837.herokuapp.com/"
-        
+
       data = {
         "returnUrl" => serverbase + "meetings/" + params[:mid].to_s,
         "requestEnvelope" => {"errorLanguage" => "en_US"},
@@ -200,21 +312,23 @@ class MeetingsController < ApplicationController
         "actionType"=>"PAY",
         "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
       }
-        
+
       pay_response = pay_request.pay(data)
-        
+
       if pay_response.success?
-        
+
         redirect_to pay_response.approve_paypal_payment_url
+
         #puts (pay_response['payKey'] + "test").inspect
         meeting.paykey = pay_response['payKey']
-        meeting.paid =true
+        meeting.paid = true
+        @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => price, :meeting_id => meeting.id, :pay_key => pay_response['payKey'])
         #store paykey into the meeting data base
         meeting.save
       else
-         
+
         flash[:notice] = pay_response.errors.first['message']
-        
+
         redirect_to serverbase + "meetings/" + params[:mid].to_s
       end #end if pay response success
       return

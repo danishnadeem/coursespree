@@ -65,8 +65,16 @@
   </div>
   <div class="field">
     <%= f.label :department_id %><br />
-    <%= f.text_field :department_id %>
+    <%= f.select :department_id, depts_and_ids, :prompt=> "select a department or add new.."%>
+    Add new<%=check_box_tag "addDept", :checked => true %>
+    <%=text_field_tag "newdept" %>
   </div>
+
+  <%#*<div class="field">%>
+    <%#= f.label :department_id %><br />
+    <%#= f.text_field :department_id %>
+  <%#*</div>%>
+    
   <div class="field">
     <%= f.label :major_id %><br />
     <%= f.text_field :major_id %>

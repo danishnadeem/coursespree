@@ -26,6 +26,10 @@ class AdminController < ApplicationController
     redirect_to(:action => "login")
   end
 
+  def show_payments_transactions
+    @transaction = Transaction.all
+  end
+
   def oauth
     #raise request.env["omniauth.auth"].to_yaml
     user = User.from_omniauth(env["omniauth.auth"])

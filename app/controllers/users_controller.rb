@@ -17,11 +17,11 @@ class UsersController < ApplicationController
     else
       @users = User.first(5)
     end
-      begin
-        @univ = University.find(params[:uid]).name
-      rescue ActiveRecord::RecordNotFound
-        @univ = "no university selected"
-      end    
+    begin
+      @univ = University.find(params[:uid]).name
+    rescue ActiveRecord::RecordNotFound
+      @univ = "no university selected"
+    end
 
     
     respond_to do |format|
@@ -55,6 +55,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def new
+    @user = User.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @user }
+    end
+  end
+
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
@@ -68,21 +77,26 @@ class UsersController < ApplicationController
     params[:user].delete :tutor
     
     @user = User.new(params[:user])
-    
-	#if params["addUniv"]["checked"] && params["newuniv"].length > 0
-    #  newU = University.find_or_create_by_name(params["newuniv"])
-    #  newU.save!
-    #   @user.university_id = newU.id
-    #end
-    
-	
+
+    unless params["addUniv"].blank? && params["newuniv"].blank?
+      if params["addUniv"]["checked"] && params["newuniv"].length > 0
+        newU = University.find_or_create_by_name(params["newuniv"])
+        newU.save!
+        @user.university_id = newU.id
+      end
+      if params["addDept"]["checked"] && params["newdept"].length > 0
+        newD = Department.find_or_create_by_name(params["newdept"])
+        newD.save!
+        @user.department_id = newD.id
+      end
+    end
     respond_to do |format|
       # if apply to be tutor on registration redirect to tutor application page after registration succeed
       if @user.save && !tu.nil? && tu == "1"
         session[:user_id] = @user.id
         format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
         format.json { render json: @user, status: :created, location: @user }
-      elsif @user.save 
+      elsif @user.save
         session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
         format.json { render json: @user, status: :created, location: @user }

@@ -21,7 +21,6 @@ class Tutor < ActiveRecord::Base
   def open_faced_slots
     TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND taken = ? AND timetype = ? AND start_time >= ?", id, 0, 1 ,Time.now], :limit => 5, :order => "start_time")
   end
-    
   
   def open_durations
   end
@@ -36,6 +35,5 @@ class Tutor < ActiveRecord::Base
   
   def available_subjects
     Subject.all - subjects
-  end
-  
+  end  
 end

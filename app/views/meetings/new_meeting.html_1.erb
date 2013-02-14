@@ -1,0 +1,98 @@
+<h1>Request meeting with tutor</h1>
+<div id="schedulecontainer">
+<%#*<div id="meetinginfo">%>
+<%#*<h3>Meeting Info:</h3>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Meeting Type: </div>%>
+<%#*<div class="inlineitem">%>
+<%#= meetinginfo.timetype == 0 ? "virtual":"face2face"%>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Tutor:</div>%>
+<%#*<div class="inlineitem">%>
+<%#= meetinginfo.tutor.user.fullname %>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Date:</div>%>
+<%#*<div class="inlineitem">%>
+<%#= meetinginfo.start_time.strftime('%D') %>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Time: </div>%>
+<%#*<div class="inlineitem">%>
+<%#= meetinginfo.start_time.strftime('%H:%M')%>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Duration:</div>%>
+<%#*<div class="inlineitem">%>
+<%#= pluralize(meetinginfo.length, 'hour')%>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Tutor Rate:</div>%>
+<%#*<div class="inlineitem">%>
+<%#*$%>
+<%#= meetinginfo.tutor.rate%>
+<%#*</div>%>
+<%#*</div>%>
+<%#*<div>%>
+<%#*<div class="inlinetitle">Price for this meeting: </div>%>
+<%#*<div class="inlineitem">%>
+<%#*$%>
+<%#= meetinginfo.tutor.rate * meetinginfo.length %>
+<%#*</div>%>
+<%#*</div>%>
+
+<%#*</div>%>
+  <div id="meetingform">
+    <%= form_for(@meeting) do |f| %>
+      <% if @meeting.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@meeting.errors.count, "error") %> prohibited this meeting from being saved:</h2>
+          <ul>
+            <% @meeting.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= f.label :tutor %><br />
+        <%= select_tag 'tutor_id', options_from_collection_for_select(Tutor.all, 'id' , "id")%>
+  <%#= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
+      </div>
+      <div class="field">
+        <%= f.label :student %><br />
+        <%= select_tag 'student_id', options_from_collection_for_select(@students, 'id' , "username")%>
+      </div>
+
+    <div class="field">
+        <%= f.label :subject %><br />
+  <%#= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
+        <%= select_tag 'subject', options_from_collection_for_select(Subject.all, 'id', 'title')%>
+      </div>
+      <div class="field">
+        <%= f.label :location %><br />
+  <%#= f.select :location_id, meetinginfo.tutor.user.locations_and_ids %>
+        <%= select_tag 'location', options_from_collection_for_select(TutorLocation.all, 'id', 'name')%>
+      </div>
+      <div class="field">
+        <%= f.label 'message to the tutor:' %><br />
+        <%= f.text_area :message, :size => "50x8" %>
+      </div>
+      <div class="field">
+        <%= label_tag 'Enter code for free Meeting:' %><br />
+        <%= text_field_tag "code", "",:placeholder => "Code" %>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <%end%>
+  </div>
+  <div class="fix"></div>
+</div>
+<%= link_to 'Back', meetings_path %>

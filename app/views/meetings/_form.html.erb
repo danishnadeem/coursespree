@@ -14,7 +14,11 @@
   <%if params[:action] == 'new'%>
     <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
     <%= f.hidden_field :tutor_availability_id, :value => meetinginfo.id %>
-    <%btntext = "Request Apointment"%>
+    <%if current_user.username == "admin"%>
+      <%btntext = "Create Meeting"%>
+    <%else%>
+      <%btntext = "Request Apointment"%>
+    <%end%>
   <%elsif params[:action] == 'edit'%>
     <%btntext = "Update Meeting"%>
     <div class="field">
@@ -31,6 +35,14 @@
     <%= f.label :subject %><br />
     <%= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
   </div>
+
+  <%if current_user.username == "admin"%>
+    <div class="field">
+      <%= f.label :student %><br />
+      <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username")%>
+    </div>
+  <%end%>
+
   <%if meetinginfo.timetype == 1  %><!--face2face meeting-->
     <div class="field">
       <%= f.label :location %><br />

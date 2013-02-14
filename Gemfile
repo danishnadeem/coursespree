@@ -13,7 +13,9 @@ gem 'omniauth-facebook'
 gem 'rb-readline'
 gem 'activerecord-postgresql-adapter'
 gem 'date_validator'
-
+gem 'execjs'
+gem 'therubyracer'
+gem 'mysql2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 group :development do 

@@ -2,15 +2,14 @@
 <%=@tutor.approved%>
 <p>
   <b>User:</b>
-  <%= @tutor.user.username%><br />
-  <b>Full Name:</b>
-  <%= @tutor.user.fName + " " + @tutor.user.lName%>
+  <%unless @tutor.user.blank?%>
+    <%= @tutor.user.username%><br />
+    <b>Full Name:</b>
+    <%= @tutor.user.fName + " " + @tutor.user.lName%>
+  <%end%>
 </p>
 <div><%= link_to 'see resume', @tutor.resume.url %></div>
 <div><%= link_to 'see transcript', @tutor.transcript.url %></div>
-
-
-
 
 <%= link_to 'Edit', edit_tutor_path(@tutor) %> |
 <%= link_to 'Back', tutors_path %>
