@@ -7,7 +7,8 @@ class Meeting < ActiveRecord::Base
   belongs_to :tutor_availability
   belongs_to :subject
   belongs_to :tutor_location
-  
+  belongs_to :transaction
+
   #callback method to release tutor's schedule when cancel the meeting while the meeting didn't happen
   before_destroy do |meeting|
     ta = meeting.tutor_availability

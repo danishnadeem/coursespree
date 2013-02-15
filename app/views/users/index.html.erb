@@ -15,14 +15,16 @@
 
 <% @users.each do |user| %>
   <div class="useritem">
-    <div class="avatarimg">
-      <%= link_to image_tag(user.avatar.url(:thumb)), user %>
-    </div>
-    <div class="usersname">
-      <%=link_to user.username, user%><br />
-      <%= link_to user.fullname, user%>
+    <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin") || (current_user.usertype == "subadmin" && user.usertype!="subadmin" && current_user.university.id == user.university.id)%>
+      <div class="avatarimg">
+        <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+      </div>
 
-      <%if current_user.usertype == "superadmin"%>
+      <div class="usersname">
+
+        <%=link_to user.username, user%><br />
+        <%= link_to user.fullname, user%>
+
         <br/>
     <%#*<a href="/users/%>
     <%#= user.id %>
@@ -33,8 +35,8 @@
         <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
         <% @user_id=user.id%>
         <%= add_user_as_tutor(@user_id)%>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 <% end %>
 

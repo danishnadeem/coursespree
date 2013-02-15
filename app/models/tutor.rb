@@ -1,13 +1,14 @@
 class Tutor < ActiveRecord::Base
   attr_accessible :rate, :resume, :transcript, :univ_identifier, :university, :user_id, :approved
   has_attached_file :resume,
-                    :url  => "/assets/resume/:id/:basename.:extension",
-                    :path => ":rails_root/public/assets/resume/:id/:basename.:extension",
-                    :default_url => "missing.png"
+    :url  => "/assets/resume/:id/:basename.:extension",
+    :path => ":rails_root/public/assets/resume/:id/:basename.:extension",
+    :default_url => "missing.png"
   has_attached_file :transcript,
-                    :url  => "/assets/resume/:id/:basename.:extension",
-                    :path => ":rails_root/public/assets/resume/:id/:basename.:extension",
-                    :default_url => "missing.png"
+    :url  => "/assets/resume/:id/:basename.:extension",
+    :path => ":rails_root/public/assets/resume/:id/:basename.:extension",
+    :default_url => "missing.png"
+  has_many :transaction
   belongs_to :user
   has_many :meetings
   has_many :subjects_tutors

@@ -14,7 +14,7 @@
   <%if params[:action] == 'new'%>
     <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
     <%= f.hidden_field :tutor_availability_id, :value => meetinginfo.id %>
-    <%if current_user.username == "admin"%>
+    <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
       <%btntext = "Create Meeting"%>
     <%else%>
       <%btntext = "Request Apointment"%>
@@ -36,10 +36,15 @@
     <%= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
   </div>
 
-  <%if current_user.username == "admin"%>
+  <%if current_user.usertype == "superadmin" %>
     <div class="field">
       <%= f.label :student %><br />
       <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username")%>
+    </div>
+  <%elsif current_user.usertype == "subadmin"%>
+    <div class="field">
+      <%= f.label :student %><br />
+      <%= select_tag 'user_id', options_from_collection_for_select(@students_subadmin, 'id' , "username")%>
     </div>
   <%end%>
 
@@ -49,14 +54,17 @@
       <%= f.select :location_id, meetinginfo.tutor.user.locations_and_ids %>
     </div>
   <%end%>
+
   <div class="field">
     <%= f.label 'message to the tutor:' %><br />
     <%= f.text_area :message, :size => "50x8" %>
   </div>
+
   <div class="field">
     <%= label_tag 'Enter code for free Meeting:' %><br />
     <%= text_field_tag "code", "",:placeholder => "Code" %>
   </div>
+
   <div class="actions">
     <%= f.submit btntext %>
   </div>

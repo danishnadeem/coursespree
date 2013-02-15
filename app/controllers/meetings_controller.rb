@@ -11,7 +11,7 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
-    if current_user.usertype == "superadmin"
+    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       @meetings = Meeting.all
 	  
     elsif params[:type] == nil
@@ -98,10 +98,15 @@ class MeetingsController < ApplicationController
   # GET /meetings/new.json
   def new
     @meeting = Meeting.new
+    @students_subadmin=[]
     @students=[]
     @usr = User.all
     @usr.each do |usr|
-      if usr.usertype == "student"
+      if current_user.usertype=="subadmin"
+        if usr.university==current_user.university && usr.usertype!="subadmin"
+          @students_subadmin << usr
+        end
+      elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin"
         @students << usr
       end
     end
@@ -119,13 +124,13 @@ class MeetingsController < ApplicationController
     @meeting.attendeePW = rand(36**20).to_s(36)
     @meeting.moderatorPW = rand(36**20).to_s(36)
     
-    if current_user.username == "admin"
+    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       @meeting.user_id = params[:user_id]
       @meeting.accept = 1.to_i
       @meeting.status = 1.to_i
-      
     else
       @meeting.user_id = session[:user_id]
+      @meeting.status = 0.to_i
     end
     unless code.blank?
       @meeting.has_code = true
@@ -136,7 +141,7 @@ class MeetingsController < ApplicationController
     if @meeting.tutor.rate == 0
       @meeting.paid = true
     end
-    @meeting.status = 0
+    
     respond_to do |format|
       if @meeting.save
         ta = TutorAvailability.find(@meeting.tutor_availability_id)

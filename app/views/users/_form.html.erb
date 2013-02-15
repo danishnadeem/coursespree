@@ -5,102 +5,107 @@
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
   <!--new user are active right after registration-->
   <%=f.hidden_field :active, :value => 1%>
-<div id="userbasic">
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :fName, "First Name" %><br />
-    <%= f.text_field :fName %>
-  </div>
-  <div class="field">
-    <%= f.label :lName, "Last Name" %><br />
-    <%= f.text_field :lName %>
-  </div>
-  <div class="field">
-    <%= f.label :gender %><br />
-    <%= f.select :gender, [["hidden",2],["male",1],["female",0]] %>
-  </div>
-  <div class="field">
-    <%= f.label :dob %><br />
-    <%= f.date_select :dob,:start_year => 1940,:end_year=>2005, :default=> {:day=>1, :month=>1, :year=>1980} %>
-  </div>
-</div><!--userbasic div end-->
+  <div id="userbasic">
+    <div class="field">
+      <%= f.label :username %><br />
+      <%= f.text_field :username %>
+    </div>
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :fName, "First Name" %><br />
+      <%= f.text_field :fName %>
+    </div>
+    <div class="field">
+      <%= f.label :lName, "Last Name" %><br />
+      <%= f.text_field :lName %>
+    </div>
+    <div class="field">
+      <%= f.label :gender %><br />
+      <%= f.select :gender, [["hidden",2],["male",1],["female",0]] %>
+    </div>
+    <div class="field">
+      <%= f.label :dob %><br />
+      <%= f.date_select :dob,:start_year => 1940,:end_year=>2005, :default=> {:day=>1, :month=>1, :year=>1980} %>
+    </div>
+  </div><!--userbasic div end-->
 
-<div id="useradv">
-  <div class="field">
-    <%= f.label :avatar %><br />
-    <%= f.file_field :avatar %>
-  </div>
-  <div class="field">
-    <%= f.label :paypalEmail, "Paypal Email" %><br />
-    <%= f.email_field :paypalEmail %>
-  </div>
-  <div class="field">
-    <%= f.label :university_id %><br />
-    <%= f.select :university_id, univs_and_ids, :prompt=> "select a university or add new.."%>
-    Add new<%=check_box_tag "addUniv", :checked => true %>
-    <%=text_field_tag "newuniv" %>    
-  </div>
-  <div class="field">
-    <%= f.label :department_id %><br />
-    <%= f.select :department_id, depts_and_ids, :prompt=> "select a department or add new.."%>
-    Add new<%=check_box_tag "addDept", :checked => true %>
-    <%=text_field_tag "newdept" %>
-  </div>
+  <div id="useradv">
+    <div class="field">
+      <%= f.label :avatar %><br />
+      <%= f.file_field :avatar %>
+    </div>
+    <div class="field">
+      <%= f.label :paypalEmail, "Paypal Email" %><br />
+      <%= f.email_field :paypalEmail %>
+    </div>
+    <%if current_user.usertype=="subadmin"%>
+      <div class="field">
+        <%= f.label :university_id %><br />
+        <%= f.select :university_id,  University.where(:id => current_user.university.id).map{|u| [u.name, u.id]} %>
+      </div>
+    <%else%>
+      <div class="field">
+        <%= f.label :university_id %><br />
+        <%= f.select :university_id, univs_and_ids, :prompt=> "select a university or add new.."%>
+        Add new<%=check_box_tag "addUniv", :checked => true %>
+        <%=text_field_tag "newuniv" %>
+      </div>
+    <%end%>
+    <%unless @user.usertype == "subadmin"%>
 
-  <%#*<div class="field">%>
-    <%#= f.label :department_id %><br />
-    <%#= f.text_field :department_id %>
-  <%#*</div>%>
-    
-  <div class="field">
-    <%= f.label :major_id %><br />
-    <%= f.text_field :major_id %>
-  </div>
-  <div class="field">
-    <%= f.label :year %><br />
-    <%= f.text_field :year %>
-  </div>
-  <div class="field">
-    <%= f.label :bio %><br />
-    <%= f.text_area :bio, :size => '50x8' %>
-  </div>
-<%if false%>
-  <div class="field">
-    <% f.label :active %><br />
-    <% f.number_field :active %>
-  </div>
-<%end%>
-<%if params[:action] == 'register' && false%>
-  <div class="field">
-    <%= f.label :tutor %><br />
-    <%= f.check_box :tutor %>
-  </div>
-<%end%>
-  <div class="actions">
-    <%= f.submit :value=> userbtn_text %><!--from user helper-->
-  </div>
-</div><!--useradv div end-->
+      <div class="field">
+        <%= f.label :department_id %><br />
+        <%= f.select :department_id, depts_and_ids, :prompt=> "select a department or add new.."%>
+        Add new<%=check_box_tag "addDept", :checked => true %>
+        <%=text_field_tag "newdept" %>
+      </div>
+      <div class="field">
+        <%= f.label :major_id %><br />
+        <%= f.text_field :major_id %>
+      </div>
+      <div class="field">
+        <%= f.label :year %><br />
+        <%= f.text_field :year %>
+      </div>
+      <div class="field">
+        <%= f.label :bio %><br />
+        <%= f.text_area :bio, :size => '50x8' %>
+      </div>
+      <%if false%>
+        <div class="field">
+          <% f.label :active %><br />
+          <% f.number_field :active %>
+        </div>
+      <%end%>
+      <%if params[:action] == 'register' && false%>
+        <div class="field">
+          <%= f.label :tutor %><br />
+          <%= f.check_box :tutor %>
+        </div>
+      <%end%>
+    <%end%>
+
+    <div class="actions">
+      <%= f.submit :value=> userbtn_text %><!--from user helper-->
+    </div>
+  </div><!--useradv div end-->
 <% end %>

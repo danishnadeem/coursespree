@@ -27,7 +27,18 @@ class AdminController < ApplicationController
   end
 
   def show_payments_transactions
+    @trans_subadmin=[]
+    @trans=[]
     @transaction = Transaction.all
+    @transaction.each do |trans|
+      if current_user.usertype=="subadmin"
+        if trans.user.university == current_user.university
+          @trans_subadmin << trans
+        end
+      else
+        @trans << trans
+      end
+    end
   end
 
   def oauth
@@ -42,7 +53,7 @@ class AdminController < ApplicationController
       redirect_to edit_user_url(user)
     else
       redirect_to user
-    end 
+    end
   end
   
 end
