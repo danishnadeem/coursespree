@@ -87,6 +87,7 @@
                     <li><%= link_to 'Logout', '/admin/logout' %></li>
 
                     <% if current_user.usertype == "superadmin" %>
+                      <li><a href="/subadmins">Manage SubAdmin</a></li>
                       <li><a href="/tutors/mgmt?type=pending">Tutors</a></li>
                       <li><a href="/users">Users</a></li>
                       <li><a href="/subjects">Subjects</a></li>

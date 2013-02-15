@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   def usertype
     tutor = Tutor.find_by_user_id(id)
     su = Superadmin.find_by_user_id(id)
+    sub = Subadmin.find_by_user_id(id)
     #univ_admin = UnivsityAdmin.find_by_user_id(id)
     if tutor && tutor.approved == 1
       'tutor'
@@ -65,6 +66,8 @@ class User < ActiveRecord::Base
       'tem_tutor'
     elsif su
       'superadmin'
+    elsif sub
+      'subadmin'
     else
       'student'
     end

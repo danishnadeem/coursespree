@@ -122,6 +122,7 @@ class MeetingsController < ApplicationController
     if current_user.username == "admin"
       @meeting.user_id = params[:user_id]
       @meeting.accept = 1.to_i
+      @meeting.status = 1.to_i
     else
       @meeting.user_id = session[:user_id]
     end

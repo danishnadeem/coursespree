@@ -1,5 +1,7 @@
 Findtutor::Application.routes.draw do
   
+  resources :subadmins
+
   resources :departments
 
   match "auth/:provider/callback" => "admin#oauth"

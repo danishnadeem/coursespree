@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>UserName:</b>
+  <%= @subadmin.user.username %>
+  <%= link_to "Details", user_path(@subadmin.user) %>
+</p>
+
+<%= link_to 'Edit', edit_subadmin_path(@subadmin) %> |
+<%= link_to 'Back', subadmins_path %>
