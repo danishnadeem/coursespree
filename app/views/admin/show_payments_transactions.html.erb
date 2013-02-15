@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th> Transaction Id</th>
+    <th> Transaction Key</th>
     <th> Tutor </th>
     <th> Student </th>
     <th> Meeting </th>
@@ -11,19 +11,44 @@
   </tr>
   <%@transaction.each do |trans|%>
     <tr>
-      <td><%= trans.id %></td>
-      <%@tutor = Tutor.find_by_id(trans.tutor_id)%>
-      <td><%= link_to @tutor.user.fName + " " + @tutor.user.lName , tutor_path(@tutor)%></td>
-      <%@student = User.find_by_id(trans.user_id)%>
-      <td><%= link_to @student.fName + " " + @student.lName, user_path(@student) %></td>
-      <%@meeting = Meeting.find_by_id(trans.meeting_id)%>
-      <td><%= link_to @meeting.name , meeting_path(@meeting) %></td>
+      <%unless trans.pay_key.blank? %>
+        <td><%= trans.pay_key %></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
+
+      <%unless trans.tutor_id.blank? %>
+        <%@tutor = Tutor.find_by_id(trans.tutor_id)%>
+        <td><%= link_to @tutor.user.fName + " " + @tutor.user.lName , tutor_path(@tutor)%></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
+
+      <%unless trans.user_id.blank? %>
+        <%@student = User.find_by_id(trans.user_id)%>
+        <td><%= link_to @student.fName + " " + @student.lName, user_path(@student) %></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
+
+      <%unless trans.meeting_id.blank? %>
+        <%@meeting = Meeting.find_by_id(trans.meeting_id)%>
+        <td><%= link_to @meeting.name , meeting_path(@meeting) %></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
+
       <%unless trans.amount.blank? %>
         <td>$<%= trans.amount %></td>
       <%else%>
         <td>NIL</td>
       <%end%>
+
+      <%unless trans.created_at.blank? %>
       <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
     </tr>
   <% end %>
 </table>
