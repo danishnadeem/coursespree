@@ -41,6 +41,31 @@ class AdminController < ApplicationController
     end
   end
 
+  def search_payments_transactions
+    @free_code_user_university=[]
+    @free_code_user_university_user=[]
+    @trans_free_code=[]
+    @free_code = FreeCode.search(params[:search])
+    if params[:search].blank?
+      redirect_to '/payment_transaction'
+    else
+      unless @free_code.blank?
+      @free_code_user_university << @free_code.last.user.university
+      @free_code_user_university_user << @free_code_user_university.last.users
+      @free_code_user_university_user.each do |usr|
+        @trans_free_code << usr.last.transaction
+      end
+      @trans_free_code   =  @trans_free_code[0]
+      render :show_payments_transactions
+    else
+       render :show_payments_transactions
+    end
+    end
+    
+    
+  end
+
+
   def oauth
     #raise request.env["omniauth.auth"].to_yaml
     user = User.from_omniauth(env["omniauth.auth"])

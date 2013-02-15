@@ -8,6 +8,15 @@ Findtutor::Application.routes.draw do
 
   resources :departments
 
+#  resources :admin do
+#    member do
+#      get :search_payments_transactions
+#    end
+#  end
+
+  match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
+
+
   match "auth/:provider/callback" => "admin#oauth"
   
   resources :tutor_locations
@@ -39,7 +48,7 @@ Findtutor::Application.routes.draw do
   get "admin/logout"
   
   match 'register' => 'users#register'
-  match 'payment_transaction' => 'admin#show_payments_transactions'
+  match '/payment_transaction' => 'admin#show_payments_transactions'
 
   
   resources :tutors
