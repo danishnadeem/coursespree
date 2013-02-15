@@ -2,11 +2,12 @@
 
 <table>
   <tr>
-    <th>Transaction Id</th>
-    <th>Tutor </th>
-    <th>Student </th>
-    <th>Meeting </th>
-    <th>Paid amount at</th>
+    <th> Transaction Id</th>
+    <th> Tutor </th>
+    <th> Student </th>
+    <th> Meeting </th>
+    <th> Transaction Amount </th>
+    <th> Paid amount at</th>
   </tr>
   <%@transaction.each do |trans|%>
     <tr>
@@ -17,6 +18,11 @@
       <td><%= link_to @student.fName + " " + @student.lName, user_path(@student) %></td>
       <%@meeting = Meeting.find_by_id(trans.meeting_id)%>
       <td><%= link_to @meeting.name , meeting_path(@meeting) %></td>
+      <%unless trans.amount.blank? %>
+        <td>$<%= trans.amount %></td>
+      <%else%>
+        <td>NIL</td>
+      <%end%>
       <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
     </tr>
   <% end %>
