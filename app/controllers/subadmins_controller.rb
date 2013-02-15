@@ -3,13 +3,23 @@ class SubadminsController < ApplicationController
   # GET /subadmins.json
   def index
     @subadmins = Subadmin.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @subadmins }
     end
   end
-
+  
+  def generate_free_code
+    @user = User.find_by_id(params[:user_id])
+    @free_code = @user.free_codes
+    unless @free_code.blank?
+      @free_code = @free_code.last.update_attribute(:code , rand(36**10).to_s(36))
+      redirect_to subadmins_path
+    else
+      @free_code = FreeCode.create(:user_id => params[:user_id], :code => rand(36**10).to_s(36))
+      redirect_to subadmins_path
+    end
+  end
   # GET /subadmins/1
   # GET /subadmins/1.json
   def show

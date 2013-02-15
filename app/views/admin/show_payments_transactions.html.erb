@@ -51,6 +51,9 @@
       </tr>
     <%end%>
   <%else%>
+      <%if current_user.usertype=="admin"%>
+        
+      <%end%>
     <%@trans.each do |trans|%>
       <tr>
         <%unless trans.pay_key.blank? %>

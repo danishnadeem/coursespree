@@ -1,6 +1,10 @@
 Findtutor::Application.routes.draw do
   
-  resources :subadmins
+  resources :subadmins do
+    collection do
+      get "generate_free_code"
+    end
+  end
 
   resources :departments
 

@@ -11,6 +11,11 @@
   <% @subadmins.each do |subadmin| %>
     <tr>
       <td><%= subadmin.user.username %></td>
+      <%if subadmin.user.free_codes.blank?%>
+        <td><%= link_to 'Generate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
+      <%else%>
+        <td><%= link_to 'Regenerate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
+      <%end%>
       <td><%= link_to 'Show', subadmin %></td>
       <td><%= link_to 'Edit', edit_subadmin_path(subadmin) %></td>
       <td><%= link_to 'Edit Personal', edit_user_path(subadmin.user.id) %></td>
