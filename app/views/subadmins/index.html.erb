@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>UserName</th>
-    <th></th>
+    <th>Free Code</th>
     <th></th>
     <th></th>
   </tr>
@@ -14,6 +14,7 @@
       <%if subadmin.user.free_codes.blank?%>
         <td><%= link_to 'Generate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
       <%else%>
+        <td><%= subadmin.user.free_codes.map(&:code)%></td>
         <td><%= link_to 'Regenerate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
       <%end%>
       <td><%= link_to 'Show', subadmin %></td>
