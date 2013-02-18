@@ -17,42 +17,88 @@
     </tr>
 
     <% @meetings.each do |meeting| %>
-
-      <tr>
-        <td><%= link_to meeting.name, meeting %></td>
-        <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
-        <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
-        <td>
-    <%#= meeting.paid ? "paid":"waiting" %>
-          <%if meeting.paid%>
-            paid
+      <%if current_user.usertype!="subadmin"%>
+        <tr>
+          <td><%= link_to meeting.name, meeting %></td>
+          <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+          <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
+          <td>
+      <%#= meeting.paid ? "paid":"waiting" %>
+            <%if meeting.paid%>
+              paid
+            <%else%>
+              waiting
+            <%end%>
+          </td>
+          <% if  meeting.tutor %>
+            <td><%= Subject.find(meeting.subject).title %></td>
+            <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
+            <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+            <td><%= meeting_status(meeting.accept) %></td>
+            <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+              <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
+              <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
+            <%else%>
+              <td colspan="2"></td>
+            <%end%>
           <%else%>
-           waiting
+            <td colspan="6"></td>
           <%end%>
-        </td>
-        <% if  meeting.tutor %>
-          <td><%= Subject.find(meeting.subject).title %></td>
-          <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
-          <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
-          <td><%= meeting_status(meeting.accept) %></td>
-          <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
-            <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
-            <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
-          <%else%>
-            <td colspan="2"></td>
+
+          <%if current_admin? %>
+            <td><%= link_to 'Show', meeting %></td>
+            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+            <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <%end%>
-        <%else%>
-          <td colspan="6"></td>
-        <%end%>
+        </tr>
+      <%else%>
+        <% unless @subadmin_tutors.blank?%>
+          <% @subadmin_tutors.each do |subadmin_tutor|%>
+            <% if subadmin_tutor.user.meetings.present?%>
+              <%@subadmin_tutor_meetings = subadmin_tutor.user.meetings%>
+              <%unless @subadmin_tutor_meetings.blank?%>
+                <%@subadmin_tutor_meetings.each do |subadmin_tutor_meeting| %>
+                  <%if subadmin_tutor_meeting == meeting%>
+                    <tr>
+                      <td><%= link_to meeting.name, meeting %></td>
+                      <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+                      <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
+                      <td>
+                  <%#= meeting.paid ? "paid":"waiting" %>
+                        <%if meeting.paid%>
+                          paid
+                        <%else%>
+                          waiting
+                        <%end%>
+                      </td>
+                      <% if  meeting.tutor %>
+                        <td><%= Subject.find(meeting.subject).title %></td>
+                        <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
+                        <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+                        <td><%= meeting_status(meeting.accept) %></td>
+                        <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+                          <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
+                          <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
+                        <%else%>
+                          <td colspan="2"></td>
+                        <%end%>
+                      <%else%>
+                        <td colspan="6"></td>
+                      <%end%>
 
-        <%if current_admin? %>
-          <td><%= link_to 'Show', meeting %></td>
-          <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-          <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <%end%>
-      </tr>
-
-
+                      <%if current_admin? %>
+                        <td><%= link_to 'Show', meeting %></td>
+                        <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+                        <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                      <%end%>
+                    </tr>
+                  <%end%>
+                <%end%>
+              <%end%>
+            <%end%>
+          <% end%>
+        <% end%>
+      <%end%>
     <% end %>
   </table>
 

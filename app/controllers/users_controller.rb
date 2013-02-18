@@ -2,15 +2,22 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register, :index,:show]
-  
+  before_filter :authticate, :except => [:create, :register, :show]
+
   def authticate
     unless User.find_by_id(session[:user_id])
-      flash[:notice] = "Please log in."
-      redirect_to :controller => 'admin', :action => 'login'
-    end    
-  end  
-
+        flash[:notice] = "Please log in."
+        redirect_to :controller => 'admin', :action => 'login'
+    else
+      if current_user.usertype!="subadmin" || current_user.usertype!="superadmin"
+        flash[:notice] = "you have no access to see the User's Page"
+        redirect_to user_path(current_user)
+      else
+        flash[:notice] = "Please log in."
+        redirect_to :controller => 'admin', :action => 'login'
+      end
+    end
+  end
   def index
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
       @users = User.find_all_by_university_id(params[:uid])
@@ -19,7 +26,6 @@ class UsersController < ApplicationController
     end
 
     if current_user.usertype=="subadmin"
-      #      @subadmin_users = []
       University.all.each do |univ|
         if current_user.university.id == univ.id
           @subadmin_users = User.find_all_by_university_id(univ.id)

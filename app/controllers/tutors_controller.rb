@@ -142,6 +142,20 @@ class TutorsController < ApplicationController
     else
       @tutors = Tutor.all
     end
+
+    @subadmin_tutors = []
+    if current_user.usertype=="subadmin"
+      University.all.each do |univ|
+        if current_user.university.id == univ.id
+          @subadmin_users = User.find_all_by_university_id(univ.id)
+        end
+      end
+      @subadmin_users.each do |subadmin_usr|
+        if subadmin_usr.tutor
+          @subadmin_tutors << subadmin_usr.tutor
+        end
+      end
+    end
   end
   
   def approve
@@ -164,6 +178,13 @@ class TutorsController < ApplicationController
 
     unless params[:user_id].blank?
       @user_id = params[:user_id]
+    end
+    @users = []
+    all_users = User.all
+    all_users.each do |usr|
+      if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
+        @users << usr
+      end
     end
     
     @tutor = Tutor.new

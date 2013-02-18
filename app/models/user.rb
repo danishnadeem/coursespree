@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   belongs_to :university
   belongs_to :department
   has_many :transaction
+  has_one :subadmin
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
     :url  => "/assets/useravatar/:id/:style/:basename.:extension",

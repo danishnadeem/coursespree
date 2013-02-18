@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215064019) do
+ActiveRecord::Schema.define(:version => 20130218073059) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -36,18 +36,20 @@ ActiveRecord::Schema.define(:version => 20130215064019) do
     t.integer   "user_id"
     t.float     "price"
     t.integer   "rating"
-    t.integer   "accept",                :default => 0
-    t.timestamp "created_at",                               :null => false
-    t.timestamp "updated_at",                               :null => false
+    t.integer   "accept",                   :default => 0
+    t.timestamp "created_at",                                  :null => false
+    t.timestamp "updated_at",                                  :null => false
     t.integer   "status"
     t.text      "message"
-    t.boolean   "paid",                  :default => false
+    t.boolean   "paid",                     :default => false
     t.timestamp "trandate"
     t.integer   "tutor_availability_id"
     t.string    "paykey"
     t.integer   "location_id"
     t.integer   "subject_id"
-    t.boolean   "has_code",              :default => false
+    t.boolean   "has_code",                 :default => false
+    t.integer   "start_meeting_email_sent", :default => 0
+    t.integer   "end_meeting_email_sent",   :default => 0
   end
 
   create_table "subadmins", :force => true do |t|

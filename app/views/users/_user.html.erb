@@ -1,13 +1,16 @@
 <%=link_to image_tag(user.avatar.url(:thumb)), user %>
 <h4><%=@user.fullname%></h4>
 <% if user.university %>
-<h6><%=@user.university.name%></h6>
+  <h6><%=@user.university.name%></h6>
 <% end %>
 <p>
-<% if user.major_id != 0 %>
-	<% if defined? user.major %>
-		<br/>Degree: <%= user.major.name %>
-	<% end %>
-<% end %>
-<% if user.year %><br/>Year: <%= user.year %><% end %>
+  <% if user.major_id != 0 %>
+    <% if defined? user.major %>
+      <br/>Degree: <%= user.major.name %>
+    <% end %>
+  <% end %>
+  <% if user.year %><br/>Year: <%= user.year %><% end %>
+  <%if current_user.usertype=="subadmin"%>
+    <% if user.free_codes %><br/>Free Code: <%= user.free_codes.map(&:code).to_sentence %><% end %>
+  <%end%>
 </p>

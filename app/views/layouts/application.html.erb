@@ -83,17 +83,13 @@
                     <% if current_user.usertype == "tutor" %>
                       <li><%= schedule_mgmt_link%></li>
                     <% else %>
-                      <li>
-    <%#*<a href="http://coursespree.info/tutors/new?uid=%>
-    <%#= current_user.id %>
-    <%#*"%>
-    <%#*>%>
-    <%#*</a>%>
-                        <a href="#"
-                           >
-                          Apply To Be A Tutor
-                        </a>
-                      </li>
+                      <%if current_user.usertype!="subadmin" && current_user.usertype!="superadmin"%>
+                        <li>
+                          <a href="http://coursespree.info/tutors/new?uid=<%= current_user.id %>">
+                            Apply To Be A Tutor
+                          </a>
+                        </li>
+                      <%end%>
                     <% end %>
   <%#if current_user.usertype!="subadmin"%>
                     <li><a href="/meetings/?type=pending">Pending Meetings</a></li>

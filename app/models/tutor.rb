@@ -31,7 +31,7 @@ class Tutor < ActiveRecord::Base
   end
   
   def subjs_and_ids
-    subjects.map{|s| [s.title,s.id]}.push(["Other",7])
+    subjects.map{|s| [s.title,s.id]}
   end
   
   def available_subjects

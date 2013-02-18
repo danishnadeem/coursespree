@@ -11,6 +11,7 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
+    
     if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       @meetings = Meeting.all
 	  
@@ -28,6 +29,20 @@ class MeetingsController < ApplicationController
       @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
     end
 
+    @subadmin_tutors = []
+    if current_user.usertype=="subadmin"
+      University.all.each do |univ|
+        if current_user.university.id == univ.id
+          @subadmin_users = User.find_all_by_university_id(univ.id)
+        end
+      end
+      @subadmin_users.each do |subadmin_usr|
+        if subadmin_usr.tutor
+          @subadmin_tutors << subadmin_usr.tutor
+        end
+      end
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meetings }
@@ -37,6 +52,7 @@ class MeetingsController < ApplicationController
   # GET /meetings/1
   # GET /meetings/1.json
   def show
+   
     begin
       @meeting = Meeting.find(params[:id])
       #more code here
@@ -103,10 +119,10 @@ class MeetingsController < ApplicationController
     @usr = User.all
     @usr.each do |usr|
       if current_user.usertype=="subadmin"
-        if usr.university==current_user.university && usr.usertype!="subadmin"
+        if usr.university==current_user.university && usr.usertype!="subadmin" &&usr.usertype!="superadmin" && usr.tutor.blank?
           @students_subadmin << usr
         end
-      elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin"
+      elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
         @students << usr
       end
     end
@@ -299,9 +315,10 @@ class MeetingsController < ApplicationController
       meeting = Meeting.find(params[:mid])
       receiver1 = "admin_1360378287_biz@gmail.com"
       receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
-   
-      meeting_price =meeting.tutor.rate*meeting.tutor_availability.length
-      site_commission = meeting_price*0.2 # not used
+
+      amount = meeting.tutor.rate*meeting.tutor_availability.length
+      meeting_price =amount * 0.8
+      site_commission = amount * 0.2 # not used
       price =  "%.2f" % meeting_price
       ##commission = "%.2f" % site_commission #not used
 
@@ -325,11 +342,13 @@ class MeetingsController < ApplicationController
       if pay_response.success?
 
         redirect_to pay_response.approve_paypal_payment_url
-
+        p "aaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrr", pay_response.inspect
+        
         #puts (pay_response['payKey'] + "test").inspect
         meeting.paykey = pay_response['payKey']
+        
         meeting.paid = true
-        @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => price, :meeting_id => meeting.id, :pay_key => pay_response['payKey'])
+        @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => amount, :meeting_id => meeting.id, :pay_key => pay_response['payKey'])
         #store paykey into the meeting data base
         meeting.save
       else
@@ -338,6 +357,7 @@ class MeetingsController < ApplicationController
 
         redirect_to serverbase + "meetings/" + params[:mid].to_s
       end #end if pay response success
+      
       return
     end# end if post payment with correct meeting
   end
