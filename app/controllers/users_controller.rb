@@ -17,6 +17,16 @@ class UsersController < ApplicationController
     else
       @users = User.first(5)
     end
+
+    if current_user.usertype=="subadmin"
+      #      @subadmin_users = []
+      University.all.each do |univ|
+        if current_user.university.id == univ.id
+          @subadmin_users = User.find_all_by_university_id(univ.id)
+        end
+      end
+    end
+    
     begin
       @univ = University.find(params[:uid]).name
     rescue ActiveRecord::RecordNotFound

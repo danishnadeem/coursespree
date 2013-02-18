@@ -1,45 +1,73 @@
-<h2>Student by Universities</h2>
-<p>
 <div id="university_nav">
-  <%=@univ%>
-  <%University.first(10).each do |u|%>
-    | <%= link_to u.name, :uid=> u.id%>
-  <%end%> | <%=link_to 'more'%>
-</p>
-<%if @users.count < 1 %>
-  <div class="placeholder">
-    No students are present
-  </div>
+  <%if @subadmin_users.blank?%>
+    <h2>Student by Universities</h2>
+    <p>
+      <%=@univ%>
+      <%University.first(10).each do |u|%>
+        | <%= link_to u.name, :uid=> u.id%>
+      <%end%> | <%=link_to 'more'%>
+    </p>
+  <%else%>
+    <h2>Student by SubAdmin Universities</h2>
+  <%end%>
+  <%if @users.count < 1 %>
+    <div class="placeholder">
+      No students are present
+    </div>
+  <%end%>
+</div>
+
+<!--university_nav div end-->
+<%if @subadmin_users.blank?%>
+  <% @users.each do |user| %>
+    <div class="useritem">
+      <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin") || (current_user.usertype == "subadmin" && user.usertype!="subadmin" && current_user.university.id == user.university.id)%>
+        <div class="avatarimg">
+          <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+        </div>
+
+        <div class="usersname">
+
+          <%=link_to user.username, user%><br />
+          <%= link_to user.fullname, user%>
+
+          <br/>
+      <%#*<a href="/users/%>
+      <%#= user.id %>
+      <%#*/register/">%>
+      <%#*New%>
+      <%#*</a>%>
+          <a href="/users/<%= user.id %>/edit/">Edit</a>
+          <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
+          <% @user_id=user.id%>
+          <%= add_user_as_tutor(@user_id)%>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<%else%>
+  <% @subadmin_users.each do |user| %>
+    <div class="useritem">
+      <%if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && current_user.university.id == user.university.id)%>
+        <div class="avatarimg">
+          <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+        </div>
+
+        <div class="usersname">
+
+          <%=link_to user.username, user%><br />
+          <%= link_to user.fullname, user%>
+
+          <br/>
+          <a href="/users/<%= user.id %>/edit/">Edit</a>
+          <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
+          <% @user_id=user.id%>
+          <%= add_user_as_tutor(@user_id)%>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 <%end%>
-</div><!--university_nav div end-->
-
-<% @users.each do |user| %>
-  <div class="useritem">
-    <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin") || (current_user.usertype == "subadmin" && user.usertype!="subadmin" && current_user.university.id == user.university.id)%>
-      <div class="avatarimg">
-        <%= link_to image_tag(user.avatar.url(:thumb)), user %>
-      </div>
-
-      <div class="usersname">
-
-        <%=link_to user.username, user%><br />
-        <%= link_to user.fullname, user%>
-
-        <br/>
-    <%#*<a href="/users/%>
-    <%#= user.id %>
-    <%#*/register/">%>
-    <%#*New%>
-    <%#*</a>%>
-        <a href="/users/<%= user.id %>/edit/">Edit</a>
-        <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
-        <% @user_id=user.id%>
-        <%= add_user_as_tutor(@user_id)%>
-      </div>
-    <% end %>
-  </div>
-<% end %>
-
 <br/>
 <%= link_to "Add New User" , new_user_path %>
 
