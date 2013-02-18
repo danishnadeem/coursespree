@@ -14,7 +14,8 @@
       <%if subadmin.user.free_codes.blank?%>
         <td><%= link_to 'Generate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
       <%else%>
-        <td><%= subadmin.user.free_codes.map(&:code)%></td>
+        <%free_code = subadmin.user.free_codes.map(&:code).to_sentence%>
+        <td><%= free_code%></td>
         <td><%= link_to 'Regenerate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
       <%end%>
       <td><%= link_to 'Show', subadmin %></td>
