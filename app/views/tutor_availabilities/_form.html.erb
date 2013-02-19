@@ -46,3 +46,6 @@
     </div>
   <%end%>
 <% end %>
+<%unless params[:tutor_id].blank?%>
+  <%= link_to 'Back', '/tutors/mgmt' %>
+<%end%>
