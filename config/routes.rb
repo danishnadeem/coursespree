@@ -1,5 +1,7 @@
 Findtutor::Application.routes.draw do
   
+  resources :availabilities
+
   resources :subadmins do
     collection do
       get "generate_free_code"
@@ -15,6 +17,8 @@ Findtutor::Application.routes.draw do
 #  end
 
   match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
+  match '/meetings/completed_payment' => 'meetings#completed_payment'
+  match '/meetings/cancelled_payment' => 'meetings#cancelled_payment'
 
 
   match "auth/:provider/callback" => "admin#oauth"

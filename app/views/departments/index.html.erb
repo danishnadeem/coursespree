@@ -8,23 +8,25 @@
     <th></th>
     <th></th>
   </tr>
-  <% @departments.each do |department| %>
-    <tr>
-      <%unless department.name.blank? %>
-        <td><%= department.name %></td>
-      <%else%>
-        <td>NIL</td>
-      <%end%>
-      <%unless department.note.blank? %>
-        <td><%= department.note %></td>
-      <%else%>
-        <td>NIL</td>
-      <%end%>
-      <td><%= link_to 'Show', department %></td>
-      <td><%= link_to 'Edit', edit_department_path(department) %></td>
-      <td><%= link_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
+  <%unless @departments.blank?%>
+    <% @departments.each do |department| %>
+      <tr>
+        <%unless department.name.blank? %>
+          <td><%= department.name %></td>
+        <%else%>
+          <td>NIL</td>
+        <%end%>
+        <%unless department.note.blank? %>
+          <td><%= department.note %></td>
+        <%else%>
+          <td>NIL</td>
+        <%end%>
+        <td><%= link_to 'Show', department %></td>
+        <td><%= link_to 'Edit', edit_department_path(department) %></td>
+        <td><%= link_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  <%end%>
 </table>
 
 <br />

@@ -1,0 +1,31 @@
+<h1>Listing availabilities</h1>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Duration</th>
+    <th>Type</th>
+    <th>Status</th>
+    <th>Action</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @availabilities.each do |ta| %>
+    <tr>
+      <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%D') %> <%=dayofweek(ta.start_time.wday)%></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%H:%M') %>~<%= ta.end_time.strftime('%H:%M') %></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.timetype == 0 ? "virtual":"Loaction Based"%></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.taken == 0 ? "open":"taken"%></td>
+      <td><%= link_to 'Show', availability_path(ta, :tutor=>ta.tutor_id) %></td>
+      <%if ta.taken == 0%>
+        <td><%= link_to 'Edit', edit_availability_path(ta, :tutor=>ta.tutor_id) %></td>
+        <td><%= link_to 'Delete', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <%end%>
+    </tr>
+  <% end %>
+</table>
+
+<br />
+
+<%#= link_to 'New Availability', new_availability_path %>

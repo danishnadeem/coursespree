@@ -181,12 +181,24 @@ class TutorsController < ApplicationController
     end
     @users = []
     all_users = User.all
-    all_users.each do |usr|
-      if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
-        @users << usr
+
+    if current_user.usertype=="superadmin"
+      all_users.each do |usr|
+        if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
+          @users << usr
+        end
       end
+    elsif current_user.usertype=="subadmin"
+      all_users = User.all
+      all_users.each do |usr|
+        if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
+          if usr.university == current_user.university
+            @users << usr
+          end
+        end
+      end
+
     end
-    
     @tutor = Tutor.new
     
     if request.post?

@@ -2,8 +2,16 @@ class DepartmentsController < ApplicationController
   # GET /departments
   # GET /departments.json
   def index
-    @departments = Department.all
-
+    if current_user.usertype=="subadmin"
+      @departments = []
+      Department.all.each do |dept| 
+        if dept == current_user.department
+          @departments << dept
+        end
+      end
+    else
+      @departments = Department.all
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @departments }

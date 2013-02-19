@@ -1,10 +1,11 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
+  attr_accessible :paykey, :tutor_availability_id, :availaibility_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
                   :duration, :moderatorPW, :name, :price, :rating, :subject_id, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
   belongs_to :tutor_availability
+    belongs_to :availability
   belongs_to :subject
   belongs_to :tutor_location
   

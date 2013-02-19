@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register, :show]
+  before_filter :authticate, :except => [:create, :register, :show, :edit]
 
   def authticate
     unless User.find_by_id(session[:user_id])

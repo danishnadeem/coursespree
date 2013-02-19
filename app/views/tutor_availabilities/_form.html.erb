@@ -4,42 +4,42 @@
       <h2><%= pluralize(@tutor_availability.errors.count, "error") %> prohibited this tutor_availability from being saved:</h2>
 
       <ul>
-      <% @tutor_availability.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @tutor_availability.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
   <%if params[:action] == "index" || params[:action] == "edit"%>
     <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
-  <div class="field">
-    <%= f.label :Face_or_virtual  %>
-    <%= f.select :timetype, [["Virtual", 0],["Face2face",1 ]] %>
-  </div> 
-  <div class="field">
-    <%= f.label :start_at %>
-    <!--<%=f.text_field :start_time%>-->
-    <%= f.datetime_select :start_time, {  :default => (Time.now + 1.day).change(:hour => 8),
-                                      :simple_time_select => true, 
-                                      :minute_interval => 20,
-                                      :time_separator => "",
-                                      :start_hour => 8,
-                                      :end_hour => 20 } %>
-  </div>
-  
-    
+    <div class="field">
+      <%= f.label :Face_or_virtual  %>
+      <%= f.select :timetype, [["Virtual", 0],["Face2face",1 ]] %>
+    </div>
+    <div class="field">
+      <%= f.label :start_at %>
+      <!--<%=f.text_field :start_time%>-->
+      <%= f.datetime_select :start_time, {  :default => (Time.now + 1.day).change(:hour => 8),
+        :simple_time_select => true,
+        :minute_interval => 20,
+        :time_separator => "",
+        :start_hour => 8,
+        :end_hour => 20 } %>
+    </div>
+
+
     <%= f.select :length, [1,1.5,2,2.5,3,3.5,4] %> Hours,
-  
-  <%if params[:action] == "index" %>
-  
-    <%= f.label :repeat  %>
-    <%= f.select :repeat, [1,2,3,4,5,6,7,8,9,10] %> weeks
-  
-<%end%>
-<br />
-<br />
-  <div class="actions">
-    <%= f.submit 'create new availability' %>
-  </div>
+
+    <%if params[:action] == "index" %>
+
+      <%= f.label :repeat  %>
+      <%= f.select :repeat, [1,2,3,4,5,6,7,8,9,10] %> weeks
+
+    <%end%>
+    <br />
+    <br />
+    <div class="actions">
+      <%= f.submit 'create new availability' %>
+    </div>
   <%end%>
 <% end %>

@@ -1,5 +1,5 @@
+<%= tutor_mgmt_links %>
 <%if @subadmin_tutors.blank? && current_user.usertype!="subadmin"%>
-  <%= tutor_mgmt_links %>
   <%@tutors.each do |tutor|%>
 
     <% if tutor.user %>
@@ -30,6 +30,7 @@
           <a href="/users/<%= tutor.user.id %>/edit/">Edit Personal</a> |
           <a href="/users/<%= tutor.user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
           <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
+          | <%= link_to 'Create Availabilties', new_availability_path(:tutor => tutor) %>
         </div><!--tutorschedule div end-->
 
         <div class="fix"></div>

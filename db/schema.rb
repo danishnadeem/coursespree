@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218073059) do
+ActiveRecord::Schema.define(:version => 20130219084231) do
+
+  create_table "availabilities", :force => true do |t|
+    t.integer  "timetype"
+    t.integer  "taken",      :default => 0
+    t.integer  "tutor_id"
+    t.datetime "start_time"
+    t.integer  "length"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "departments", :force => true do |t|
     t.string   "name"

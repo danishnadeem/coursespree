@@ -12,9 +12,8 @@ class MeetingsController < ApplicationController
   # GET /meetings.json
   def index
     
-    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
+    if params[:type] == nil && current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       @meetings = Meeting.all
-	  
     elsif params[:type] == nil
       @meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
     elsif params[:type]=='pending' #meeting requested by the current user
@@ -239,7 +238,7 @@ class MeetingsController < ApplicationController
   end
   
   def payment
-      
+     
     if request.post? && !params[:mid].nil?
       #redirect_to(:back, notice: params[:oid])
         
@@ -263,11 +262,11 @@ class MeetingsController < ApplicationController
       serverbase = "http://hidden-reef-7837.herokuapp.com/"
 
       data = {
-        "returnUrl" => serverbase + "meetings/" + params[:mid].to_s,
+        "returnUrl" => "http://hidden-reef-7837.herokuapp.com/meetings/completed_payment?mid=#{params[:mid]}",
         "requestEnvelope" => {"errorLanguage" => "en_US"},
         "currencyCode"=>"USD",
         "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>site_commission},{"email"=>receiver2, "amount"=> price}]},
-        "cancelUrl"=> serverbase + "meetings/" + params[:mid].to_s,
+        "cancelUrl"=> "http://hidden-reef-7837.herokuapp.com/meetings/cancelled_payment?mid=#{params[:mid]}",
         "actionType"=>"PAY",
         "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
       }
@@ -277,13 +276,13 @@ class MeetingsController < ApplicationController
       if pay_response.success?
 
         redirect_to pay_response.approve_paypal_payment_url
-        p "aaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrr", pay_response.inspect
-        
+        #        p "aaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrr", pay_response.inspect
+        #
         #puts (pay_response['payKey'] + "test").inspect
         meeting.paykey = pay_response['payKey']
         
-        meeting.paid = true
-        @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => amount, :meeting_id => meeting.id, :pay_key => pay_response['payKey'])
+        #        meeting.paid = true
+        #        @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => amount, :meeting_id => meeting.id, :pay_key => pay_response['payKey'])
         #store paykey into the meeting data base
         meeting.save
       else
@@ -295,6 +294,21 @@ class MeetingsController < ApplicationController
       
       return
     end# end if post payment with correct meeting
+  end
+
+  def completed_payment
+    meeting = Meeting.find(params[:mid])
+    amount = meeting.tutor.rate*meeting.tutor_availability.length
+    meeting.paid = true
+    @transaction = Transaction.create(:tutor_id => meeting.tutor_id, :user_id => meeting.user_id, :amount => amount, :meeting_id => meeting.id, :pay_key => meeting.paykey)
+    meeting.save
+    redirect_to meeting_path(meeting)
+  end
+
+  def cancelled_payment
+    flash[:notice] = "OOPs the payment is not completed "
+    meeting = Meeting.find(params[:mid])
+    redirect_to meeting_path(meeting)
   end
   
   def joinmeeting

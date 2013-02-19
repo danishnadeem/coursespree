@@ -10,7 +10,7 @@
     <% end %>
   <% end %>
   <% if user.year %><br/>Year: <%= user.year %><% end %>
-  <%if current_user.usertype=="subadmin"%>
+  <%if current_user.usertype=="subadmin" && user.free_codes.present?%>
     <% if user.free_codes %><br/>Free Code: <%= user.free_codes.map(&:code).to_sentence %><% end %>
   <%end%>
 </p>
