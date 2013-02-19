@@ -4,7 +4,7 @@
   <tr>
     <th>Date</th>
     <th>Duration</th>
-    
+
     <th>Type</th>
     <th>Status</th>
     <th>Action</th>
@@ -13,22 +13,27 @@
     <th></th>
   </tr>
 
-<% @tutor_availabilities.each do |ta| %>
-  <tr>
-    <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%D') %> <%=dayofweek(ta.start_time.wday)%></td>
-    <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%H:%M') %>~<%= ta.end_time.strftime('%H:%M') %></td>
-    <td style="padding: 0 10px  0 0;"><%= ta.timetype == 0 ? "virtual":"Loaction Based"%></td>
-    <td style="padding: 0 10px  0 0;"><%= ta.taken == 0 ? "open":"taken"%></td>
-    
-    <%if ta.taken == 0%>
-    <td><%= link_to 'Edit', edit_tutor_availability_path(ta) %></td>
-    <td><%= link_to 'Delete', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <%end%>
-  </tr>
-<% end %>
+  <% @tutor_availabilities.each do |ta| %>
+    <tr>
+      <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%D') %> <%=dayofweek(ta.start_time.wday)%></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.start_time.strftime('%H:%M') %>~<%= ta.end_time.strftime('%H:%M') %></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.timetype == 0 ? "virtual":"Loaction Based"%></td>
+      <td style="padding: 0 10px  0 0;"><%= ta.taken == 0 ? "open":"taken"%></td>
+
+      <%if ta.taken == 0%>
+        <%if params[:tutor_id].blank?%>
+          <td><%= link_to 'Edit', edit_tutor_availability_path(ta) %></td>
+          <td><%= link_to 'Delete', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%else%>
+          <td><%= link_to 'Edit', edit_tutor_availability_path(ta, :tutor_id=> params[:tutor_id]) %></td>
+          <td><%= link_to 'Delete', ta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
+      <%end%>
+    </tr>
+  <% end %>
 </table>
 <br />
 <h2>Create New Availability</h2>
 <div id="newtimefm">
-<%= render 'form'%>
+  <%= render 'form'%>
 </div>

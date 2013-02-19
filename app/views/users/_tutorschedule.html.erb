@@ -1,36 +1,34 @@
 <% if @user.usertype =='tutor'%>
-  
+
   <h4>Availability</h4>
-	<table class="table table-striped">
-	<thead>
-	  <tr>
-		<th>Day</th>
-		<th>Location</th>
-		<th>Start</th>
-		<th>Finish</th>
-	  </tr>
-	</thead>
-	<tbody>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Location</th>
+        <th>Start</th>
+        <th>Finish</th>
+      </tr>
+    </thead>
+    <tbody>
 
-
-  <% @user.tutor.open_virtual_slots.each do |avlb|%>
-  		<tr>
-			<td><%= schedulelink(avlb.id) %> - <%= dayofweek(avlb.start_time.wday)%></td>
-			<td>Virtual</td>
-			<td><%= avlb.start_time.strftime('%D %H:%M')%></td>
-			<td><%= avlb.end_time.strftime('%H:%M %p')%></td>
-		</td>
-  <%end%>
-  <% @user.tutor.open_faced_slots.each do |avlb|%>
-  		<tr>
-			<td><%= schedulelink(avlb.id) %> - <%= dayofweek(avlb.start_time.wday)%></td>
-			<td>Open Face to Face</td>
-			<td><%= avlb.start_time.strftime('%D %H:%M')%></td>
-			<td><%= avlb.end_time.strftime('%H:%M %p')%></td>
-		</td>
-  <%end%>
-
-	</tbody>
-	</table>
+      <% @user.tutor.open_virtual_slots.each do |avlb|%>
+        <tr>
+          <td><%= schedulelink(avlb.id) %> - <%= dayofweek(avlb.start_time.wday)%></td>
+          <td>Virtual</td>
+          <td><%= avlb.start_time.strftime('%D %H:%M')%></td>
+          <td><%= avlb.end_time.strftime('%H:%M %p')%></td>
+          </td>
+        <%end%>
+        <% @user.tutor.open_faced_slots.each do |avlb|%>
+        <tr>
+          <td><%= schedulelink(avlb.id) %> - <%= dayofweek(avlb.start_time.wday)%></td>
+          <td>Open Face to Face</td>
+          <td><%= avlb.start_time.strftime('%D %H:%M')%></td>
+          <td><%= avlb.end_time.strftime('%H:%M %p')%></td>
+          </td>
+        <%end%>
+    </tbody>
+  </table>
 
 <% end%><!--end if user is tutor-->

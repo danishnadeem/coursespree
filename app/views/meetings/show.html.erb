@@ -95,6 +95,9 @@
           Meeting not started by tutor
         <%end%>
     <%end%>
+    <%if session[:user_id] == @meeting.tutor_id%>
+        <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>
+    <%end%>
     
     <%if session[:user_id] == @meeting.user_id%>
         <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>

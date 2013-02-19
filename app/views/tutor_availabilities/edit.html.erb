@@ -1,6 +1,8 @@
 <h1>Editing tutor availability</h1>
-
 <%= render 'form' %>
-
-<%= link_to 'Show', @tutor_availability %> |
-<%= link_to 'Back', tutor_availabilities_path %>
+<%if params[:tutor_id].blank?%>
+  <%= link_to 'Show', @tutor_availability %> |
+  <%= link_to 'Back', tutor_availabilities_path %>
+<%else%>
+  <%= link_to 'Back', '/tutors/mgmt' %>
+<%end%>

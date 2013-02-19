@@ -2,7 +2,11 @@ class TutorAvailabilitiesController < ApplicationController
   # GET /tutor_availabilities
   # GET /tutor_availabilities.json
   def index
-    @tutor_availabilities = TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND start_time >= ?", session[:tutor_id], Time.now])
+    if session[:tutor_id].present?
+      @tutor_availabilities = TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND start_time >= ?", session[:tutor_id], Time.now])
+    else
+      @tutor_availabilities = TutorAvailability.find(:all, :conditions => ["tutor_id = ? AND start_time >= ?", params[:tutor_id], Time.now])
+    end
     @tutor_availability = TutorAvailability.new
     respond_to do |format|
       format.html # index.html.erb
@@ -54,8 +58,14 @@ class TutorAvailabilitiesController < ApplicationController
             new_ta.save
           end
         end
-        format.html { redirect_to tutor_availabilities_path, notice: 'Tutor availability was successfully created.' }
-        format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
+        if params[:tutor_availability][:tutor_id].present?
+          tutor_id = params[:tutor_availability][:tutor_id]
+          format.html { redirect_to tutor_availabilities_path(:tutor_id=>tutor_id), notice: 'Tutor availability was successfully created.' }
+          format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
+        else
+          format.html { redirect_to tutor_availabilities_path, notice: 'Tutor availability was successfully created.' }
+          format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @tutor_availability.errors, status: :unprocessable_entity }
@@ -70,8 +80,14 @@ class TutorAvailabilitiesController < ApplicationController
 
     respond_to do |format|
       if @tutor_availability.update_attributes(params[:tutor_availability])
-        format.html { redirect_to @tutor_availability, notice: 'Tutor availability was successfully updated.' }
-        format.json { head :no_content }
+        if params[:tutor_availability][:tutor_id].present?
+          tutor_id = params[:tutor_availability][:tutor_id]
+          format.html { redirect_to tutor_availabilities_path(:tutor_id=>tutor_id), notice: 'Tutor availability was successfully created.' }
+          format.json { render json: @tutor_availability, status: :created, location: @tutor_availability }
+        else
+          format.html { redirect_to @tutor_availability, notice: 'Tutor availability was successfully updated.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render action: "edit" }
         format.json { render json: @tutor_availability.errors, status: :unprocessable_entity }

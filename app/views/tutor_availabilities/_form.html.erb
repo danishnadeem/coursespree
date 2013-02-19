@@ -2,7 +2,6 @@
   <% if @tutor_availability.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@tutor_availability.errors.count, "error") %> prohibited this tutor_availability from being saved:</h2>
-
       <ul>
         <% @tutor_availability.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
@@ -11,7 +10,11 @@
     </div>
   <% end %>
   <%if params[:action] == "index" || params[:action] == "edit"%>
-    <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
+    <% if session[:tutor_id].present?%>
+      <%= f.hidden_field :tutor_id, :value => session[:tutor_id] %>
+    <%else%>
+      <%= f.hidden_field :tutor_id, :value => params[:tutor_id] %>
+    <%end%>
     <div class="field">
       <%= f.label :Face_or_virtual  %>
       <%= f.select :timetype, [["Virtual", 0],["Face2face",1 ]] %>

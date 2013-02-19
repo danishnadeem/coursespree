@@ -10,6 +10,16 @@ class User < ActiveRecord::Base
   has_many :transaction
   has_one :subadmin
 
+  validates :username,  :presence => true 
+  validates :password,  :presence => true
+  validates :password_confirmation,  :presence => true
+  validates :email,  :presence => true
+  validates :fName,  :presence => true
+  validates :lName,  :presence => true
+  validates :university_id,  :presence => true
+  validates :department_id,  :presence => true
+  validates :bio,  :presence => true
+
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
     :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension",
