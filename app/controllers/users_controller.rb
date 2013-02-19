@@ -9,12 +9,9 @@ class UsersController < ApplicationController
         flash[:notice] = "Please log in."
         redirect_to :controller => 'admin', :action => 'login'
     else
-      if current_user.usertype!="subadmin" || current_user.usertype!="superadmin"
+      unless current_user.usertype=="subadmin" || current_user.usertype=="superadmin"
         flash[:notice] = "you have no access to see the User's Page"
         redirect_to user_path(current_user)
-      else
-        flash[:notice] = "Please log in."
-        redirect_to :controller => 'admin', :action => 'login'
       end
     end
   end
