@@ -97,21 +97,18 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-
-    xxxxx
-
-
     #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
     params[:user].delete :tutor
     
     @user = User.new(params[:user])
-    unless params["addUniv"].blank? && params["newuniv"].blank?
+    if !params["addUniv"].blank? && !params["newuniv"].blank?
       if params["addUniv"] == "checked" && params["newuniv"].length > 0
         newU = University.find_or_create_by_name(params["newuniv"])
         newU.save!
         @user.university_id = newU.id
       end
+    elsif @user.university_id.present?
       if params["addDept"].present? && params["newdept"].length > 0
         newD = Department.find_or_create_by_name(params["newdept"])
         newD.save!
@@ -120,6 +117,7 @@ class UsersController < ApplicationController
         @user.department_id = params[:department_id]
       end
     end
+
     respond_to do |format|
       # if apply to be tutor on registration redirect to tutor application page after registration succeed
       if @user.save && !tu.nil? && tu == "1"

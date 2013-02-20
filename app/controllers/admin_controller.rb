@@ -40,7 +40,34 @@ class AdminController < ApplicationController
       end
     end
   end
-
+  def show_payments_transactions
+    @trans_subadmin=[]
+    @trans=[]
+    @transaction = Transaction.all
+    @transaction.each do |trans|
+      if current_user.usertype=="subadmin"
+        if trans.user.university == current_user.university
+          @trans_subadmin << trans
+        end
+      else
+        @trans << trans
+      end
+    end
+  end
+  def show_payments_transactions
+    @trans_subadmin=[]
+    @trans=[]
+    @transaction = Transaction.all
+    @transaction.each do |trans|
+      if current_user.usertype=="subadmin"
+        if trans.user.university == current_user.university
+          @trans_subadmin << trans
+        end
+      else
+        @trans << trans
+      end
+    end
+  end
   def search_payments_transactions
     @free_code_user_university=[]
     @free_code_user_university_user=[]

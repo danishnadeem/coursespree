@@ -68,7 +68,7 @@
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
         Add new
-        <%=check_box_tag "addUniv", 'checked', false , :onchange => "hide_show_departments()"%>
+        <%=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != "superadmin") ? 'hide_show_departments();' :'' }"%>
         <%=text_field_tag "newuniv" %>
       </div>
     <%end%>
@@ -87,9 +87,11 @@
             <%= render :partial => "departments", :locals => {:departments => @departments} %>
           </p>
           <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
-            Add new
-            <%=check_box_tag "addDept", :checked => true %>
-            <%=text_field_tag "newdept" %>
+            <p class="field"  id="departments_updated">
+              Or Add new Affiliation
+              <%=check_box_tag "addDept", :checked => true %>
+              <%=text_field_tag "newdept" %>
+            </p>
           <%end%>
         </div>
       <%end%>
@@ -133,11 +135,11 @@
     else{
       $("#departments").show();
     }
-}
-function fetchdepartments(obj_val){
-  $.ajax({
-    url: '<%= fetch_departments_users_path %>',
-    data: {university_id: obj_val }
-  });
-}
+  }
+  function fetchdepartments(obj_val){
+    $.ajax({
+      url: '<%= fetch_departments_users_path %>',
+      data: {university_id: obj_val }
+    });
+  }
 </script>
