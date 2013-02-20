@@ -1,0 +1,6 @@
+<%= label_tag :Affiliation %><br />
+<%unless departments.blank?%>
+    <%= select_tag :department_id, options_for_select(departments.map{|d| [d.name, d.id]})%>
+<%else%>
+  <%= select_tag :department_id, "", :prompt=> "Select an Affiliation"%>
+<%end%>

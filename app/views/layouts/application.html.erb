@@ -16,6 +16,7 @@
     <meta name="author" content="Nick Mancini">
 
     <!-- Le styles de stylo  -->
+    <%= javascript_include_tag "jquery-1.8.1.min"%>
     <%= stylesheet_link_tag  "bootstrap"%>
     <%= stylesheet_link_tag  "bootstrap.min"%>
     <%= stylesheet_link_tag  "styles"%>
@@ -109,6 +110,8 @@
                       <li><a href="/departments">Affiliation</a></li>
                       <li><a href="/tutor_locations">Locations</a></li>
                       <li><a href="/payment_transaction">Payment Transaction</a></li>
+                      <li><a href="/student_report">Student meeting report</a></li>
+                      <li><a href="/tutor_report">Tutor meeting report</a></li>
                     <% end %>
 
                     <% if current_user.usertype == "subadmin" %>
@@ -117,8 +120,9 @@
                       <li><a href="/meetings">Meetings</a></li>
                       <li><a href="/departments">Affiliation</a></li>
                       <li><a href="/payment_transaction">Payment Transaction</a></li>
+                      <li><a href="/student_report">Student meeting report</a></li>
+                      <li><a href="/tutor_report">Tutor meeting report</a></li>
                     <% end %>
-
                   </ul>
                 </li>
               <% else %>

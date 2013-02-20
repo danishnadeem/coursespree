@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
   validates :email,  :presence => true
   validates :fName,  :presence => true
   validates :lName,  :presence => true
-  validates :university_id,  :presence => true
-  validates :department_id,  :presence => true
+#  validates :university_id,  :presence => true
+#  validates :department_id,  :presence => true
   validates :bio,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },

@@ -3,4 +3,5 @@ class University < ActiveRecord::Base
   
   has_many :tutor_locations, :dependent => :destroy
   has_many :users
+  has_many :departments
 end

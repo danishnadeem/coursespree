@@ -60,13 +60,15 @@
     <%if current_user.present? && current_user.usertype=="subadmin"%>
       <div class="field">
         <%= f.label :university_id %><br />
-        <%= f.select :university_id,  University.where(:id => current_user.university.id).map{|u| [u.name, u.id]} %>
+        <%universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
+        <%= f.select :university_id,  universities %>
       </div>
     <%else%>
       <div class="field">
         <%= f.label :university_id %><br />
-        <%= f.select :university_id, univs_and_ids, :prompt=> "select a university or add new.."%>
-        Add new<%=check_box_tag "addUniv", :checked => true %>
+        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
+        Add new
+        <%=check_box_tag "addUniv", 'checked', false , :onchange => "hide_show_departments()"%>
         <%=text_field_tag "newuniv" %>
       </div>
     <%end%>
@@ -77,11 +79,18 @@
           <%= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
         </div>
       <%else%>
-        <div class="field">
-          <%= f.label :Affiliation %><br />
-          <%= f.select :department_id, depts_and_ids, :prompt=> "Select an Affiliation or add new.."%>
-          Add new<%=check_box_tag "addDept", :checked => true %>
-          <%=text_field_tag "newdept" %>
+        <div class="field" id="departments">
+          <p class="field"  id="departments_updated">
+            <%if @departments.blank?%>
+        <%#@departments = depts_and_ids %>
+            <%end%>
+            <%= render :partial => "departments", :locals => {:departments => @departments} %>
+          </p>
+          <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
+            Add new
+            <%=check_box_tag "addDept", :checked => true %>
+            <%=text_field_tag "newdept" %>
+          <%end%>
         </div>
       <%end%>
       <div class="field">
@@ -115,3 +124,20 @@
     </div>
   </div><!--useradv div end-->
 <% end %>
+
+<script>
+  function hide_show_departments(){
+    if($('#addUniv').attr('checked')) {
+      $("#departments").hide();
+    }
+    else{
+      $("#departments").show();
+    }
+}
+function fetchdepartments(obj_val){
+  $.ajax({
+    url: '<%= fetch_departments_users_path %>',
+    data: {university_id: obj_val }
+  });
+}
+</script>

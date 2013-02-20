@@ -10,11 +10,11 @@ Findtutor::Application.routes.draw do
 
   resources :departments
 
-#  resources :admin do
-#    member do
-#      get :search_payments_transactions
-#    end
-#  end
+  #  resources :admin do
+  #    member do
+  #      get :search_payments_transactions
+  #    end
+  #  end
 
   match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
   match '/meetings/completed_payment' => 'meetings#completed_payment'
@@ -53,12 +53,16 @@ Findtutor::Application.routes.draw do
   
   match 'register' => 'users#register'
   match '/payment_transaction' => 'admin#show_payments_transactions'
-
+  match '/student_report' => 'admin#show_student_meetings_reports'
+  match '/tutor_report' => 'admin#show_tutor_meetings_reports'
   
   resources :tutors
   
-  resources :users
-
+  resources :users do
+    collection do
+      get 'fetch_departments'
+    end
+  end
   resources :meetings do
     collection do
       get 'new_meeting'
@@ -66,7 +70,7 @@ Findtutor::Application.routes.draw do
     end
   end
 
-    resources :journals do
+  resources :journals do
     collection do
       get 'add_video_to'
     end

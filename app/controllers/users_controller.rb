@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register, :show, :edit]
+  before_filter :authticate, :except => [:create, :register, :show, :edit, :register, :fetch_departments]
 
   def authticate
     unless User.find_by_id(session[:user_id])
-        flash[:notice] = "Please log in."
-        redirect_to :controller => 'admin', :action => 'login'
+      flash[:notice] = "Please log in."
+      redirect_to :controller => 'admin', :action => 'login'
     else
       unless current_user.usertype=="subadmin" || current_user.usertype=="superadmin"
         flash[:notice] = "you have no access to see the User's Page"
@@ -67,6 +67,18 @@ class UsersController < ApplicationController
       format.json { render json: @user }
     end
   end
+  
+  def fetch_departments
+    @university = University.find_by_id(params[:university_id])
+    @departments = @university.blank? ? '' : @university.departments
+    
+    respond_to do |format|
+      format.js do
+        departments = render_to_string(:partial => "departments", :locals => {:departments => @departments}).to_json
+        render :js => "$('#departments_updated').html(#{departments});"
+      end
+    end
+  end
 
   def new
     @user = User.new
@@ -85,22 +97,27 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+
+    xxxxx
+
+
     #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
     params[:user].delete :tutor
     
     @user = User.new(params[:user])
-
     unless params["addUniv"].blank? && params["newuniv"].blank?
-      if params["addUniv"]["checked"] && params["newuniv"].length > 0
+      if params["addUniv"] == "checked" && params["newuniv"].length > 0
         newU = University.find_or_create_by_name(params["newuniv"])
         newU.save!
         @user.university_id = newU.id
       end
-      if params["addDept"]["checked"] && params["newdept"].length > 0
+      if params["addDept"].present? && params["newdept"].length > 0
         newD = Department.find_or_create_by_name(params["newdept"])
         newD.save!
         @user.department_id = newD.id
+      elsif params[:department_id].present?
+        @user.department_id = params[:department_id]
       end
     end
     respond_to do |format|

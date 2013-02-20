@@ -16,8 +16,9 @@ ActiveRecord::Schema.define(:version => 20130218073059) do
   create_table "departments", :force => true do |t|
     t.string   "name"
     t.string   "note"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "university_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "free_codes", :force => true do |t|
