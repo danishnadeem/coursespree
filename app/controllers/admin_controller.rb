@@ -40,34 +40,7 @@ class AdminController < ApplicationController
       end
     end
   end
-  def show_payments_transactions
-    @trans_subadmin=[]
-    @trans=[]
-    @transaction = Transaction.all
-    @transaction.each do |trans|
-      if current_user.usertype=="subadmin"
-        if trans.user.university == current_user.university
-          @trans_subadmin << trans
-        end
-      else
-        @trans << trans
-      end
-    end
-  end
-  def show_payments_transactions
-    @trans_subadmin=[]
-    @trans=[]
-    @transaction = Transaction.all
-    @transaction.each do |trans|
-      if current_user.usertype=="subadmin"
-        if trans.user.university == current_user.university
-          @trans_subadmin << trans
-        end
-      else
-        @trans << trans
-      end
-    end
-  end
+  
   def search_payments_transactions
     @free_code_user_university=[]
     @free_code_user_university_user=[]
@@ -90,6 +63,88 @@ class AdminController < ApplicationController
     end
   end
 
+  def show_student_meetings_reports
+    all_users = User.all
+    @users = []
+    if current_user.usertype=="superadmin"
+      all_users.each do |usr|
+        if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
+          @users << usr
+        end
+      end
+    elsif current_user.usertype=="subadmin"
+      all_users.each do |usr|
+        if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
+          if usr.university == current_user.university
+            @users << usr
+          end
+        end
+      end
+    end
+    
+    @users_meetings = []
+    @users.each do |usr|
+      if usr.meetings.present?
+        usr.meetings.each do |meeting|
+          @users_meetings << meeting
+        end
+      end
+    end
+  end
+
+  def search_student_meetings_reports
+    @searched_user_meetings = []
+    searched_user = User.search(params[:search])
+    if params[:search].blank?
+      redirect_to '/student_report'
+    else
+      unless searched_user.blank?
+        searched_user.first.meetings.each do |m|
+          @searched_user_meetings << m
+        end
+        render :show_student_meetings_reports
+      else
+        render :show_student_meetings_reports
+      end
+    end
+  end
+
+  def show_tutor_meetings_reports
+    @trans_subadmin=[]
+    @trans=[]
+    @transaction = Transaction.all
+    @transaction.each do |trans|
+      if current_user.usertype=="subadmin"
+        if trans.user.university == current_user.university
+          @trans_subadmin << trans
+        end
+      else
+        @trans << trans
+      end
+    end
+  end
+
+  def search_tutor_meetings_reports
+    @free_code_user_university=[]
+    @free_code_user_university_user=[]
+    @trans_free_code=[]
+    @free_code = FreeCode.search(params[:search])
+    if params[:search].blank?
+      redirect_to '/payment_transaction'
+    else
+      unless @free_code.blank?
+        @free_code_user_university << @free_code.last.user.university
+        @free_code_user_university_user << @free_code_user_university.last.users
+        @free_code_user_university_user.each do |usr|
+          @trans_free_code << usr.last.transaction
+        end
+        @trans_free_code   =  @trans_free_code[0]
+        render :show_payments_transactions
+      else
+        render :show_payments_transactions
+      end
+    end
+  end
 
   def oauth
     #raise request.env["omniauth.auth"].to_yaml

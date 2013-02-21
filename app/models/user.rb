@@ -28,6 +28,14 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validate :password_non_blank
 
+  def self.search(search)
+    if search
+      where(['fName LIKE :search OR lName LIKE :search', {:search => "%#{search}%"}])
+    else
+      scoped
+    end
+  end
+
   def self.from_omniauth(auth)
     return if auth.provider != "facebook"
     where(:fb_uid => auth.uid).first_or_initialize.tap do |user|

@@ -1,10 +1,10 @@
-<%unless @trans_free_code.blank?%>
-  <h1>Listing Free Code Payment Transaction</h1>
-  <%if current_user.usertype == "superadmin"%>
+<%unless @searched_user_meetings.blank?%>
+  <h1>Listing Meetings for Searched User</h1>
+  <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
     <div>
-      <%= form_tag '/admins/search_payments_transactions' do %>
+      <%= form_tag '/admins/search_student_meetings_reports' do %>
         <p>
-          <%= label_tag :free_code , "Enter a free code assign to SubAdmin"%>
+          <%= label_tag :name , "Enter a first name Or Last name to search"%>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
         </p>
@@ -13,64 +13,60 @@
   <%end%>
   <table>
     <tr>
-      <th> Transaction Key</th>
-      <th> Tutor </th>
-      <th> Student </th>
-      <th> Meeting </th>
-      <th> Transaction Amount </th>
-      <th> Paid amount at</th>
+      <th>Name</th>
+      <th>Start date</th>
+      <th>Length</th>
+      <th>Payment</th>
+      <th>Subject</th>
+      <th>Tutor</th>
+      <th>Student</th>
+      <th>Response</th>
+      <th>Amount</th>
     </tr>
-
-    <%if current_user.usertype == "superadmin"%>
-      <%@trans_free_code.each do |trans|%>
+    <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+      <%@searched_user_meetings.each do |meeting|%>
         <tr>
-          <%unless trans.pay_key.blank? %>
-            <td><%= trans.pay_key %></td>
+          <td><%= link_to meeting.name, meeting %></td>
+          <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+          <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
+          <td>
+            <%if meeting.paid%>
+              paid
+            <%else%>
+              waiting
+            <%end%>
+          </td>
+          <% if  meeting.tutor %>
+            <td><%= Subject.find(meeting.subject).title %></td>
+            <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
+            <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+            <td><%= meeting_status(meeting.accept) %></td>
+            <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+              <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
+              <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
+            <%else%>
+              <td colspan="2"></td>
+            <%end%>
           <%else%>
-            <td>NIL</td>
+            <td colspan="6"></td>
           <%end%>
-
-          <%unless trans.tutor_id.blank? %>
-            <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.user_id.blank? %>
-            <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.meeting_id.blank? %>
-            <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.amount.blank? %>
-            <td>$<%= trans.amount %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.created_at.blank? %>
-            <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
-          <%else%>
-            <td>NIL</td>
+          <td>
+            $ <%= meeting.user ? meeting.user.transaction.last.amount : 0.to_f%>
+          </td>
+          <%if current_admin? %>
+            <td><%= link_to 'Show', meeting %></td>
+            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+            <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           <%end%>
         </tr>
       <%end%>
-
     <%end%>
   </table>
   <br />
 <%else%>
-  <h1>Listing Payment Transaction</h1>
-
-  <%if current_user.usertype == "superadmin"%>
+  <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
     <div>
-      <%= form_tag '/admins/search_payments_transactions' do %>
+      <%= form_tag '/admins/search_student_meetings_reports' do %>
         <p>
           <%= label_tag :free_code , "Enter a free code assign to SubAdmin"%>
           <%= text_field_tag :search, params[:search] %>
@@ -79,99 +75,4 @@
       <% end %>
     </div>
   <%end%>
-  <table>
-    <tr>
-      <th> Transaction Key</th>
-      <th> Tutor </th>
-      <th> Student </th>
-      <th> Meeting </th>
-      <th> Transaction Amount </th>
-      <th> Paid amount at</th>
-    </tr>
-
-    <%if current_user.usertype == "subadmin"%>
-      <%@trans_subadmin.each do |trans|%>
-        <tr>
-          <%unless trans.pay_key.blank? %>
-            <td><%= trans.pay_key %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.tutor_id.blank? %>
-            <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.user_id.blank? %>
-            <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.meeting_id.blank? %>
-            <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.amount.blank? %>
-            <td>$<%= trans.amount %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-
-          <%unless trans.created_at.blank? %>
-            <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-        </tr>
-      <%end%>
-    <%else%>
-      <%unless @trans.blank?%>
-        <%@trans.each do |trans|%>
-          <tr>
-            <%unless trans.pay_key.blank? %>
-              <td><%= trans.pay_key %></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-
-            <%unless trans.tutor_id.blank? %>
-              <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-
-            <%unless trans.user_id.blank? %>
-              <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-
-            <%unless trans.meeting_id.blank? %>
-              <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-
-            <%unless trans.amount.blank? %>
-              <td>$<%= trans.amount %></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-
-            <%unless trans.created_at.blank? %>
-              <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
-            <%else%>
-              <td>NIL</td>
-            <%end%>
-          </tr>
-        <%end%>
-      <% end %>
-    <%end%>
-  </table>
-  <br />
 <%end%>

@@ -16,7 +16,7 @@ Findtutor::Application.routes.draw do
   #    end
   #  end
 
-  match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
+
   match '/meetings/completed_payment' => 'meetings#completed_payment'
   match '/meetings/cancelled_payment' => 'meetings#cancelled_payment'
 
@@ -52,10 +52,16 @@ Findtutor::Application.routes.draw do
   get "admin/logout"
   
   match 'register' => 'users#register'
+
   match '/payment_transaction' => 'admin#show_payments_transactions'
+  match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
+
   match '/student_report' => 'admin#show_student_meetings_reports'
+  match '/admins/search_student_meetings_reports' => "admin#search_student_meetings_reports"
+
   match '/tutor_report' => 'admin#show_tutor_meetings_reports'
-  
+  match '/admins/search_tutor_meetings_reports' => "admin#search_tutor_meetings_reports"
+
   resources :tutors
   
   resources :users do
