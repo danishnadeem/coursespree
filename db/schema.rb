@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218073059) do
+ActiveRecord::Schema.define(:version => 20130221144305) do
 
   create_table "departments", :force => true do |t|
     t.string   "name"
@@ -129,32 +129,32 @@ ActiveRecord::Schema.define(:version => 20130218073059) do
   end
 
   create_table "users", :force => true do |t|
-    t.string    "username"
-    t.string    "pwd"
-    t.string    "seed"
-    t.string    "email"
-    t.string    "fName"
-    t.string    "lName"
-    t.integer   "university_id"
-    t.integer   "department_id"
-    t.integer   "year"
-    t.integer   "major_id"
-    t.text      "bio"
-    t.integer   "gender"
-    t.date      "dob"
-    t.string    "paypalEmail"
-    t.integer   "ave_rating"
-    t.string    "fb_ID"
-    t.integer   "active",              :default => 0
-    t.timestamp "created_at",                         :null => false
-    t.timestamp "updated_at",                         :null => false
-    t.string    "avatar_file_name"
-    t.string    "avatar_content_type"
-    t.integer   "avatar_file_size"
-    t.timestamp "avatar_updated_at"
-    t.string    "fb_uid"
-    t.string    "fb_token"
-    t.timestamp "fb_token_expire"
+    t.string   "username"
+    t.string   "pwd"
+    t.string   "seed"
+    t.string   "email"
+    t.string   "fname"
+    t.string   "lname"
+    t.integer  "university_id"
+    t.integer  "department_id"
+    t.integer  "year"
+    t.integer  "major_id"
+    t.text     "bio"
+    t.integer  "gender"
+    t.date     "dob"
+    t.string   "paypalEmail"
+    t.integer  "ave_rating"
+    t.string   "fb_ID"
+    t.integer  "active",              :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "fb_uid"
+    t.string   "fb_token"
+    t.datetime "fb_token_expire"
   end
 
 end

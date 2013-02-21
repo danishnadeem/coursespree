@@ -10,8 +10,8 @@ User.delete_all
 User.create(
   :username =>"admin",
   :password =>"coursespree",
-  :fName => "Danish",
-  :lName => "Nadeem",
+  :fname => "Danish",
+  :lname => "Nadeem",
   :paypalEmail => "cust1_1343182229_per@gmail.com",
   :dob => Time.now,
   :university_id => 1
@@ -19,8 +19,8 @@ User.create(
 User.create(
   :username =>"stud1",
   :password =>"stud1",
-  :fName => "first1",
-  :lName => "last1",
+  :fname => "first1",
+  :lname => "last1",
   :paypalEmail => "cust2_1343352621_per@gmail.com",
   :dob => Time.now,
   :university_id => 1
@@ -28,8 +28,8 @@ User.create(
 User.create(
   :username =>"stud2",
   :password =>"stud2",
-  :fName => "first2",
-  :lName => "last2",
+  :fname => "first2",
+  :lname => "last2",
   :paypalEmail => "cust2_1343352621_per@gmail.com",
   :dob => Time.now,
   :university_id => 1
@@ -37,8 +37,8 @@ User.create(
 User.create(
   :username =>"tutor1",
   :password =>"tutor1",
-  :fName => "first3",
-  :lName => "last3",
+  :fname => "first3",
+  :lname => "last3",
   :paypalEmail => "cust1_1343182229_per@gmail.com",
   :dob => Time.now,
   :university_id => 1
@@ -46,8 +46,8 @@ User.create(
 User.create(
   :username =>"tutor2",
   :password =>"tutor2",
-  :fName => "first4",
-  :lName => "last4",
+  :fname => "first4",
+  :lname => "last4",
   :paypalEmail => "cust1_1343182229_per@gmail.com",
   :dob => Time.now,
   :university_id => 1

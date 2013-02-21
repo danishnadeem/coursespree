@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, :avatar, :ave_rating, :dob, :email, :fName, :fb_ID, :gender, :lName, :password, :paypalEmail, :seed, :username, :password_confirmation, :tutor
+  attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, 
+    :avatar, :ave_rating, :dob, :email, :fname, :fb_ID, :gender, :lname, :password,
+    :paypalEmail, :seed, :username, :password_confirmation, :tutor
   
   has_many :free_codes
   has_many :meetings
@@ -14,10 +16,10 @@ class User < ActiveRecord::Base
   validates :password,  :presence => true
   validates :password_confirmation,  :presence => true
   validates :email,  :presence => true
-  validates :fName,  :presence => true
-  validates :lName,  :presence => true
-#  validates :university_id,  :presence => true
-#  validates :department_id,  :presence => true
+  validates :fname,  :presence => true
+  validates :lname,  :presence => true
+  #  validates :university_id,  :presence => true
+  #  validates :department_id,  :presence => true
   validates :bio,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
@@ -30,7 +32,7 @@ class User < ActiveRecord::Base
 
   def self.search(search)
     if search
-      where(['fName LIKE :search OR lName LIKE :search', {:search => "%#{search}%"}])
+      where(['fname LIKE :search OR lname LIKE :search', {:search => "%#{search}%"}])
     else
       scoped
     end
@@ -44,8 +46,8 @@ class User < ActiveRecord::Base
       user.fb_token_expire =Time.at(auth.credentials.expires_at)
       
       if user.new_record?
-        user.fName = auth.extra.raw_info.first_name
-        user.lName = auth.extra.raw_info.last_name
+        user.fname = auth.extra.raw_info.first_name
+        user.lname = auth.extra.raw_info.last_name
         user.username = auth.extra.raw_info.username
         user.dob = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y')
         user.password = auth.extra.raw_info.username
@@ -68,7 +70,7 @@ class User < ActiveRecord::Base
   end
   
   def fullname
-    fName.capitalize + " " + lName.capitalize
+    fname.capitalize + " " + lname.capitalize
   end
   
   def locations_and_ids

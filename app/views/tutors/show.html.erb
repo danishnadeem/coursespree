@@ -5,7 +5,7 @@
   <%unless @tutor.user.blank?%>
     <%= @tutor.user.username%><br />
     <b>Full Name:</b>
-    <%= @tutor.user.fName + " " + @tutor.user.lName%>
+    <%= @tutor.user.fname + " " + @tutor.user.lname%>
   <%end%>
 </p>
 <div><%= link_to 'see resume', @tutor.resume.url %></div>

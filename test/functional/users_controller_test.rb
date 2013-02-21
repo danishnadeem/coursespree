@@ -18,7 +18,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { active: @user.active, avartar: @user.avartar, ave_rating: @user.ave_rating, dob: @user.dob, email: @user.email, fName: @user.fName, fb_ID: @user.fb_ID, gender: @user.gender, lName: @user.lName, password: @user.password, paypalEmail: @user.paypalEmail, seed: @user.seed, username: @user.username }
+      post :create, user: { active: @user.active, avartar: @user.avartar, ave_rating: @user.ave_rating, dob: @user.dob, email: @user.email, fname: @user.fname, fb_ID: @user.fb_ID, gender: @user.gender, lname: @user.lname, password: @user.password, paypalEmail: @user.paypalEmail, seed: @user.seed, username: @user.username }
     end
 
     assert_redirected_to user_path(assigns(:user))
@@ -35,7 +35,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    put :update, id: @user, user: { active: @user.active, avartar: @user.avartar, ave_rating: @user.ave_rating, dob: @user.dob, email: @user.email, fName: @user.fName, fb_ID: @user.fb_ID, gender: @user.gender, lName: @user.lName, password: @user.password, paypalEmail: @user.paypalEmail, seed: @user.seed, username: @user.username }
+    put :update, id: @user, user: { active: @user.active, avartar: @user.avartar, ave_rating: @user.ave_rating, dob: @user.dob, email: @user.email, fname: @user.fname, fb_ID: @user.fb_ID, gender: @user.gender, lname: @user.lname, password: @user.password, paypalEmail: @user.paypalEmail, seed: @user.seed, username: @user.username }
     assert_redirected_to user_path(assigns(:user))
   end
 

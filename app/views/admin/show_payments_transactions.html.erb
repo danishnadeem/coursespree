@@ -31,13 +31,13 @@
           <%end%>
 
           <%unless trans.tutor_id.blank? %>
-            <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
+            <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
           <%else%>
             <td>NIL</td>
           <%end%>
 
           <%unless trans.user_id.blank? %>
-            <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
+            <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
           <%else%>
             <td>NIL</td>
           <%end%>
@@ -99,13 +99,13 @@
           <%end%>
 
           <%unless trans.tutor_id.blank? %>
-            <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
+            <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
           <%else%>
             <td>NIL</td>
           <%end%>
 
           <%unless trans.user_id.blank? %>
-            <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
+            <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
           <%else%>
             <td>NIL</td>
           <%end%>
@@ -140,13 +140,13 @@
             <%end%>
 
             <%unless trans.tutor_id.blank? %>
-              <td><%= link_to trans.tutor.user.fName + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
+              <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lName , tutor_path(trans.tutor)%></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
             <%unless trans.user_id.blank? %>
-              <td><%= link_to trans.user.fName + " " + trans.user.lName, user_path(trans.user) %></td>
+              <td><%= link_to trans.user.fname + " " + trans.user.lName, user_path(trans.user) %></td>
             <%else%>
               <td>NIL</td>
             <%end%>

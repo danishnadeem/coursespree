@@ -5,8 +5,8 @@ one:
   password: MyString
   seed: MyString
   email: MyString
-  fName: MyString
-  lName: MyString
+  fname: MyString
+  lname: MyString
   gender: 1
   dob: 2012-07-09
   avartar: MyString
@@ -20,8 +20,8 @@ two:
   password: MyString
   seed: MyString
   email: MyString
-  fName: MyString
-  lName: MyString
+  fname: MyString
+  lname: MyString
   gender: 1
   dob: 2012-07-09
   avartar: MyString
