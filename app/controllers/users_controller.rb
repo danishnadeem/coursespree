@@ -108,9 +108,18 @@ class UsersController < ApplicationController
         newU.save!
         @user.university_id = newU.id
       end
+      if params["addDept"].present? && params["newdept"].length > 0
+        newD = Department.find_or_create_by_name(params["newdept"])
+        newD.university_id=@user.university_id
+        newD.save!
+        @user.department_id = newD.id
+      elsif params[:department_id].present?
+        @user.department_id = params[:department_id]
+      end
     elsif @user.university_id.present?
       if params["addDept"].present? && params["newdept"].length > 0
         newD = Department.find_or_create_by_name(params["newdept"])
+        newD.university_id=@user.university_id
         newD.save!
         @user.department_id = newD.id
       elsif params[:department_id].present?
