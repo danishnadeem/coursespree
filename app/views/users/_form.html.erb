@@ -68,11 +68,11 @@
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
         Add new
-        <%=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
+        <%=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
         <%=text_field_tag "newuniv" %>
       </div>
     <%end%>
-    <%unless @user.usertype == "subadmin" &&  controller.action_name == "edit"%>
+    <%unless @user.usertype == "subadmin" &&  (controller.action_name == "edit" || controller.action_name == "new")%>
       <%if current_user.present? && current_user.usertype=="subadmin"%>
         <div class="field">
           <%= f.label :Affiliation %><br />
