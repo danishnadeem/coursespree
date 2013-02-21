@@ -41,7 +41,7 @@
     <div class="field">
       <%if controller.action_name == "new"%>
         <%= f.hidden_field :approved, :value => 0 %>
-      <%elsif current_user.usertype == "superadmin"%>
+      <%elsif current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
         <div class="field">
           <%= f.label :approved %><br />
           <%= f.text_field :approved %>

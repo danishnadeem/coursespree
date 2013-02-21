@@ -10,7 +10,11 @@
     </div>
   <% end %>
   <div class="field">
-    <%= f.select :university_id, univs_and_ids, {:prompt=> "Select a University"}%>
+    <%if current_user.usertype == "subadmin"%>
+      <%= f.select :university_id,  University.where(:id => current_user.university.id).map{|u| [u.name, u.id]} %>
+    <%else%>
+      <%= f.select :university_id, univs_and_ids, {:prompt=> "Select a University"}%>
+    <%end%>
   </div>
 
   <div class="field">
