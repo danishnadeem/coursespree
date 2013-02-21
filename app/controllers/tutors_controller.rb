@@ -88,6 +88,16 @@ class TutorsController < ApplicationController
   # POST /tutors
   # POST /tutors.json
   def create
+    unless params[:tutor][:user_id].blank?
+      @user = User.find_by_id(params[:tutor][:user_id])
+      unless params[:university_id].blank?
+        @user.update_attribute(:university_id => params[:university_id])
+      end
+      unless params[:department_id].blank?
+        @user.update_attribute(:department_id => params[:department_id])
+      end
+    end
+
     @tutor = Tutor.new(params[:tutor])
 
     respond_to do |format|
@@ -198,12 +208,10 @@ class TutorsController < ApplicationController
           end
         end
       end
-
     end
     @tutor = Tutor.new
     
     if request.post?
-      
     end
   end
   

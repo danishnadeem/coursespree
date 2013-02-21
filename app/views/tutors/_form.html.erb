@@ -4,9 +4,9 @@
       <h2><%= pluralize(@tutor.errors.count, "error") %> prohibited this tutor from being saved:</h2>
 
       <ul>
-      <% @tutor.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @tutor.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -21,8 +21,9 @@
         <%= f.text_field :approved %>
       </div>
     <%end%>
-    
+
   </div>
+
   <div class="field">
     <%= f.label :transcript %><br />
     <%= f.file_field :transcript %>
@@ -36,14 +37,14 @@
     <%= f.text_field :rate %>
   </div>
   <%if false%>
-  <div class="field">
-    <%= f.label :university %><br />
-    <%= f.text_field :university %>
-  </div>
-  <div class="field">
-    <%= f.label :univ_identifier %><br />
-    <%= f.text_field :univ_identifier %>
-  </div>
+    <div class="field">
+      <%= f.label :university %><br />
+      <%= f.text_field :university %>
+    </div>
+    <div class="field">
+      <%= f.label :univ_identifier %><br />
+      <%= f.text_field :univ_identifier %>
+    </div>
   <%end%>
   <div class="actions">
     <%= f.submit %>

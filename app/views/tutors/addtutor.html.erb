@@ -21,7 +21,21 @@
     <% end %>
 
     <div class="field">
+      <%= label_tag "Users_usernames", "Users" %>
+      <br/>
       <%= f.select 'user_id', options_from_collection_for_select(@users, 'id' , 'username')%>
+      <div class="field">
+        <% if current_user.usertype == "superadmin"%>
+          University
+          <br/><br/>
+          <%= select_tag 'university_id', options_from_collection_for_select(University.all, 'id' , 'name'), :prompt=>"Please Select a University", :onchange => "fetchdepartments($(this).val())"%>
+        <%end%>
+      </div>
+      <div class="field" id="departments">
+        <p class="field"  id="departments_updated">
+          <%= render :partial => "/users/departments", :locals => {:departments => @departments} %>
+        </p>
+      </div>
       <%if controller.action_name == "new"%>
         <%= f.hidden_field :approved, :value => 0 %>
       <%elsif current_user.usertype == "superadmin"%>
@@ -109,3 +123,12 @@
     </div>
   <% end %>
 <% end %>
+
+<script>
+  function fetchdepartments(obj_val){
+    $.ajax({
+      url: '<%= fetch_departments_users_path %>',
+      data: {university_id: obj_val }
+    });
+  }
+</script>

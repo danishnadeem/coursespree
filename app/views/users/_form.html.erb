@@ -81,9 +81,6 @@
       <%else%>
         <div class="field" id="departments">
           <p class="field"  id="departments_updated">
-            <%if @departments.blank?%>
-        <%#@departments = depts_and_ids %>
-            <%end%>
             <%= render :partial => "departments", :locals => {:departments => @departments} %>
           </p>
           <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
