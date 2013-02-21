@@ -9,6 +9,7 @@ class TutorsController < ApplicationController
     # search based on subject title
     # result excluded un approved tutors
     # tutor self excluded from result
+
     
     if !params[:subject].nil? && params[:subject].size > 0
       @tutors = Array.new
