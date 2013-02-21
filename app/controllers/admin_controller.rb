@@ -99,8 +99,16 @@ class AdminController < ApplicationController
       redirect_to '/student_report'
     else
       unless searched_user.blank?
-        searched_user.first.meetings.each do |m|
-          @searched_user_meetings << m
+        if searched_user.first.present? && current_user.usertype!="subadmin"
+          searched_user.first.meetings.each do |m|
+            @searched_user_meetings << m
+          end
+        elsif searched_user.first.present? && current_user.usertype=="subadmin"
+          if searched_user.first.university.id == current_user.university.id
+            searched_user.first.meetings.each do |m|
+              @searched_user_meetings << m
+            end
+          end
         end
         render :show_student_meetings_reports
       else
@@ -120,9 +128,15 @@ class AdminController < ApplicationController
       redirect_to '/tutor_report'
     else
       unless searched_user.blank?
-        if searched_user.first.tutor.present?
+        if searched_user.first.tutor.present? && current_user.usertype!="subadmin"
           searched_user.first.tutor.meetings.each do |m|
             @searched_user_meetings << m
+          end
+        elsif searched_user.first.tutor.present? && current_user.usertype=="subadmin"
+          if searched_user.first.university.id == current_user.university.id
+            searched_user.first.tutor.meetings.each do |m|
+              @searched_user_meetings << m
+            end
           end
         end
         render :show_tutor_meetings_reports

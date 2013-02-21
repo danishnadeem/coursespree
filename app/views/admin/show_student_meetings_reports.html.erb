@@ -68,11 +68,12 @@
     <div>
       <%= form_tag '/admins/search_student_meetings_reports' do %>
         <p>
-          <%= label_tag :free_code , "Enter a free code assign to SubAdmin"%>
+          <%= label_tag :name , "Enter a first name Or Last name to search"%>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
         </p>
       <% end %>
     </div>
   <%end%>
+  No record found!
 <%end%>
