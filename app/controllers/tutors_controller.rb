@@ -88,8 +88,16 @@ class TutorsController < ApplicationController
   # POST /tutors
   # POST /tutors.json
   def create
-    unless params[:tutor][:user_id].blank?
+    if params[:tutor][:user_id].present?
       @user = User.find_by_id(params[:tutor][:user_id])
+      unless params[:university_id].blank?
+        @user.update_attribute(:university_id , params[:university_id])
+      end
+      unless params[:department_id].blank?
+        @user.update_attribute(:department_id , params[:department_id])
+      end
+    elsif params[:user_id].present? && params[:from_add_user].present?
+      @user = User.find_by_id(params[:user_id])
       unless params[:university_id].blank?
         @user.update_attribute(:university_id , params[:university_id])
       end
@@ -200,7 +208,6 @@ class TutorsController < ApplicationController
         end
       end
     elsif current_user.usertype=="subadmin"
-      all_users = User.all
       all_users.each do |usr|
         if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
           if usr.university == current_user.university
