@@ -91,10 +91,10 @@ class TutorsController < ApplicationController
     unless params[:tutor][:user_id].blank?
       @user = User.find_by_id(params[:tutor][:user_id])
       unless params[:university_id].blank?
-        @user.update_attribute(:university_id => params[:university_id])
+        @user.update_attribute(:university_id , params[:university_id])
       end
       unless params[:department_id].blank?
-        @user.update_attribute(:department_id => params[:department_id])
+        @user.update_attribute(:department_id , params[:department_id])
       end
     end
 

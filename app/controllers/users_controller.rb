@@ -113,8 +113,9 @@ class UsersController < ApplicationController
         newD.university_id=@user.university_id
         newD.save!
         @user.department_id = newD.id
-      elsif params[:department_id].present?
-        @user.department_id = params[:department_id]
+        # if a new university is selected and old department is already selected then do nothing
+        #      elsif params[:department_id].present?
+        #        @user.department_id = params[:department_id]
       end
     elsif @user.university_id.present?
       if params["addDept"].present? && params["newdept"].length > 0
