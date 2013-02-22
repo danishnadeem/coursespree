@@ -28,7 +28,7 @@
     </div>
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email %>
+      <%= f.email_field :email ,  :validate => { :presence => true } %>
     </div>
     <div class="field">
       <%= f.label :fname, "First Name" %><br />
@@ -60,7 +60,7 @@
     <%if current_user.present? && current_user.usertype=="subadmin"%>
       <div class="field">
         <%= f.label :university_id %><br />
-        <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
+    <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
         <%= f.hidden_field :university_id,  :value => current_user.university.id %>
       </div>
     <%else%>
@@ -76,7 +76,7 @@
       <%if current_user.present? && current_user.usertype=="subadmin"%>
         <div class="field">
           <%= f.label :Affiliation %><br />
-          <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
+      <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
           <%= f.hidden_field :department_id,  :value => current_user.department.id %>
         </div>
       <%else%>

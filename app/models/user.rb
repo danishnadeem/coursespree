@@ -13,13 +13,8 @@ class User < ActiveRecord::Base
   has_one :subadmin
 
   validates :username,  :presence => true 
-  validates :password,  :presence => true
-  validates :password_confirmation,  :presence => true
-  validates :email,  :presence => true
   validates :fname,  :presence => true
   validates :lname,  :presence => true
-  #  validates :university_id,  :presence => true
-  #  validates :department_id,  :presence => true
   validates :bio,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
@@ -27,6 +22,8 @@ class User < ActiveRecord::Base
     :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension",
     :default_url => "missing.png"
   validates_uniqueness_of :username
+  validates_presence_of :email
+  validates_uniqueness_of :email
   validates_confirmation_of :password
   validate :password_non_blank
 
