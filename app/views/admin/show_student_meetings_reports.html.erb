@@ -51,7 +51,7 @@
             <td colspan="6"></td>
           <%end%>
           <td>
-            $ <%= meeting.user ? meeting.user.transaction.last.amount : 0.to_f%>
+            $ <%= meeting.user.transaction ? meeting.user.transaction.last.amount : 0.to_f%>
           </td>
           <%if current_admin? %>
             <td><%= link_to 'Show', meeting %></td>
