@@ -23,11 +23,11 @@
     <%btntext = "Update Meeting"%>
     <div class="field">
       <%= f.label 'accept:' %><br />
-      <%= f.text_field :accept %>
+      <%= f.text_field :accept , :disabled=>true%>
     </div>
     <div class="field">
       <%= f.label 'paid:' %><br />
-      <%= f.text_field :paid %>
+      <%= f.text_field :paid ,:disabled => true%>
     </div>
   <%end%><!--edit test end-->
 
@@ -38,13 +38,23 @@
 
   <%if current_user.usertype == "superadmin" %>
     <div class="field">
-      <%= f.label :student %><br />
-      <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username")%>
+      <%if controller.action_name == "edit"%>
+        <%= f.label :student %><br />
+        <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username"), :disabled => true %>
+      <%else%>
+        <%= f.label :student %><br />
+        <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username") %>
+      <%end%>
     </div>
   <%elsif current_user.usertype == "subadmin"%>
     <div class="field">
-      <%= f.label :student %><br />
-      <%= select_tag 'user_id', options_from_collection_for_select(@students_subadmin, 'id' , "username")%>
+      <%if controller.action_name == "edit"%>
+        <%= f.label :student %><br />
+        <%= select_tag 'user_id', options_from_collection_for_select(@students_subadmin, 'id' , "username"), :disabled => true %>
+      <%else%>
+        <%= f.label :student %><br />
+        <%= select_tag 'user_id', options_from_collection_for_select(@students_subadmin, 'id' , "username")%>
+      <%end%>
     </div>
   <%end%>
 

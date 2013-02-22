@@ -1,7 +1,7 @@
 class SubjectsTutorsController < ApplicationController
   
   def select
-    if !params[:sid].nil? && !session[:user_id].nil?
+    if !params[:sid].nil? && !session[:user_id].nil? && current_user.usertype != "superadmin" && current_user.usertype != "subadmin"
       tutor_id = Tutor.find_by_user_id(session[:user_id]).id
       @subjects_tutor = SubjectsTutor.new(
         :subject_id => params[:sid],
@@ -12,6 +12,19 @@ class SubjectsTutorsController < ApplicationController
       respond_to do |format|
         if @subjects_tutor.save
           format.html {redirect_to User.find(session[:user_id])}
+        end
+      end
+    elsif !params[:sid].nil? && !session[:user_id].nil? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")
+      tutor_id = Tutor.find_by_user_id(params[:tutor_id]).id
+      @subjects_tutor = SubjectsTutor.new(
+        :subject_id => params[:sid],
+        :tutor_id => tutor_id
+      )
+      usubs = User.find(session[:user_id])
+
+      respond_to do |format|
+        if @subjects_tutor.save
+          format.html {redirect_to :back}
         end
       end
     end
@@ -92,10 +105,16 @@ class SubjectsTutorsController < ApplicationController
   def destroy
     @subjects_tutor = SubjectsTutor.find(params[:id])
     @subjects_tutor.destroy
-
-    respond_to do |format|
-      format.html {redirect_to User.find(session[:user_id])}
-      format.json { head :no_content }
+    if !session[:user_id].nil? && current_user.usertype != "superadmin" && current_user.usertype != "subadmin" 
+      respond_to do |format|
+        format.html {redirect_to User.find(session[:user_id])}
+        format.json { head :no_content }
+      end
+    elsif current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
+      respond_to do |format|
+        format.html {redirect_to :back}
+        format.json { head :no_content }
+      end
     end
   end
 end

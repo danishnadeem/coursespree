@@ -72,6 +72,10 @@
             <a href="/users/<%= tutor.user.id %>/edit/">Edit Personal</a> |
             <a href="/users/<%= tutor.user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
             <%= link_to 'Fire Tutor', tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%if current_user.usertype=="superadmin" || current_user.usertype=="subadmin"%>
+              <%= hidden_field_tag "tutor_id" , tutor%>
+              | <%= link_to 'Create Or Show Tutor Availabilties', tutor_availabilities_path(:tutor_id => tutor) %>
+            <%end%>
           </div><!--tutorschedule div end-->
           <div class="fix"></div>
         </div><!--tutoritem div end-->

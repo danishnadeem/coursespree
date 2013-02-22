@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register, :show, :edit, :register, :fetch_departments]
+  before_filter :authticate, :except => [:create, :register, :show, :edit, :update, :register, :fetch_departments]
 
   def authticate
     unless User.find_by_id(session[:user_id])
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   
   def fetch_departments
     @university = University.find_by_id(params[:university_id])
-    @departments = @university.blank? ? '' : @university.departments
+    @departments = @university.departments
     
     respond_to do |format|
       format.js do
@@ -92,6 +92,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @departments = current_user.university.departments
   end
 
   # POST /users
@@ -123,24 +124,22 @@ class UsersController < ApplicationController
         newD.university_id=@user.university_id
         newD.save!
         @user.department_id = newD.id
-      elsif params[:department_id].present?
-        @user.department_id = params[:department_id]
       end
-    end
 
-    respond_to do |format|
-      # if apply to be tutor on registration redirect to tutor application page after registration succeed
-      if @user.save && !tu.nil? && tu == "1"
-        session[:user_id] = @user.id
-        format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
-        format.json { render json: @user, status: :created, location: @user }
-      elsif @user.save
-        session[:user_id] = @user.id
-        format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
-        format.json { render json: @user, status: :created, location: @user }
-      else
-        format.html { render action: "register" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        # if apply to be tutor on registration redirect to tutor application page after registration succeed
+        if @user.save && !tu.nil? && tu == "1"
+          session[:user_id] = @user.id
+          format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
+          format.json { render json: @user, status: :created, location: @user }
+        elsif @user.save
+          session[:user_id] = @user.id
+          format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
+          format.json { render json: @user, status: :created, location: @user }
+        else
+          format.html { render action: "register" }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -149,9 +148,34 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+    if !params["addUniv"].blank? && !params["newuniv"].blank?
+      if params["addUniv"] == "checked" && params["newuniv"].length > 0
+        newU = University.find_or_create_by_name(params["newuniv"])
+        newU.save!
+        params[:user][:university_id] = newU.id
+        params[:user][:department_id] = nil
+      end
+      if params["addDept"].present? && params["newdept"].length > 0
+        newD = Department.find_or_create_by_name(params["newdept"])
+        newD.university_id=@user.university_id
+        newD.save!
+        params[:user][:department_id] = newD.id
+
+        # if a new university is selected and old department is already selected then do nothing
+        #      elsif params[:department_id].present?
+        #        @user.department_id = params[:department_id]
+      end
+    elsif @user.university_id.present?
+      if params["addDept"].present? && params["newdept"].length > 0
+        newD = Department.find_or_create_by_name(params["newdept"])
+        newD.university_id=@user.university_id
+        newD.save!
+        params[:user][:department_id] = newD.id
+      end
+    end
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.update_attributes!(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else

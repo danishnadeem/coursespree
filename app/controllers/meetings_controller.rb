@@ -118,7 +118,7 @@ class MeetingsController < ApplicationController
     @usr = User.all
     @usr.each do |usr|
       if current_user.usertype=="subadmin"
-        if usr.department == current_user.department && usr.usertype!="subadmin" &&usr.usertype!="superadmin" && usr.tutor.blank?
+        if usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
           @students_subadmin << usr
         end
       elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
@@ -205,6 +205,24 @@ class MeetingsController < ApplicationController
   # GET /meetings/1/edit
   def edit
     @meeting = Meeting.find(params[:id])
+    @students_subadmin=[]
+    @students=[]
+    @usr = User.all
+    @usr.each do |usr|
+      if current_user.usertype=="subadmin"
+        if usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
+          @students_subadmin << usr
+        end
+      elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
+        @students << usr
+      end
+    end
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @meeting }
+    end
+
   end
 
   # POST /meetings
@@ -238,7 +256,6 @@ class MeetingsController < ApplicationController
   end
   
   def payment
-     
     if request.post? && !params[:mid].nil?
       #redirect_to(:back, notice: params[:oid])
         
