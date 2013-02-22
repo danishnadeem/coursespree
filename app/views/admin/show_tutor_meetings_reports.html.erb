@@ -52,29 +52,34 @@
           <%end%>
 
           <td>
-            $ <%= meeting.user.transaction ? meeting.user.transaction.last.amount : 0.to_f%>
-          </td>
-          <%if current_admin? %>
-            <td><%= link_to 'Show', meeting %></td>
-            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-            <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <%end%>
-        </tr>
+            $ <%= if meeting.user.transaction.present?
+              meeting.user.transaction.last.amount
+            else
+              0.to_f%>
+        <%#=  meeting.user.transaction%>
+        <%#=  meeting.user.transaction.amount%>
+            </td>
+            <%if current_admin? %>
+              <td><%= link_to 'Show', meeting %></td>
+              <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+              <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <%end%>
+          </tr>
+        <%end%>
       <%end%>
+    </table>
+    <br />
+  <%else%>
+    <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+      <div>
+        <%= form_tag '/admins/search_tutor_meetings_reports' do %>
+          <p>
+            <%= label_tag :name , "Enter a first name Or Last name to search"%>
+            <%= text_field_tag :search, params[:search] %>
+            <%= submit_tag "Search", :name => nil %>
+          </p>
+        <% end %>
+      </div>
     <%end%>
-  </table>
-  <br />
-<%else%>
-  <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
-    <div>
-      <%= form_tag '/admins/search_tutor_meetings_reports' do %>
-        <p>
-          <%= label_tag :name , "Enter a first name Or Last name to search"%>
-          <%= text_field_tag :search, params[:search] %>
-          <%= submit_tag "Search", :name => nil %>
-        </p>
-      <% end %>
-    </div>
+    No record found!
   <%end%>
-  No record found!
-<%end%>
