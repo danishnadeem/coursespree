@@ -164,9 +164,9 @@ class TutorsController < ApplicationController
 
     @subadmin_tutors = []
     if current_user.usertype=="subadmin"
-      University.all.each do |univ|
-        if current_user.university.id == univ.id
-          @subadmin_users = User.find_all_by_university_id(univ.id)
+      Department.all.each do |dept|
+        if current_user.department.id == dept.id
+          @subadmin_users = User.find_all_by_department_id(dept.id)
         end
       end
       @subadmin_users.each do |subadmin_usr|
@@ -210,7 +210,7 @@ class TutorsController < ApplicationController
     elsif current_user.usertype=="subadmin"
       all_users.each do |usr|
         if usr.tutor.blank? && usr.usertype!="superadmin" && usr.usertype!="subadmin"
-          if usr.university == current_user.university
+          if usr.department == current_user.department
             @users << usr
           end
         end

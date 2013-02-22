@@ -26,18 +26,18 @@
       <br/>
       <%= f.select 'user_id', options_from_collection_for_select(@users, 'id' , 'username')%>
     </div>
-    <div class="field">
-      <% if current_user.usertype == "superadmin"%>
+    <% if current_user.usertype == "superadmin"%>
+      <div class="field">
         University
         <br/><br/>
         <%= select_tag 'university_id', options_from_collection_for_select(University.all, 'id' , 'name'), :prompt=>"Please Select a University", :onchange => "fetchdepartments($(this).val())"%>
-      <%end%>
-    </div>
-    <div class="field" id="departments">
-      <p class="field"  id="departments_updated">
-        <%= render :partial => "/users/departments", :locals => {:departments => @departments} %>
-      </p>
-    </div>
+      </div>
+      <div class="field" id="departments">
+        <p class="field"  id="departments_updated">
+          <%= render :partial => "/users/departments", :locals => {:departments => @departments} %>
+        </p>
+      </div>
+    <%end%>
     <div class="field">
       <%if controller.action_name == "new"%>
         <%= f.hidden_field :approved, :value => 0 %>
@@ -87,18 +87,18 @@
         </ul>
       </div>
     <% end %>
-    <div class="field">
-      <% if current_user.usertype == "superadmin"%>
+    <% if current_user.usertype == "superadmin"%>
+      <div class="field">
         University
         <br/><br/>
         <%= select_tag 'university_id', options_from_collection_for_select(University.all, 'id' , 'name'), :prompt=>"Please Select a University", :onchange => "fetchdepartments($(this).val())"%>
-      <%end%>
-    </div>
-    <div class="field" id="departments">
-      <p class="field"  id="departments_updated">
-        <%= render :partial => "/users/departments", :locals => {:departments => @departments} %>
-      </p>
-    </div>
+      </div>
+      <div class="field" id="departments">
+        <p class="field"  id="departments_updated">
+          <%= render :partial => "/users/departments", :locals => {:departments => @departments} %>
+        </p>
+      </div>
+    <%end%>
     <div class="field">
       <%= f.hidden_field :user_id, :value => @user_id %>
       <%if controller.action_name == "new"%>

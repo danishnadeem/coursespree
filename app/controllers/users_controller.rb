@@ -23,9 +23,9 @@ class UsersController < ApplicationController
     end
 
     if current_user.usertype=="subadmin"
-      University.all.each do |univ|
-        if current_user.university.id == univ.id
-          @subadmin_users = User.find_all_by_university_id(univ.id)
+      Department.all.each do |dept|
+        if current_user.department.id == dept.id
+          @subadmin_users = User.find_all_by_department_id(dept.id)
         end
       end
     end

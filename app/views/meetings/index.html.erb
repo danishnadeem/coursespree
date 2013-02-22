@@ -23,7 +23,6 @@
           <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
           <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
           <td>
-      <%#= meeting.paid ? "paid":"waiting" %>
             <%if meeting.paid%>
               paid
             <%else%>
@@ -64,14 +63,13 @@
                       <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
                       <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
                       <td>
-                  <%#= meeting.paid ? "paid":"waiting" %>
                         <%if meeting.paid%>
                           paid
                         <%else%>
                           waiting
                         <%end%>
                       </td>
-                      <% if  meeting.tutor %>
+                      <% if meeting.tutor %>
                         <td><%= Subject.find(meeting.subject).title %></td>
                         <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
                         <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
@@ -101,9 +99,7 @@
       <%end%>
     <% end %>
   </table>
-
 <% end %>
-
 <br />
 
 <%#= link_to 'New Meeting',  new_meeting_meetings_path %>

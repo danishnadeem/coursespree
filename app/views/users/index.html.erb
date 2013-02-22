@@ -8,7 +8,7 @@
       <%end%> | <%=link_to 'more'%>
     </p>
   <%else%>
-    <h2>Student of SubAdmin Universities</h2>
+    <h2>Student of SubAdmin's Department</h2>
   <%end%>
   <%if @users.count < 1 %>
     <div class="placeholder">
@@ -49,7 +49,7 @@
   <%unless @subadmin_users.blank?%>
     <% @subadmin_users.each do |user| %>
       <div class="useritem">
-        <%if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && current_user.university.id == user.university.id  && user.tutor.blank?)%>
+        <%if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
           <div class="avatarimg">
             <%= link_to image_tag(user.avatar.url(:thumb)), user %>
           </div>

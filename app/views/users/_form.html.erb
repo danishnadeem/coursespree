@@ -60,8 +60,8 @@
     <%if current_user.present? && current_user.usertype=="subadmin"%>
       <div class="field">
         <%= f.label :university_id %><br />
-        <%universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
-        <%= f.select :university_id,  universities %>
+        <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
+        <%= f.hidden_field :university_id,  :value => current_user.university.id %>
       </div>
     <%else%>
       <div class="field">
@@ -76,14 +76,15 @@
       <%if current_user.present? && current_user.usertype=="subadmin"%>
         <div class="field">
           <%= f.label :Affiliation %><br />
-          <%= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
+          <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
+          <%= f.hidden_field :department_id,  :value => current_user.department.id %>
         </div>
       <%else%>
         <div class="field" id="departments">
           <p class="field"  id="departments_updated">
             <%= render :partial => "departments", :locals => {:departments => @departments} %>
           </p>
-          <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
+          <%if current_user.present? && (current_user.usertype == "superadmin")%>
             <p class="field"  id="departments_updated">
               Or Add new Affiliation
               <%=check_box_tag "addDept", :checked => true %>

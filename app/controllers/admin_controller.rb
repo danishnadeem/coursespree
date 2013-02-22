@@ -32,7 +32,7 @@ class AdminController < ApplicationController
     @transaction = Transaction.all
     @transaction.each do |trans|
       if current_user.usertype=="subadmin"
-        if trans.user.university == current_user.university
+        if trans.user.department == current_user.department
           @trans_subadmin << trans
         end
       else
@@ -99,12 +99,12 @@ class AdminController < ApplicationController
       redirect_to '/student_report'
     else
       unless searched_user.blank?
-        if searched_user.first.present? && current_user.usertype!="subadmin"
+        if searched_user.first.tutor.blank? && current_user.usertype!="subadmin"
           searched_user.first.meetings.each do |m|
             @searched_user_meetings << m
           end
-        elsif searched_user.first.present? && current_user.usertype=="subadmin"
-          if searched_user.first.university.id == current_user.university.id
+        elsif searched_user.first.tutor.blank? && current_user.usertype=="subadmin"
+          if searched_user.first.department.id == current_user.department.id
             searched_user.first.meetings.each do |m|
               @searched_user_meetings << m
             end
@@ -133,7 +133,7 @@ class AdminController < ApplicationController
             @searched_user_meetings << m
           end
         elsif searched_user.first.tutor.present? && current_user.usertype=="subadmin"
-          if searched_user.first.university.id == current_user.university.id
+          if searched_user.first.department.id == current_user.department.id
             searched_user.first.tutor.meetings.each do |m|
               @searched_user_meetings << m
             end
