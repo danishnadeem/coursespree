@@ -82,7 +82,11 @@
         <div class="field">
       <%#= f.label :Affiliation %><br />
       <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
-          <%= f.hidden_field :department_id,  :value => current_user.department.id %>
+          <%= if current_user.department.present?
+            f.hidden_field :department_id,  :value => current_user.department.id
+          else
+            f.hidden_field :department_id,  :value => ""
+          end%>
         </div>
       <%else%>
         <%if controller.action_name == "new"%>

@@ -210,7 +210,7 @@ class MeetingsController < ApplicationController
     @usr = User.all
     @usr.each do |usr|
       if current_user.usertype=="subadmin"
-        if usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
+        if usr.department.present? && current_user.department.present? && usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
           @students_subadmin << usr
         end
       elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?

@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
-        if current_user.department.id == dept.id
+        if current_user.department.present? && current_user.department.id == dept.id
           @subadmin_users = User.find_all_by_department_id(dept.id)
         end
       end
