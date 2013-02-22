@@ -50,6 +50,7 @@
           <%else%>
             <td colspan="6"></td>
           <%end%>
+
           <td>
             $ <%= meeting.user.transaction ? meeting.user.transaction.last.amount : 0.to_f%>
           </td>
