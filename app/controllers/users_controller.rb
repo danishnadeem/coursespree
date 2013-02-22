@@ -21,7 +21,6 @@ class UsersController < ApplicationController
     else
       @users = User.first(5)
     end
-
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
         if current_user.department.present? && current_user.department.id == dept.id
