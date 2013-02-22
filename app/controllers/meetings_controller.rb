@@ -31,7 +31,7 @@ class MeetingsController < ApplicationController
     @subadmin_tutors = []
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
-        if current_user.department.id == dept.id
+        if current_user.department.present? && current_user.department.id == dept.id
           @subadmin_users = User.find_all_by_department_id(dept.id)
         end
       end
@@ -118,7 +118,7 @@ class MeetingsController < ApplicationController
     @usr = User.all
     @usr.each do |usr|
       if current_user.usertype=="subadmin"
-        if usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
+        if usr.department.present? && current_user.department.present? && usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
           @students_subadmin << usr
         end
       elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
