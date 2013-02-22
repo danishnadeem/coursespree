@@ -169,9 +169,11 @@ class TutorsController < ApplicationController
           @subadmin_users = User.find_all_by_department_id(dept.id)
         end
       end
-      @subadmin_users.each do |subadmin_usr|
-        if subadmin_usr.tutor
-          @subadmin_tutors << subadmin_usr.tutor
+      if @subadmin_users.present?
+        @subadmin_users.each do |subadmin_usr|
+          if subadmin_usr.tutor
+            @subadmin_tutors << subadmin_usr.tutor
+          end
         end
       end
     end
