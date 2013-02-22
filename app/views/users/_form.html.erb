@@ -61,6 +61,7 @@
       <div class="field">
         <%#= f.label :university_id %><br />
     <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
+        
         <%= f.hidden_field :university_id,  :value => current_user.university.id %>
       </div>
     <%else%>
