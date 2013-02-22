@@ -23,7 +23,6 @@ class User < ActiveRecord::Base
     :default_url => "missing.png"
   validates_uniqueness_of :username
   validates_presence_of :email
-  validates_uniqueness_of :email
   validates_confirmation_of :password
   validate :password_non_blank
 
