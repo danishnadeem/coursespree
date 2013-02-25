@@ -50,7 +50,8 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def student_request_for_meeting_to_tutor
+  def student_request_for_meeting_to_tutor(meeting_id)
+    @meeting = Meeting.find_by_id(meeting_id)
     tutor = @meeting.tutor
     #    mail(:to => tutor.user.email, :subject => "Tutor accept your meeting request")
 
