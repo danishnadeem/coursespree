@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
   validates :password,
     :confirmation => true,
     :on => :create
-
   validate :password_non_blank
 
   def self.search(search)

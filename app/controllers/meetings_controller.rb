@@ -171,7 +171,7 @@ class MeetingsController < ApplicationController
     if @meeting.tutor.rate == 0
       @meeting.paid = true
     end
-    
+
     respond_to do |format|
       if @meeting.save
         ta = TutorAvailability.find(@meeting.tutor_availability_id)
