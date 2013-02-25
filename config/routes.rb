@@ -72,6 +72,7 @@ Findtutor::Application.routes.draw do
   resources :meetings do
     collection do
       get 'new_meeting'
+      get 'end_meeting'
       post 'create_meeting'
     end
   end

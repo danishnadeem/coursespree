@@ -1,6 +1,8 @@
 Findtutor::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.action_mailer.default_url_options = { :host => 'http://hidden-reef-7837.herokuapp.com' }
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
@@ -60,6 +62,20 @@ Findtutor::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  config.action_mailer.default_url_options = { :host => 'http://boiling-woodland-4825.herokuapp.com' }
+  config.action_mailer.delivery_method = :smtp
+
+  ActionMailer::Base.smtp_settings = {
+
+    :address        => "smtp.gmail.com",
+    :port           => 587,
+    :domain         => 'popupstorz.com',
+    :user_name => "test.account.rac@gmail.com",
+    :password => "racpakistan22",
+    :authentication => 'plain',
+    :enable_starttls_auto => true
+  }
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

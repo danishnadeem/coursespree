@@ -50,6 +50,13 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def end_meeting
+    @meeting = Meeting.find_by_id(params[:meeting_id])
+    @meeting.update_attribute("status", 3)
+    flash[:notice] = "Notice : Meeting status is successfully changed to finished."
+    redirect_to :back
+  end
+
   # GET /meetings/1
   # GET /meetings/1.json
   def show
@@ -77,7 +84,6 @@ class MeetingsController < ApplicationController
     #end
     
     if !params[:accept].nil? && params[:accept] == '1' && @meeting.tutor_id == session[:tutor_id]
-
       #only tutor for the meeting can accept the meeting
       @meeting.accept = 1
       @meeting.status = 1# status has further meanings, meeting started 2, meeting completed 2
@@ -85,15 +91,22 @@ class MeetingsController < ApplicationController
         @meeting.paid = true
       end
       @meeting.save
+
+      UserMailer.tutor_accept_meeting_request(@meeting.id).deliver
+
       redirect_to @meeting
       return
     elsif !params[:accept].nil? && params[:accept] == '-1' && @meeting.tutor_id == session[:tutor_id]
+      # reject meeting request
       @meeting.accept = -1
       @meeting.status = -1
       @meeting.save
       ta = @meeting.tutor_availability
       ta.taken = 0
       ta.save
+
+      UserMailer.tutor_reject_meeting_request(@meeting.id).deliver
+
       redirect_to @meeting
       return
     elsif !params[:started].nil? && params[:started] == '2' && (@meeting.tutor_id == session[:tutor_id] || @meeting.tutor_id == session[:tutor_id])

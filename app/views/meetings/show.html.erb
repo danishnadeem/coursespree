@@ -1,112 +1,118 @@
 <p id="notice"><%= notice %></p>
 <div id="meetingshow">
-      <div class="meetingline">
-        <div class="inlinetitle">Name:</div>
-        <%= @meeting.name %>
-      </div><!--meeting line end-->
-      <div class="meetingline">
-        <div class="inlinetitle">Type:</div>
-        <%= @meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
-      </div><!--meeting line end-->
-      <%if @meeting.tutor_availability.timetype == 1%>
+  <div class="meetingline">
+    <div class="inlinetitle">Name:</div>
+    <%= @meeting.name %>
+  </div><!--meeting line end-->
+  <div class="meetingline">
+    <div class="inlinetitle">Type:</div>
+    <%= @meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
+  </div><!--meeting line end-->
+  <%if @meeting.tutor_availability.timetype == 1%>
+    <div class="meetingline">
+      <div class="inlinetitle">Location: </div>
+      <%=@meeting.location.name%>
+    </div><!--meeting line end-->
+  <%end%>
+
+  <div class="meetingline">
+    <div class="inlinetitle">Subject:</div>
+    <%= @meeting.subject.title %>
+  </div><!--meeting line end-->
+
+  <div class="meetingline">
+    <div class="inlinetitle">Date:</div>
+    <%= @meeting.tutor_availability.start_time.strftime("%D") %>
+  </div><!--meeting line end-->
+  <div class="meetingline">
+    <div class="inlinetitle">Duration:</div>
+    <%= @meeting.tutor_availability.start_time.strftime("%H:%M") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
+  </div><!--meeting line end-->
+
+  <% if @meeting.tutor %>
+    <div class="meetingline">
+      <div class="inlinetitle">Tutor:</div>
+      <%= @meeting.tutor.user.fullname %>
+    </div><!--meeting line end-->
+  <% end %>
+  <div class="meetingline">
+    <div class="inlinetitle">Student:</div>
+    <%= @meeting.user.fullname %>
+  </div><!--meeting line end-->
+
+  <div class="meetingline">
+    <div class="inlinetitle">Message to the tutor:</div>
+    <%= @meeting.message %>
+  </div><!--meeting line end-->
+  <div class="meetingline">
+
+    <% if ( @meeting.tutor ) %>
+      <div class="inlinetitle">Price for this meeting:</div>
+      $<%=@meeting.tutor_availability.length*@meeting.tutor.rate %>
+    </div><!--meeting line end-->
+  <% end %>
+
+  <div class="meetingline">
+    <div class="inlinetitle">Payment Status:</div>
+    <%= @meeting.paid ? "Paid":"waiting for payment" %>
+  </div><!--meeting line end-->
+
+  <div class="meetingline">
+    <%= acceptlink%>
+  </div><!--meeting line end-->
+  <div class="meetingline">
+    <%= paymentlink%>
+  </div><!--meeting line end-->
+  <div class="meetingline">
+    <div class="inlinetitle">Meeting Status:</div>
+    <%= meeting_status(@meeting.status) %>
+  </div>  <!--meeting line end-->
+
+  <!--meeting action based on virtual or location-->
+  <%if  @meeting.tutor_availability.timetype == 1 %>
+    <div class="meetingline">
+      <div class="inlinetitle">Meeting Location:</div>
+      <%=@meeting.location.name%>
+    </div><!--meeting line end-->
+
+
+  <%else%><!--meeting is virtual-->
+    <!--if current tutor is tutor for this meeting, display start meeting option-->
+    <%if @meeting.status != 3%>
+      <% if @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
         <div class="meetingline">
-          <div class="inlinetitle">Location: </div>
-          <%=@meeting.location.name%>
-        </div><!--meeting line end-->
+          <div class="inlinetitle">Video Meeting:</div>
+          <% if current_user.usertype == 'tutor' %>
+            <%= link_to 'start meeting', :controller =>"meetings", :action=>"joinmeeting", :id=>@meeting.id %><br />
+          <% end%>
+        </div>
       <%end%>
-      
-      <div class="meetingline">
-        <div class="inlinetitle">Subject:</div>
-        <%= @meeting.subject.title %>
-      </div><!--meeting line end-->
-      
-      <div class="meetingline">
-        <div class="inlinetitle">Date:</div>
-        <%= @meeting.tutor_availability.start_time.strftime("%D") %>
-      </div><!--meeting line end-->
-      <div class="meetingline">
-        <div class="inlinetitle">Duration:</div>
-        <%= @meeting.tutor_availability.start_time.strftime("%H:%M") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
-      </div><!--meeting line end-->
-      
-      <% if @meeting.tutor %>
-      <div class="meetingline">
-        <div class="inlinetitle">Tutor:</div>
-        <%= @meeting.tutor.user.fullname %>
-      </div><!--meeting line end-->
-	  <% end %>
-      <div class="meetingline">
-        <div class="inlinetitle">Student:</div>
-        <%= @meeting.user.fullname %>
-      </div><!--meeting line end-->
-      
-      <div class="meetingline">
-        <div class="inlinetitle">Message to the tutor:</div>
-        <%= @meeting.message %>
-      </div><!--meeting line end-->
-      <div class="meetingline">
-	  
-	  <% if ( @meeting.tutor ) %>
-        <div class="inlinetitle">Price for this meeting:</div>
-        $<%=@meeting.tutor_availability.length*@meeting.tutor.rate %>
-      </div><!--meeting line end-->
-      <% end %>
-	  
-      <div class="meetingline">
-        <div class="inlinetitle">Payment Status:</div>
-        <%= @meeting.paid ? "Paid":"waiting for payment" %>
-      </div><!--meeting line end-->
-
-      <div class="meetingline">
-        <%= acceptlink%>
-      </div><!--meeting line end-->
-      <div class="meetingline">
-        <%= paymentlink%>
-      </div><!--meeting line end-->
-      <div class="meetingline">
-        <div class="inlinetitle">Meeting Status:</div>
-        <%= meeting_status(@meeting.status) %>
-      </div>  <!--meeting line end-->
-      
-<!--meeting action based on virtual or location-->
-<%if  @meeting.tutor_availability.timetype == 1 %>
-<div class="meetingline">
-  <div class="inlinetitle">Meeting Location:</div>
-  <%=@meeting.location.name%>
-</div><!--meeting line end-->
-
-
-<%else%><!--meeting is virtual-->
-<!--if current tutor is tutor for this meeting, display start meeting option-->  
-  <%if @meeting.status != 3%>
-    <% if @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
-      <div class="meetingline">
-        <div class="inlinetitle">Video Meeting:</div> 
-      <% if current_user.usertype == 'tutor' %>
-        <%= link_to 'start meeting', :controller =>"meetings", :action=>"joinmeeting", :id=>@meeting.id %><br />
-      <% end%>
-      </div>
-    <%end%>
       <!--if current user is student, display joining link-->
-    <%if @meeting.accept == 1 && @meeting.user_id == session[:user_id] %>
+      <%if @meeting.accept == 1 && @meeting.user_id == session[:user_id] %>
         <%if @running%>
           <%= link_to 'Join meeting',{:controller =>"meetings", :action=>"joinmeeting",:id=>@meeting.id,}%> |
         <%else%>
           Meeting not started by tutor
         <%end%>
-    <%end%>
-    <%if session[:user_id] == @meeting.tutor_id%>
-        <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>
-    <%end%>
-    
-    <%if session[:user_id] == @meeting.user_id%>
-        <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>
-    <%end%>
-  <%end%>  
-<%end%><!--if meeting is virtual-->
-<!--admin area-->
-      <%if current_user.usertype == "superadmin"%><!--administration only-->
-        <%= link_to 'check meeting status', @meeting.runningurl, :id=>'ismeetingrunning' %><br />
-        <%= link_to 'end meeting', @meeting.endurl, :id=> 'endmeeting' %><br />
       <%end%>
+      <%if session[:user_id] == @meeting.tutor_id%>
+        <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>
+      <%end%>
+
+      <%if session[:user_id] == @meeting.user_id%>
+        <%= link_to 'Cancel', @meeting, method: :delete, data: { confirm: 'This meeting will be deleted, are you sure?' } %>
+      <%end%>
+    <%end%>
+  <%end%><!--if meeting is virtual-->
+  <!--admin area-->
+  <%if current_user.usertype == "superadmin"%><!--administration only-->
+    <%= link_to 'check meeting status', @meeting.runningurl, :id=>'ismeetingrunning' %><br />
+    <%= link_to 'end meeting', @meeting.endurl, :id=> 'endmeeting' %><br />
+  <%end%>
+  <%if @meeting.tutor_availability.timetype == 1 && @meeting.status!=3%>
+    <%= link_to 'End meeting', end_meeting_meetings_path(:meeting_id => @meeting) %><br />
+  <%elsif @meeting.tutor_availability.timetype != 1 && @meeting.status!=3%>
+    <%= link_to 'End meeting', end_meeting_meetings_path(:meeting_id => @meeting) %><br />
+  <%end%>
+
 </div><!--meetingshow-->

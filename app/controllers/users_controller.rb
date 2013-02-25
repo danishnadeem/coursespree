@@ -68,9 +68,12 @@ class UsersController < ApplicationController
   end
   
   def fetch_departments
-    @university = University.find_by_id(params[:university_id])
-    @departments = @university.departments
-    
+    if params[:university_id].present?
+      @university = University.find_by_id(params[:university_id])
+      if @university.departments.present?
+        @departments = @university.departments
+      end
+    end
     respond_to do |format|
       format.js do
         departments = render_to_string(:partial => "departments", :locals => {:departments => @departments}).to_json
@@ -91,7 +94,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    @departments = current_user.university.departments
+    @departments = @user.university.departments
   end
 
   # POST /users
