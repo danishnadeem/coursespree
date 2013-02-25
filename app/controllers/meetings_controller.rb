@@ -11,23 +11,35 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
-    
-    if params[:type] == nil && current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
-      @meetings = Meeting.all
-    elsif params[:type] == nil
-      @meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
-    elsif params[:type]=='pending' #meeting requested by the current user
-      @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]])
-    elsif params[:type]=='past'#meeting you attended in the past
-      @meetings = Meeting.find(:all, :conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3])
-    elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
-      @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
-    elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
-      @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false])
+    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
+      if params[:type] == nil
+        @meetings = Meeting.all
+      elsif params[:type]=='pending' #meeting requested by the current user
+        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0"])
+      elsif params[:type]=='past'#meeting you attended in the past
+        @meetings = Meeting.find(:all, :conditions=> ["status >= 3"])
+      elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
+        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
+      elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
+        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, false])
+      else
+        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
+      end
     else
-      @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+      if params[:type] == nil
+        @meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
+      elsif params[:type]=='pending' #meeting requested by the current user
+        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]])
+      elsif params[:type]=='past'#meeting you attended in the past
+        @meetings = Meeting.find(:all, :conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3])
+      elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
+        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+      elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
+        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false])
+      else
+        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+      end
     end
-
     @subadmin_tutors = []
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
