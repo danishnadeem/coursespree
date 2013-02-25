@@ -11,6 +11,7 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
+    
     if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       if params[:type] == nil
         @meetings = Meeting.all
