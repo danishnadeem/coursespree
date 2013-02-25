@@ -56,7 +56,7 @@ class AdminController < ApplicationController
 
         @free_code_user_university_user.each do |usr|
           usr.each do |user_one_by_one|
-#            puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            #            puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
             #            puts user_one_by_one.transaction.inspect
             @trans_free_code_arr << user_one_by_one.transaction
           end
@@ -70,7 +70,7 @@ class AdminController < ApplicationController
 
           #          @trans_free_code << usr.last.transaction
           #          puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-#          puts @trans_free_code.inspect
+          #          puts @trans_free_code.inspect
           #          aaaaaa
         end
 
