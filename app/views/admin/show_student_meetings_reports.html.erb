@@ -1,10 +1,11 @@
+<% total_paid = 0  %>
 <%unless @searched_user_meetings.blank?%>
   <h1>Listing Meetings for Searched User</h1>
   <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
     <div>
       <%= form_tag '/admins/search_student_meetings_reports' do %>
         <p>
-          <%= label_tag :name , "Enter a first name Or Last name to search"%>
+          <%= label_tag :name , "Enter a first name Or Last name to search for Student"%>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
         </p>
@@ -51,28 +52,29 @@
             <td colspan="6"></td>
           <%end%>
           <td>
-            $ <%= if meeting.user.transaction.present?
-              meeting.user.transaction.last.amount
-            else
-              0.to_f
-            end%>
+            $ <% if meeting.user.transaction.present? %>
+              <%total_paid = total_paid + meeting.user.transaction.last.amount%>
+              <%= meeting.user.transaction.last.amount%>
+            <% else %>
+              <%= 0.to_f%>
+            <%end%>
           </td>
-          <%if current_admin? %>
-            <td><%= link_to 'Show', meeting %></td>
-            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-            <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          <%end%>
+          <td><%= link_to 'Show', meeting %></td>
+          <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+          <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <%end%>
     <%end%>
   </table>
+  <br />
+  Total Paid amount is $<%=total_paid %>
   <br />
 <%else%>
   <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
     <div>
       <%= form_tag '/admins/search_student_meetings_reports' do %>
         <p>
-          <%= label_tag :name , "Enter a first name Or Last name to search"%>
+          <%= label_tag :name , "Enter a first name Or Last name to search to search for Student"%>
           <%= text_field_tag :search, params[:search] %>
           <%= submit_tag "Search", :name => nil %>
         </p>
