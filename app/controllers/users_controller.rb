@@ -177,9 +177,8 @@ class UsersController < ApplicationController
         params[:user][:department_id] = newD.id
       end
     end
-
     respond_to do |format|
-      if @user.update_attributes!(params[:user])
+      if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else

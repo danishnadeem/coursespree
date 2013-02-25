@@ -23,7 +23,11 @@ class User < ActiveRecord::Base
     :default_url => "missing.png"
   validates_uniqueness_of :username
   validates_presence_of :email
-  validates_confirmation_of :password
+  #  validates_confirmation_of :password
+  validates :password,
+    :confirmation => true,
+    :on => :create
+
   validate :password_non_blank
 
   def self.search(search)
