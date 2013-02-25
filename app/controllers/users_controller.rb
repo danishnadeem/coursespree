@@ -161,7 +161,7 @@ class UsersController < ApplicationController
       end
       if params["addDept"].present? && params["newdept"].length > 0
         newD = Department.find_or_create_by_name(params["newdept"])
-        newD.university_id=@user.university_id
+        newD.university_id=params[:user][:university_id]
         newD.save!
         params[:user][:department_id] = newD.id
 
