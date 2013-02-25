@@ -177,6 +177,9 @@ class MeetingsController < ApplicationController
         ta = TutorAvailability.find(@meeting.tutor_availability_id)
         ta.taken = 1
         ta.save
+
+        UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
+
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
         format.json { render json: @meeting, status: :created, location: @meeting }
       else

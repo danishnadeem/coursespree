@@ -10,6 +10,7 @@ class UserMailer < ActionMailer::Base
     student = @meeting.user
     all_subadmins = Subadmin.all
     all_superadmins = Superadmin.all
+
     #
     #    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     #    puts student.inspect
@@ -36,13 +37,6 @@ class UserMailer < ActionMailer::Base
     student = @meeting.user
     all_subadmins = Subadmin.all
     all_superadmins = Superadmin.all
-    #
-    #    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    #    puts student.inspect
-    #    puts all_subadmins.inspect
-    #    puts all_superadmins.inspect
-    #    puts @meeting.inspect
-
 
     #    mail(:to => student.email, :subject => "Tutor accept your meeting request")
     mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor reject your meeting request")
@@ -54,5 +48,12 @@ class UserMailer < ActionMailer::Base
       #      mail(:to => superadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
       mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor reject the stutent's meeting request")
     end
+  end
+
+  def student_request_for_meeting_to_tutor
+    tutor = @meeting.tutor
+    #    mail(:to => tutor.user.email, :subject => "Tutor accept your meeting request")
+
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests for meeting to tutor")
   end
 end

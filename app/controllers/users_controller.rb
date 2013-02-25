@@ -103,7 +103,7 @@ class UsersController < ApplicationController
     #flag to see if user apply to be tutor on registration
     tu = params[:user][:tutor]
     params[:user].delete :tutor
-    
+
     @user = User.new(params[:user])
     if !params["addUniv"].blank? && !params["newuniv"].blank?
       if params["addUniv"] == "checked" && params["newuniv"].length > 0
@@ -127,22 +127,23 @@ class UsersController < ApplicationController
         newD.save!
         @user.department_id = newD.id
       end
+    end
 
-      respond_to do |format|
-        # if apply to be tutor on registration redirect to tutor application page after registration succeed
-        if @user.save && !tu.nil? && tu == "1"
-          session[:user_id] = @user.id
-          format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
-          format.json { render json: @user, status: :created, location: @user }
-        elsif @user.save
-          session[:user_id] = @user.id
-          format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
-          format.json { render json: @user, status: :created, location: @user }
-        else
-          format.html { render action: "register" }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+    respond_to do |format|
+      # if apply to be tutor on registration redirect to tutor application page after registration succeed
+      if @user.save && !tu.nil? && tu == "1"
+        session[:user_id] = @user.id
+        format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
+        format.json { render json: @user, status: :created, location: @user }
+      elsif @user.save
+        session[:user_id] = @user.id
+        format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
+        format.json { render json: @user, status: :created, location: @user }
+      else
+        format.html { render action: "register" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
+  
     end
   end
 

@@ -89,12 +89,12 @@
           end%>
         </div>
       <%else%>
-        <%if controller.action_name == "new"%>
+        <%if controller.action_name == "new" || controller.action_name == "register"%>
           <div class="field" id="departments">
             <p class="field"  id="departments_updated">
               <%= render :partial => "departments", :locals => {:departments => @departments} %>
             </p>
-            <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
+        <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
 
             <%if current_user.present? && (current_user.usertype == "superadmin")%>
               <p class="field"  id="departments_updated">

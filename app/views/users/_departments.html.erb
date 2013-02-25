@@ -1,6 +1,6 @@
 <%= label_tag :Affiliation %><br />
 <% unless departments.blank? %>
-  <%if current_user.department_id.present?%>
+  <%if current_user && current_user.department_id.present?%>
     <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]},current_user.department_id) %>
   <%else%>
     <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]},:prompt=> "Select an Affiliation") %>
