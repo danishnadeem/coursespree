@@ -53,8 +53,8 @@
       <%else%>
         <% unless @subadmin_tutors.blank?%>
           <% @subadmin_tutors.each do |subadmin_tutor|%>
-            <% if subadmin_tutor.user.meetings.present?%>
-              <%@subadmin_tutor_meetings = subadmin_tutor.user.meetings%>
+            <% if subadmin_tutor.meetings.present?%>
+              <%@subadmin_tutor_meetings = subadmin_tutor.meetings%>
               <%unless @subadmin_tutor_meetings.blank?%>
                 <%@subadmin_tutor_meetings.each do |subadmin_tutor_meeting| %>
                   <%if subadmin_tutor_meeting == meeting%>
