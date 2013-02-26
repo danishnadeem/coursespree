@@ -94,7 +94,9 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    @departments = @user.university.departments
+    if @user.university.present?
+      @departments = @user.university.departments
+    end
   end
 
   # POST /users
