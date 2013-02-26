@@ -82,7 +82,7 @@
                   <div><%=f.submit 'create'%></div><!---->
                 <%end%><!--form for subject end-->
               </div>
-            <%elsif current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+            <%elsif current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
               <div id="editSpecialties" style="display:none;">
                 <h3>Edit your specialities:</h3>
 
