@@ -68,14 +68,14 @@
           f.hidden_field :university_id,  :value => ""
         end%>
       </div>
-    <%elsif  current_user.present? && current_user.usertype=="superadmin" && @departments.present?%>
-      <div class="field">
+    <%#elsif  current_user.present? && current_user.usertype=="superadmin" && @departments.present?%>
+    <%#*<div class="field">%>
     <%#= f.label :university_id %><br />
     <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
     <%#*Add new%>
     <%#=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
     <%#=text_field_tag "newuniv" %>
-      </div>
+    <%#*</div>%>
     <%end%>
     <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
       <%if current_user.present? && current_user.usertype=="subadmin"%>
@@ -108,11 +108,10 @@
           </div>
         <%elsif current_user.present? && current_user.usertype=="superadmin" && controller.action_name == "edit" %>
           <%= f.label :university_id %><br />
-          <%university = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
-          <%= f.select :university_id, university, {:prompt=> "select a university or add new.."}%>
+            <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
           <div class="field" id="departments">
             <p class="field"  id="departments_updated">
-              <%= render :partial => "departments", :locals => {:departments => @departments, :f=>f, :check=>"true"} %>
+              <%= render :partial => "departments", :locals => {:departments => @departments} %>
             </p>
         <%#change now%>
         <%#if current_user.present? && (current_user.usertype == "superadmin")%>
