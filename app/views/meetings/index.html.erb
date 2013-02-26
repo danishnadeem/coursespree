@@ -57,7 +57,7 @@
               <%@subadmin_tutor_meetings = subadmin_tutor.meetings%>
               <%unless @subadmin_tutor_meetings.blank?%>
                 <%@subadmin_tutor_meetings.each do |subadmin_tutor_meeting| %>
-                  <%if subadmin_tutor_meeting == meeting%>
+                  <%if subadmin_tutor_meeting == meeting && meeting.has_code == true%>
                     <tr>
                       <td><%= link_to meeting.name, meeting %></td>
                       <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
