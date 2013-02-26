@@ -17,31 +17,40 @@ class UsersController < ApplicationController
   end
   def index
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
-      @users = User.find_all_by_university_id(params[:uid])
-    else
-      @users = User.first(5)
-    end
-    if current_user.usertype=="subadmin"
-      Department.all.each do |dept|
-        if current_user.department.present? && current_user.department.id == dept.id
-          @subadmin_users = User.find_all_by_department_id(dept.id)
+      @users1 = User.find_all_by_university_id(params[:uid])
+      @users1.each do |usr|
+        if usr.subadmin.blank? && usr.superadmin.blank? && usr.tutor.blank?
+          @users = usr
         end
       end
-    end
+    else
+      @users1 = User.all
+      @users1.each do |usr|
+        if usr.subadmin.blank? && usr.superadmin.blank? && usr.tutor.blank?
+          @users = usr
+        end
+      end
+      if current_user.usertype=="subadmin"
+        Department.all.each do |dept|
+          if current_user.department.present? && current_user.department.id == dept.id
+            @subadmin_users = User.find_all_by_department_id(dept.id)
+          end
+        end
+      end
     
-    begin
-      @univ = University.find(params[:uid]).name
-    rescue ActiveRecord::RecordNotFound
-      @univ = "no university selected"
-    end
+      begin
+        @univ = University.find(params[:uid]).name
+      rescue ActiveRecord::RecordNotFound
+        @univ = "no university selected"
+      end
 
     
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @users }
+      end
     end
   end
-
   # GET /users/1
   # GET /users/1.json
   def show

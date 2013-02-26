@@ -10,7 +10,7 @@
   <%else%>
     <h2>Student of SubAdmin's Department</h2>
   <%end%>
-  <%if @users.count < 1 %>
+  <%if @users.present? && @users.count < 1 %>
     <div class="placeholder">
       No students are present
     </div>
@@ -19,7 +19,7 @@
 
 <!--university_nav div end-->
 <%if @subadmin_users.blank? && current_user.usertype!="subadmin"%>
-  <% @users.each do |user| %>
+  <% @users.present? && @users.each do |user| %>
     <div class="useritem">
       <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?) || (current_user.usertype == "subadmin" && user.usertype!="subadmin"&& user.usertype!="superadmin" && user.tutor.blank? && current_user.university.id == user.university.id)%>
         <div class="avatarimg">
