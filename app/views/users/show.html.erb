@@ -48,7 +48,7 @@
               <h3 style="clear:left;">Tutor Specialities:</h3>
               <% if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
                 <a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit</a>
-              <%elsif current_user.usertype == 'superadmin' || current_user.usertype == 'subadmin'%>
+              <%elsif current_user.present? && (current_user.usertype == 'superadmin' || current_user.usertype == 'subadmin')%>
                 <a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit</a>
               <%end%>
               <%if @user.tutor.subjects.count > 0 %>
