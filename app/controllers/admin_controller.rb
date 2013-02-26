@@ -40,8 +40,48 @@ class AdminController < ApplicationController
       end
     end
   end
-  
-  def search_payments_transactions
+    def search_payments_transactions
+    @free_code_user_university=[]
+    @free_code_user_university_user=[]
+    @trans_free_code=[]
+    @trans_free_code_arr=[]
+    @free_code = User.find_by_id(params[:search])
+    if params[:search].blank?
+      redirect_to '/payment_transaction'
+    else
+      unless @free_code.blank?
+        @free_code_user_university << @free_code.department
+        @free_code_user_university_user << @free_code_user_university.last.users
+
+        @free_code_user_university_user.each do |usr|
+          usr.each do |user_one_by_one|
+            #            puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            #            puts user_one_by_one.transaction.inspect
+            @trans_free_code_arr << user_one_by_one.transaction
+          end
+          @trans_free_code_arr.each do |trans|
+            unless trans.blank?
+              puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              puts trans.inspect
+              @trans_free_code << trans
+            end
+          end
+
+          #          @trans_free_code << usr.last.transaction
+          #          puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          #          puts @trans_free_code.inspect
+          #          aaaaaa
+        end
+
+        #        @trans_free_code   =  @trans_free_code[0]
+        render :show_payments_transactions
+      else
+        render :show_payments_transactions
+      end
+    end
+  end
+
+  def search_payments_transactions_1
     @free_code_user_university=[]
     @free_code_user_university_user=[]
     @trans_free_code=[]
