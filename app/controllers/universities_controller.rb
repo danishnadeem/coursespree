@@ -44,6 +44,8 @@ class UniversitiesController < ApplicationController
 
     respond_to do |format|
       if @university.save
+        #create default department with name student
+        @department = Department.create(:name=>"student",:note=>"default",:university_id=>@university.id)
         format.html { redirect_to @university, notice: 'University was successfully created.' }
         format.json { render json: @university, status: :created, location: @university }
       else
