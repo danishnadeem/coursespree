@@ -1,17 +1,10 @@
-<%#if controller.action_name == "edit" && check.present?%>
-  <%#= f.label :Affiliation %><br />
-  <%#department = Department.where(:id => @user.department_id).map{|u| [u.name, u.id]}%>
-  <%#= f.select :department_id, department, {:prompt=> "select a department"}%>
-<%#else%>
-  <%= label_tag :Affiliation %><br />
-  <% unless departments.blank? %>
-    <%if @user.present? && (@user.department_id.present?)%>
-      <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]}, @user.department_id) %>
-    <%else%>
-      <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]},:prompt=> "Select an Affiliation") %>
-    <%end%>
+<%= label_tag :Affiliation %><br />
+<% unless departments.blank? %>
+  <%if @user.present? && (@user.department_id.present?)%>
+    <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]}, @user.department_id) %>
   <%else%>
-    <%= select_tag :department_id, "", :prompt=> "Select an Affiliation"%>
+    <%= select_tag "user[department_id]", options_for_select(departments.map{|d| [d.name, d.id]},:prompt=> "Select an Affiliation") %>
   <%end%>
-
-<%#end%>
+<%else%>
+  <%= select_tag :department_id, "", :prompt=> "Select an Affiliation"%>
+<%end%>

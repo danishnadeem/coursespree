@@ -86,7 +86,7 @@
                     <% else %>
                       <%if current_user.usertype!="subadmin" && current_user.usertype!="superadmin"%>
                         <li>
-                          <a href="http://coursespree.info/tutors/new?uid=<%= current_user.id %>">
+                          <a href="/tutors/new?uid=<%= current_user.id %>">
                             Apply To Be A Tutor
                           </a>
                         </li>
