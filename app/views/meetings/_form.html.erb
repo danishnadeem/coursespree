@@ -23,11 +23,11 @@
     <%btntext = "Update Meeting"%>
     <div class="field">
       <%= f.label 'accept:' %><br />
-      <%= f.text_field :accept , :disabled=>true%>
+      <%= f.text_field :accept %>
     </div>
     <div class="field">
       <%= f.label 'paid:' %><br />
-      <%= f.text_field :paid ,:disabled => true%>
+      <%= f.text_field :paid %>
     </div>
   <%end%><!--edit test end-->
 
@@ -40,7 +40,7 @@
     <div class="field">
       <%if controller.action_name == "edit"%>
         <%= f.label :student %><br />
-        <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username"), :disabled => true %>
+        <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username")%>
       <%else%>
         <%= f.label :student %><br />
         <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username") %>
