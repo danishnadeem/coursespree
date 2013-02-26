@@ -71,10 +71,10 @@
     <%else%>
       <div class="field">
         <%= f.label :university_id %><br />
-        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
-        Add new
-        <%=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
-        <%=text_field_tag "newuniv" %>
+        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+    <%#*Add new%>
+    <%#=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
+    <%#=text_field_tag "newuniv" %>
       </div>
     <%end%>
     <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
@@ -96,26 +96,28 @@
             </p>
         <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university or add new.."}, :onchange => "fetchdepartments($(this).val())"%>
 
-            <%if current_user.present? && (current_user.usertype == "superadmin")%>
-              <p class="field"  id="departments_updated">
-                Or Add new Affiliation
-                <%=check_box_tag "addDept", :checked => true %>
-                <%=text_field_tag "newdept" %>
-              </p>
-            <%end%>
+        <%#change now%>
+        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
+        <%#*<p class="field"  id="departments_updated">%>
+        <%#*Or Add new Affiliation%>
+        <%#=check_box_tag "addDept", :checked => true %>
+        <%#=text_field_tag "newdept" %>
+        <%#*</p>%>
+        <%#end%>
           </div>
         <%elsif controller.action_name == "edit"%>
           <div class="field" id="departments">
             <p class="field"  id="departments_updated">
               <%= render :partial => "departments", :locals => {:departments => @departments} %>
             </p>
-            <%if current_user.present? && (current_user.usertype == "superadmin")%>
-              <p class="field"  id="departments_updated">
-                Or Add new Affiliation
-                <%=check_box_tag "addDept", :checked => true %>
-                <%=text_field_tag "newdept" %>
-              </p>
-            <%end%>
+        <%#change now%>
+        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
+        <%#*<p class="field"  id="departments_updated">%>
+        <%#*Or Add new Affiliation%>
+        <%#=check_box_tag "addDept", :checked => true %>
+        <%#=text_field_tag "newdept" %>
+        <%#*</p>%>
+        <%#end%>
           </div>
         <%end%>
       <%end%>
