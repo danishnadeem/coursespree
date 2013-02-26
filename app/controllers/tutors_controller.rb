@@ -36,7 +36,7 @@ class TutorsController < ApplicationController
       
       
     else #if no matching subject found
-      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1], :limit => 3)
+      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1])
     end
     
     #remove self if current user is tutor
