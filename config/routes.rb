@@ -20,7 +20,6 @@ Findtutor::Application.routes.draw do
   match '/meetings/completed_payment' => 'meetings#completed_payment'
   match '/meetings/cancelled_payment' => 'meetings#cancelled_payment'
 
-
   match "auth/:provider/callback" => "admin#oauth"
   
   resources :tutor_locations
@@ -83,6 +82,13 @@ Findtutor::Application.routes.draw do
     end
   end
 
+#match urls for sending emails
+
+  match '/reminder_email_before_twelve_hours' => 'cronjobs#reminder_email_before_twelve_hours'
+  match '/reminder_email_before_six_hours' => 'cronjobs#reminder_email_before_six_hours'
+  match '/reminder_email_before_two_hours' => 'cronjobs#reminder_email_before_two_hours'
+  match '/reminder_email_when_meeting_starts' => 'cronjobs#reminder_email_when_meeting_starts'
+  match '/reminder_email_when_meeting_ends' => 'cronjobs#reminder_email_when_meeting_ends'
 
   #match 'users/:id/register' => 'users#register'
   #

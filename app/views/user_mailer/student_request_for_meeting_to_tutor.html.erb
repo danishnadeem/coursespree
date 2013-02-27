@@ -1,3 +1,4 @@
 <%"student_request_for_meeting_to_tutor.html" %>
 
-<%= "Hi, It is to inform you that a meeting request is sent to you by a student, so please check it in your pending meetings and approve that meeting request." %>
+
+"Hi, <%= @tutor.fname %> It is to inform you that a <a href="/meetings/<%= @meeting.id %>"><i>meeting</i></a> request is sent to you by <a href="/users/<%= @student.id %>"><i>Mr. <%= @student.fname%></i></a>, so please check it in your pending meetings and approve that meeting request."
