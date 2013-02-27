@@ -1,0 +1,1 @@
+Running `rake db:migrate:down VERSION=# add_column :meetings, :start_meeting_email_sent, :boolean, :default =` attached to terminal... up, run.7245

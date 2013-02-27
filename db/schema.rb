@@ -11,14 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221144305) do
+ActiveRecord::Schema.define(:version => 20130218073059) do
+
+  create_table "availabilities", :force => true do |t|
+    t.integer   "timetype"
+    t.integer   "taken",      :default => 0
+    t.integer   "tutor_id"
+    t.timestamp "start_time"
+    t.integer   "length"
+    t.timestamp "created_at",                :null => false
+    t.timestamp "updated_at",                :null => false
+  end
 
   create_table "departments", :force => true do |t|
-    t.string   "name"
-    t.string   "note"
-    t.integer  "university_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string    "name"
+    t.string    "note"
+    t.integer   "university_id"
+    t.timestamp "created_at",    :null => false
+    t.timestamp "updated_at",    :null => false
   end
 
   create_table "free_codes", :force => true do |t|
@@ -30,33 +40,35 @@ ActiveRecord::Schema.define(:version => 20130221144305) do
   end
 
   create_table "meetings", :force => true do |t|
-    t.string    "name"
-    t.string    "attendeePW"
-    t.string    "moderatorPW"
-    t.integer   "tutor_id"
-    t.integer   "user_id"
-    t.float     "price"
-    t.integer   "rating"
-    t.integer   "accept",                   :default => 0
-    t.timestamp "created_at",                                  :null => false
-    t.timestamp "updated_at",                                  :null => false
-    t.integer   "status"
-    t.text      "message"
-    t.boolean   "paid",                     :default => false
-    t.timestamp "trandate"
-    t.integer   "tutor_availability_id"
-    t.string    "paykey"
-    t.integer   "location_id"
-    t.integer   "subject_id"
-    t.boolean   "has_code",                 :default => false
-    t.integer   "start_meeting_email_sent", :default => 0
-    t.integer   "end_meeting_email_sent",   :default => 0
+    t.string   "name"
+    t.string   "attendeePW"
+    t.string   "moderatorPW"
+    t.integer  "tutor_id"
+    t.integer  "user_id"
+    t.float    "price"
+    t.integer  "rating"
+    t.integer  "accept",                                     :default => 0
+    t.datetime "created_at",                                                    :null => false
+    t.datetime "updated_at",                                                    :null => false
+    t.integer  "status"
+    t.text     "message"
+    t.boolean  "paid",                                       :default => false
+    t.datetime "trandate"
+    t.integer  "tutor_availability_id"
+    t.string   "paykey"
+    t.integer  "location_id"
+    t.integer  "subject_id"
+    t.boolean  "has_code",                                   :default => false
+    t.boolean  "start_meeting_email_sent",                   :default => false
+    t.boolean  "end_meeting_email_sent",                     :default => false
+    t.boolean  "upcoming_meeting_email_six_hours_before",    :default => false
+    t.boolean  "upcoming_meeting_email_twelve_hours_before", :default => false
   end
 
   create_table "subadmins", :force => true do |t|
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer   "user_id"
+    t.timestamp "created_at", :null => false
+    t.timestamp "updated_at", :null => false
   end
 
   create_table "subjects", :force => true do |t|
@@ -79,13 +91,13 @@ ActiveRecord::Schema.define(:version => 20130221144305) do
   end
 
   create_table "transactions", :force => true do |t|
-    t.integer  "tutor_id"
-    t.integer  "user_id"
-    t.float    "amount"
-    t.integer  "meeting_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "pay_key"
+    t.integer   "tutor_id"
+    t.integer   "user_id"
+    t.float     "amount"
+    t.integer   "meeting_id"
+    t.timestamp "created_at", :null => false
+    t.timestamp "updated_at", :null => false
+    t.string    "pay_key"
   end
 
   create_table "tutor_availabilities", :force => true do |t|
@@ -129,32 +141,32 @@ ActiveRecord::Schema.define(:version => 20130221144305) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "username"
-    t.string   "pwd"
-    t.string   "seed"
-    t.string   "email"
-    t.string   "fname"
-    t.string   "lname"
-    t.integer  "university_id"
-    t.integer  "department_id"
-    t.integer  "year"
-    t.integer  "major_id"
-    t.text     "bio"
-    t.integer  "gender"
-    t.date     "dob"
-    t.string   "paypalEmail"
-    t.integer  "ave_rating"
-    t.string   "fb_ID"
-    t.integer  "active",              :default => 0
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
-    t.string   "fb_uid"
-    t.string   "fb_token"
-    t.datetime "fb_token_expire"
+    t.string    "username"
+    t.string    "pwd"
+    t.string    "seed"
+    t.string    "email"
+    t.string    "fname"
+    t.string    "lname"
+    t.integer   "university_id"
+    t.integer   "department_id"
+    t.integer   "year"
+    t.integer   "major_id"
+    t.text      "bio"
+    t.integer   "gender"
+    t.date      "dob"
+    t.string    "paypalEmail"
+    t.integer   "ave_rating"
+    t.string    "fb_ID"
+    t.integer   "active",              :default => 0
+    t.timestamp "created_at",                         :null => false
+    t.timestamp "updated_at",                         :null => false
+    t.string    "avatar_file_name"
+    t.string    "avatar_content_type"
+    t.integer   "avatar_file_size"
+    t.timestamp "avatar_updated_at"
+    t.string    "fb_uid"
+    t.string    "fb_token"
+    t.timestamp "fb_token_expire"
   end
 
 end

@@ -11,19 +11,13 @@ class UserMailer < ActionMailer::Base
     all_subadmins = Subadmin.all
     all_superadmins = Superadmin.all
 
-    #
-    #    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    #    puts student.inspect
-    #    puts all_subadmins.inspect
-    #    puts all_superadmins.inspect
-    #    puts @meeting.inspect
-
-
     #    mail(:to => student.email, :subject => "Tutor accept your meeting request")
     mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor accept your meeting request")
     all_subadmins.each do |subadmin|
-      #      mail(:to => subadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
-      mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor accept the stutent's meeting request")
+      if subadmin.user.department == student.department
+        #      mail(:to => subadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
+        mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor accept the stutent's meeting request")
+      end
     end
     all_superadmins.each do |superadmin|
       #      mail(:to => superadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
@@ -41,8 +35,10 @@ class UserMailer < ActionMailer::Base
     #    mail(:to => student.email, :subject => "Tutor accept your meeting request")
     mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor reject your meeting request")
     all_subadmins.each do |subadmin|
-      #      mail(:to => subadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
-      mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor reject the stutent's meeting request")
+      if subadmin.user.department == student.department
+        #      mail(:to => subadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
+        mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor reject the stutent's meeting request")
+      end
     end
     all_superadmins.each do |superadmin|
       #      mail(:to => superadmin.user.email, :subject => "Tutor accept the stutent's meeting request")
@@ -53,8 +49,8 @@ class UserMailer < ActionMailer::Base
   def student_request_for_meeting_to_tutor(meeting_id)
     @meeting = Meeting.find_by_id(meeting_id)
     tutor = @meeting.tutor
-    #    mail(:to => tutor.user.email, :subject => "Tutor accept your meeting request")
+    #    mail(:to => tutor.user.email, :subject => "Student requests you for meeting")
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests for meeting to tutor")
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting")
   end
 end
