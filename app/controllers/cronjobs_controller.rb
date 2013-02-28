@@ -11,6 +11,7 @@ class CronjobsController < ApplicationController
       #      b = meeting.tutor_availability.start_time.strftime("%d:%m:%Y-%H:%M:%S")
 
       if meeting.tutor_availability.start_time >= DateTime.now
+        #        meeting_start_time_greater_than_nowtime
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
@@ -21,6 +22,7 @@ class CronjobsController < ApplicationController
 
         if (meeting_day == now_day) && (meeting_month == now_month) && (meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
           if meeting.tutor_availability.start_time.strftime("%H:%M:%S") >= DateTime.now.strftime("%H:%M:%S") && (meeting.upcoming_meeting_email_twelve_hours_before == false)
+            #            meeting_start_time_greater_than_nowtime_2
             now_hour = DateTime.now.strftime("%H:%M:%S").to_f
             now_hour = now_hour+12
             if now_hour >= meeting.tutor_availability.start_time.strftime("%H:%M:%S").to_f && meeting.has_code == false
@@ -57,6 +59,7 @@ class CronjobsController < ApplicationController
 
     meetings.each do |meeting|
       if meeting.tutor_availability.start_time >= DateTime.now
+        #        meeting_start_time_greater_than_nowtime
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
@@ -66,6 +69,7 @@ class CronjobsController < ApplicationController
         #"same dates but hours,minutes and seconds difference"
 
         if (meeting_day == now_day) && (meeting_month == now_month) && (meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
+          #          meeting_start_time_greater_than_nowtime_2
           if meeting.tutor_availability.start_time.strftime("%H:%M:%S") > DateTime.now.strftime("%H:%M:%S") && (meeting.upcoming_meeting_email_six_hours_before == false)
             now_hour = DateTime.now.strftime("%H:%M:%S").to_f
             now_hour = now_hour+6
