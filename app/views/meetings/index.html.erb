@@ -51,58 +51,52 @@
           <%end%>
         </tr>
       <%else%>
-        <% unless @subadmin_tutors.blank?%>
-          <% @subadmin_tutors.each do |subadmin_tutor|%>
-            <% if subadmin_tutor.meetings.present?%>
-              <%@subadmin_tutor_meetings = subadmin_tutor.meetings%>
-              <%unless @subadmin_tutor_meetings.blank?%>
-                <%@subadmin_tutor_meetings.each do |subadmin_tutor_meeting| %>
-                  <%if subadmin_tutor_meeting == meeting && meeting.has_code == true%>
-                    <tr>
-                      <td><%= link_to meeting.name, meeting %></td>
-                      <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
-                      <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
-                      <td>
-                        <%if meeting.paid%>
-                          paid
-                        <%else%>
-                          waiting
-                        <%end%>
-                      </td>
-                      <% if meeting.tutor %>
-                        <td><%= Subject.find(meeting.subject).title %></td>
-                        <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
-                        <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
-                        <td><%= meeting_status(meeting.accept) %></td>
-                        <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
-                          <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
-                          <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
-                        <%else%>
-                          <td colspan="2"></td>
-                        <%end%>
-                      <%else%>
-                        <td colspan="6"></td>
-                      <%end%>
-
-                      <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin" %>
-                        <td><%= link_to 'Show', meeting %></td>
-                        <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-                        <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-                      <%end%>
-                    </tr>
-                  <%end%>
+        <%if @subadmin_meeting.present?%>
+          <%@subadmin_meeting.each do |meeting|%>
+            <tr>
+              <td><%= link_to meeting.name, meeting %></td>
+              <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+              <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
+              <td>
+                <%if meeting.paid%>
+                  paid
+                <%else%>
+                  waiting
                 <%end%>
+              </td>
+              <% if meeting.tutor %>
+                <td><%= Subject.find(meeting.subject).title %></td>
+                <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
+                <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+                <td><%= meeting_status(meeting.accept) %></td>
+                <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+                  <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
+                  <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
+                <%else%>
+                  <td colspan="2"></td>
+                <%end%>
+              <%else%>
+                <td colspan="6"></td>
               <%end%>
-            <%end%>
-          <% end%>
-        <% end%>
-      <%end%>
+
+              <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin" %>
+                <td><%= link_to 'Show', meeting %></td>
+                <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+                <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <%end%>
+            </tr>
+          <%end%>
+            <%= will_paginate(@subadmin_meeting) %>
+        <%end%>
+      <% end %>
     <% end %>
   </table>
 <% end %>
-<%if current_user.usertype == "superadmin"%>
+
+<%if current_user.usertype == "superadmin" && @meetings.present?%>
   <%= will_paginate(@meetings) %>
 <%end%>
+
 <br />
 
 <%#= link_to 'New Meeting',  new_meeting_meetings_path %>

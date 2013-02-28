@@ -65,6 +65,7 @@
           <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <%end%>
+      <%= will_paginate(@searched_user_meetings , :params => {:search => @search})%>
     <%end%>
   </table>
   <br />

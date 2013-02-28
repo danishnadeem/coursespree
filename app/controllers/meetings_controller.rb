@@ -12,7 +12,9 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
-    if current_user.usertype == "superadmin"
+    @subadmin_meeting = []
+    
+    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
       if params[:type] == nil
         @meetings = Meeting.paginate(:page => params[:page], :per_page => 2)
       elsif params[:type]=='pending' #meeting requested by the current user
@@ -30,20 +32,6 @@ class MeetingsController < ApplicationController
       else
         #        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
         @meetings = Meeting.paginate(:conditions => ['status = ? AND paid = ?', 1, true], :page => params[:page], :per_page => 1)
-      end
-    elsif current_user.usertype == "subadmin"
-      if params[:type] == nil
-        @meetings = Meeting.paginate(:page => params[:page], :per_page => 2)
-      elsif params[:type]=='pending' #meeting requested by the current user
-        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0"])
-      elsif params[:type]=='past'#meeting you attended in the past
-        @meetings = Meeting.find(:all, :conditions=> ["status >= 3"])
-      elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
-        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
-      elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
-        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, false])
-      else
-        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
       end
     else
       if params[:type] == nil
@@ -71,6 +59,24 @@ class MeetingsController < ApplicationController
         @subadmin_users.each do |subadmin_usr|
           if subadmin_usr.tutor.present?
             @subadmin_tutors << subadmin_usr.tutor
+          end
+        end
+      end
+
+      if @subadmin_tutors.present?
+        @subadmin_tutors.each do |subadmin_tutor|
+          if subadmin_tutor.meetings.present?
+            @subadmin_tutor_meetings = subadmin_tutor.meetings
+            if @subadmin_tutor_meetings.present? && @meetings.present?
+              @meetings.each do |meeting|
+                @subadmin_tutor_meetings.each do |subadmin_tutor_meeting|
+                  if subadmin_tutor_meeting == meeting && meeting.has_code == true
+                    @subadmin_meeting << meeting
+                  end
+                end
+              end
+              @subadmin_tutor_meetings.paginate(:page => params[:page], :per_page => 1)
+            end
           end
         end
       end
@@ -110,9 +116,9 @@ class MeetingsController < ApplicationController
     end
     
     
-    #if 
+    #if
     #  @meeting.status = 0
-    #  @meeting.save      
+    #  @meeting.save
     #end
     
     if !params[:accept].nil? && params[:accept] == '1' && @meeting.tutor_id == session[:tutor_id]
@@ -143,7 +149,7 @@ class MeetingsController < ApplicationController
       return
     elsif !params[:started].nil? && params[:started] == '2' && (@meeting.tutor_id == session[:tutor_id] || @meeting.tutor_id == session[:tutor_id])
       @meeting.status = 2
-      @meeting.save    
+      @meeting.save
     elsif !params[:finish].nil? && (@meeting.user_id == session[:user_id] || @meeting.tutor_id == session[:tutor_id])
       @meeting.status = 3
       @meeting.save
@@ -416,8 +422,8 @@ class MeetingsController < ApplicationController
     end
     #send confirmation back to ipn
     #  uri = "https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate" + msg_body
-    #  response = Net::HTTP.get(URI.parse(uri))    
-  end  
+    #  response = Net::HTTP.get(URI.parse(uri))
+  end
   
   
 end

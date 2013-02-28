@@ -24,8 +24,9 @@
     </tr>
 
     <%if current_user.usertype == "superadmin"%>
-      <%@trans_free_code.each do |tran|%>
-        <%tran.each do |trans|%>
+    <%# @trans_free_code = @trans_free_code.first %>
+      <%@trans_free_code.each do |trans|%>
+        <%#tran.each do |trans|%>
           <tr>
             <%unless trans.pay_key.blank? %>
               <td><%= trans.pay_key %></td>
@@ -67,8 +68,9 @@
               <td>NIL</td>
             <%end%>
           </tr>
-        <%end%>
+        <%#end%>
       <%end%>
+      <%= will_paginate(@trans_free_code , :params => {:search => @search} )%>
     <%end%>
   </table>
 <%else%>
@@ -96,49 +98,51 @@
     </tr>
 
     <%if current_user.usertype == "subadmin"%>
-      <%@trans_subadmin.each do |trans|%>
-        <tr>
-          <%unless trans.pay_key.blank? %>
-            <td><%= trans.pay_key %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
+      <%unless @trans_subadmin.blank?%>
+        <%@trans_subadmin.each do |trans|%>
+          <tr>
+            <%unless trans.pay_key.blank? %>
+              <td><%= trans.pay_key %></td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
 
-          <%unless trans.tutor_id.blank? %>
-            <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
+            <%unless trans.tutor_id.blank? %>
+              <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
 
-          <%unless trans.user_id.blank? %>
-            <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
+            <%unless trans.user_id.blank? %>
+              <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
 
-          <%unless trans.meeting_id.blank? %>
-            <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
+            <%unless trans.meeting_id.blank? %>
+              <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
 
-          <%unless trans.amount.blank? %>
-            <td>                $
-              <%total_amount = total_amount + trans.amount%>
-              <%= trans.amount%>
-            </td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
+            <%unless trans.amount.blank? %>
+              <td>                $
+                <%total_amount = total_amount + trans.amount%>
+                <%= trans.amount%>
+              </td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
 
-          <%unless trans.created_at.blank? %>
-            <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
-          <%else%>
-            <td>NIL</td>
-          <%end%>
-        </tr>
+            <%unless trans.created_at.blank? %>
+              <td><%= trans.created_at.strftime("%m/%d/%Y at %I:%M %p ") %></td>
+            <%else%>
+              <td>NIL</td>
+            <%end%>
+          </tr>
+        <%end%>
+        <%= will_paginate(@trans_subadmin , :params => {:search => @search} )%>
       <%end%>
-
     <%else%>
       <%unless @trans.blank?%>
         <%@trans.each do |trans|%>
@@ -184,6 +188,7 @@
             <%end%>
           </tr>
         <%end%>
+        <%= will_paginate(@trans , :params => {:search => @search} )%>
       <% end %>
     <%end%>
   </table>

@@ -39,41 +39,46 @@ class AdminController < ApplicationController
         @trans << trans
       end
     end
+
+    if @trans_subadmin.present?
+      @trans_subadmin = @trans_subadmin.paginate(:page => params[:page], :per_page => 1)
+    end
+
+    if @trans.present?
+      @trans = @trans.paginate(:page => params[:page], :per_page => 1)
+    end
   end
-    def search_payments_transactions
-    @free_code_user_university=[]
-    @free_code_user_university_user=[]
+
+  def search_payments_transactions
+
+    #    @free_code_user_university=[]
+    #    @free_code_user_university_user=[]
     @trans_free_code=[]
     @trans_free_code_arr=[]
+    @search = params[:search]
     @free_code = User.find_by_id(params[:search])
     if params[:search].blank?
       redirect_to '/payment_transaction'
     else
       unless @free_code.blank?
-        @free_code_user_university << @free_code.department
-        @free_code_user_university_user << @free_code_user_university.last.users
+        @free_code_user_university = @free_code.department
+        @free_code_user_university_user = @free_code_user_university.users
 
-        @free_code_user_university_user.each do |usr|
-          usr.each do |user_one_by_one|
-            #            puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-            #            puts user_one_by_one.transaction.inspect
-            @trans_free_code_arr << user_one_by_one.transaction
-          end
+        @free_code_user_university_user.each do |user_one_by_one|
+          @trans_free_code_arr << user_one_by_one.transactions
           @trans_free_code_arr.each do |trans|
-            unless trans.blank?
-              puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-              puts trans.inspect
-              @trans_free_code << trans
+            unless trans.blank?  
+              @trans_free_code << trans              
             end
           end
-
-          #          @trans_free_code << usr.last.transaction
-          #          puts "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
-          #          puts @trans_free_code.inspect
-          #          aaaaaa
+          
+          if @trans_free_code.present?
+            tmp = []
+            tmp = @trans_free_code.first
+            @trans_free_code = tmp.paginate(:page => params[:page], :per_page => 1)
+          end
         end
 
-        #        @trans_free_code   =  @trans_free_code[0]
         render :show_payments_transactions
       else
         render :show_payments_transactions
@@ -153,6 +158,7 @@ class AdminController < ApplicationController
 
   def search_student_meetings_reports
     @searched_user_meetings = []
+    @search = params[:search]
     searched_user = User.search(params[:search])
     if params[:search].blank?
       redirect_to '/student_report'
@@ -171,6 +177,11 @@ class AdminController < ApplicationController
             end
           end
         end
+        
+        if @searched_user_meetings.present?
+          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 1)
+        end
+        
         render :show_student_meetings_reports
       else
         render :show_student_meetings_reports
@@ -184,6 +195,7 @@ class AdminController < ApplicationController
 
   def search_tutor_meetings_reports
     @searched_user_meetings = []
+    @search = params[:search]
     searched_user = User.search(params[:search])
     if params[:search].blank?
       redirect_to '/tutor_report'
@@ -202,6 +214,11 @@ class AdminController < ApplicationController
             end
           end
         end
+
+        if @searched_user_meetings.present?
+          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 1)
+        end
+
         render :show_tutor_meetings_reports
       else
         render :show_tutor_meetings_reports

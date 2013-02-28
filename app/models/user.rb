@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_one :superadmin
   belongs_to :university
   belongs_to :department
-  has_many :transaction
+  has_many :transactions
   has_one :subadmin
 
   validates :username,  :presence => true 
