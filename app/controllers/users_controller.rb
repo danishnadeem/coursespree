@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   
   def index
     @users = []
+    @subadmin_users = []
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
       @users1 = User.find_all_by_university_id(params[:uid])
       @users1.each do |usr|
@@ -41,11 +42,21 @@ class UsersController < ApplicationController
       if current_user.usertype=="subadmin"
         Department.all.each do |dept|
           if current_user.department.present? && current_user.department.id == dept.id
-            @subadmin_users = User.find_all_by_department_id(dept.id)
+            @subadmin_users1 = User.find_all_by_department_id(dept.id)
           end
         end
       end
-    
+
+      @subadmin_users1.each do |user|
+        if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)
+          @subadmin_users << user
+        end
+      end
+      
+      if @subadmin_users.present?
+        @subadmin_users = @subadmin_users.paginate(:page => params[:page], :per_page => 1)
+      end
+      
       begin
         @univ = University.find(params[:uid]).name
       rescue ActiveRecord::RecordNotFound

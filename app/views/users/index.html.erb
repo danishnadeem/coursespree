@@ -25,35 +25,7 @@
     <%  @users.each do |user| %>
       <div class="useritem">
       <%#if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?) || (current_user.usertype == "subadmin" && user.usertype!="subadmin"&& user.usertype!="superadmin" && user.tutor.blank? && current_user.university.id == user.university.id)%>
-      <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
-        <div class="avatarimg">
-          <%= link_to image_tag(user.avatar.url(:thumb)), user %>
-        </div>
-
-        <div class="usersname">
-
-          <%=link_to user.username, user%><br />
-          <%= link_to user.fullname, user%><br/>
-      <%#*<a href="/users/%>
-      <%#= user.id %>
-      <%#*/register/">%>
-      <%#*New%>
-      <%#*</a>%>
-          <a href="/users/<%= user.id %>/edit/">Edit</a>
-          <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
-          <% @user_id=user.id%>
-          <%= add_user_as_tutor(@user_id)%>
-        </div>
-      <% end %>
-      </div>
-    <% end %>
-    <%= will_paginate(@users) %>
-  <%end%>
-<%else%>
-  <%unless @subadmin_users.blank?%>
-    <% @subadmin_users.each do |user| %>
-      <div class="useritem">
-        <%if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
+        <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
           <div class="avatarimg">
             <%= link_to image_tag(user.avatar.url(:thumb)), user %>
           </div>
@@ -61,9 +33,12 @@
           <div class="usersname">
 
             <%=link_to user.username, user%><br />
-            <%= link_to user.fullname, user%>
-
-            <br/>
+            <%= link_to user.fullname, user%><br/>
+        <%#*<a href="/users/%>
+        <%#= user.id %>
+        <%#*/register/">%>
+        <%#*New%>
+        <%#*</a>%>
             <a href="/users/<%= user.id %>/edit/">Edit</a>
             <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
             <% @user_id=user.id%>
@@ -72,6 +47,26 @@
         <% end %>
       </div>
     <% end %>
+    <%= will_paginate(@users) %>
+  <%end%>
+<%else%>
+  <%unless @subadmin_users.blank?%>
+    <div class="avatarimg">
+      <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+    </div>
+
+    <div class="usersname">
+
+      <%=link_to user.username, user%><br />
+      <%= link_to user.fullname, user%>
+
+      <br/>
+      <a href="/users/<%= user.id %>/edit/">Edit</a>
+      <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
+      <% @user_id=user.id%>
+      <%= add_user_as_tutor(@user_id)%>
+    </div>
+    <%= will_paginate(@subadmin_users) %>
   <%else%>
     No Student Found.
   <%end%>

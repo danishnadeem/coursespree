@@ -176,6 +176,10 @@ class TutorsController < ApplicationController
           end
         end
       end
+      
+      if @subadmin_tutors.present?
+        @subadmin_tutors = @subadmin_tutors.paginate(:page => params[:page], :per_page => 1)
+      end
     end
   end
   
