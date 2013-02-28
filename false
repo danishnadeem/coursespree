@@ -1,1 +1,3 @@
 Running `rake db:migrate:down VERSION=# add_column :meetings, :start_meeting_email_sent, :boolean, :default =` attached to terminal... up, run.7245
+#    add_column :meetings, :end_meeting_email_sent, :boolean, :default => false
+^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[3~^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[D^[[C^[[B^[[D^[[C^[[B

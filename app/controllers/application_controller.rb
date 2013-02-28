@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   
   before_filter :authticate, :except => ["login","logout","index","show","oauth"]
   
+  require 'will_paginate/array'
+
   def authticate
     unless User.find_by_id(session[:user_id])
       flash[:notice] = "Please log in."

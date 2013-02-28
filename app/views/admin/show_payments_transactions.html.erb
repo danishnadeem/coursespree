@@ -1,3 +1,5 @@
+<% total_amount = 0 %>
+
 <%unless @trans_free_code.blank?%>
   <h1>Listing SubAdmin Department's Payment Transaction</h1>
   <%if current_user.usertype == "superadmin"%>
@@ -50,7 +52,11 @@
             <%end%>
 
             <%unless trans.amount.blank? %>
-              <td>$<%= trans.amount %></td>
+              <td>
+                $
+                <%total_amount = total_amount + trans.amount%>
+                <%= trans.amount%>
+              </td>
             <%else%>
               <td>NIL</td>
             <%end%>
@@ -65,7 +71,6 @@
       <%end%>
     <%end%>
   </table>
-  <br />
 <%else%>
   <h1>Listing Payment Transaction</h1>
 
@@ -118,7 +123,10 @@
           <%end%>
 
           <%unless trans.amount.blank? %>
-            <td>$<%= trans.amount %></td>
+            <td>                $
+              <%total_amount = total_amount + trans.amount%>
+              <%= trans.amount%>
+            </td>
           <%else%>
             <td>NIL</td>
           <%end%>
@@ -130,6 +138,7 @@
           <%end%>
         </tr>
       <%end%>
+
     <%else%>
       <%unless @trans.blank?%>
         <%@trans.each do |trans|%>
@@ -159,7 +168,11 @@
             <%end%>
 
             <%unless trans.amount.blank? %>
-              <td>$<%= trans.amount %></td>
+              <td>
+                $
+                <%total_amount = total_amount + trans.amount%>
+                <%= trans.amount%>
+              </td>
             <%else%>
               <td>NIL</td>
             <%end%>
@@ -174,5 +187,6 @@
       <% end %>
     <%end%>
   </table>
-  <br />
 <%end%>
+<br />
+Total amount of transactions is $ <%=total_amount %>

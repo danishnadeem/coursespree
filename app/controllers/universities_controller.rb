@@ -2,7 +2,7 @@ class UniversitiesController < ApplicationController
   # GET /universities
   # GET /universities.json
   def index
-    @universities = University.all
+    @universities = University.paginate(:page => params[:page], :per_page => 2)
 
     respond_to do |format|
       format.html # index.html.erb

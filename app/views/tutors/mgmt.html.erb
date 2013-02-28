@@ -41,6 +41,7 @@
 
     <% end %>
   <%end%>
+  <%= will_paginate(@tutors) %>
 <%else%>
   <%unless @subadmin_tutors.blank?%>
     <h2>Tutors of SubAdmin's Department</h2>

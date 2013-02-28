@@ -1,6 +1,6 @@
 <% total_earning = 0  %>
 <%unless @searched_user_meetings.blank?%>
-  <h1>Listing Meetings for Searched User</h1>
+  <h1>Listing Meetings for Searched Tutor</h1>
   <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
     <div>
       <%= form_tag '/admins/search_tutor_meetings_reports' do %>

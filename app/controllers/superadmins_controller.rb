@@ -2,7 +2,7 @@ class SuperadminsController < ApplicationController
   # GET /superadmins
   # GET /superadmins.json
   def index
-    @superadmins = Superadmin.all
+    @superadmins = Superadmin
 
     respond_to do |format|
       format.html # index.html.erb

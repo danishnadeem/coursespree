@@ -2,7 +2,7 @@ class TutorLocationsController < ApplicationController
   # GET /tutor_locations
   # GET /tutor_locations.json
   def index
-    @tutor_locations = TutorLocation.all
+    @tutor_locations = TutorLocation.paginate(:page => params[:page], :per_page => 1)
 
     respond_to do |format|
       format.html # index.html.erb

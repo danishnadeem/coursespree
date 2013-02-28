@@ -29,36 +29,6 @@
     <%= @meeting.tutor_availability.start_time.strftime("%H:%M") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
   </div><!--meeting line end-->
 
-  <div class="meetingline">
-    <div class="inlinetitle">My data:</div>
-    <%= b = @meeting.tutor_availability.start_time.strftime("%d:%m:%Y-%H:%M:%S") %>
-    now<%= a = DateTime.now.strftime("%d:%m:%Y-%H:%M:%S") %>
-    <%if @meeting.tutor_availability.start_time >= DateTime.now
-      meeting_month = @meeting.tutor_availability.start_time.strftime("%m").to_i
-      meeting_day = @meeting.tutor_availability.start_time.strftime("%d").to_i
-      meeting_hour = @meeting.tutor_availability.start_time.strftime("%H").to_i
-      meeting_hour = meeting_hour+12
-
-      now_month = DateTime.now.strftime("%m").to_i
-      now_day = DateTime.now.strftime("%d").to_i
-      now_hour = DateTime.now.strftime("%H").to_i
-
-      #"same dates but hours,minutes,seconds difference"
-
-      if (meeting_day == now_day) && (meeting_month == now_month) && (@meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
-        if (@meeting.tutor_availability.start_time.strftime("%H:%M:%S") > DateTime.now.strftime("%H:%M:%S"))
-          check_hrs = DateTime.now.strftime("%H:%M:%S").to_f
-          check_hrs = check_hrs+12
-          if check_hrs >= DateTime.now.strftime("%H:%M:%S").to_f
-            @aho ="yes"
-          else
-            @aho ="no"
-          end
-        end
-      end
-    end%>
-  </div><!--meeting line end-->
-
   <% if @meeting.tutor %>
     <div class="meetingline">
       <div class="inlinetitle">Tutor:</div>

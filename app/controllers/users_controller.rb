@@ -15,6 +15,7 @@ class UsersController < ApplicationController
       end
     end
   end
+  
   def index
     @users = []
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
@@ -24,6 +25,9 @@ class UsersController < ApplicationController
           @users << usr
         end
       end
+
+      @users = @users.paginate(:page => params[:page], :per_page => 1)
+
     else
       @users1 = User.all
       @users1.each do |usr|
@@ -31,6 +35,9 @@ class UsersController < ApplicationController
           @users << usr
         end
       end
+
+      @users = @users.paginate(:page => params[:page], :per_page => 1)
+
       if current_user.usertype=="subadmin"
         Department.all.each do |dept|
           if current_user.department.present? && current_user.department.id == dept.id

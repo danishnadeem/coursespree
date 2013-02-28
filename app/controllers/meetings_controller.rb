@@ -12,9 +12,28 @@ class MeetingsController < ApplicationController
   # GET /meetings
   # GET /meetings.json
   def index
-    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
+    if current_user.usertype == "superadmin"
       if params[:type] == nil
-        @meetings = Meeting.all
+        @meetings = Meeting.paginate(:page => params[:page], :per_page => 2)
+      elsif params[:type]=='pending' #meeting requested by the current user
+        #        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0"])
+        @meetings = Meeting.paginate(:conditions=> ["accept =0 and status = 0"] , :page => params[:page], :per_page => 1)
+      elsif params[:type]=='past'#meeting you attended in the past
+        #        @meetings = Meeting.find(:all, :conditions=> ["status >= 3"])
+        @meetings = Meeting.paginate(:conditions=> ["status >= 3"] , :page => params[:page], :per_page => 1)
+      elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
+        #        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
+        @meetings = Meeting.paginate(:conditions => ['status = ? AND paid = ?', 1, true] , :page => params[:page], :per_page => 1)
+      elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
+        #        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, false])
+        @meetings = Meeting.paginate(:conditions => ['status = ? AND paid = ?', 1, false] , :page => params[:page], :per_page => 1)
+      else
+        #        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
+        @meetings = Meeting.paginate(:conditions => ['status = ? AND paid = ?', 1, true], :page => params[:page], :per_page => 1)
+      end
+    elsif current_user.usertype == "subadmin"
+      if params[:type] == nil
+        @meetings = Meeting.paginate(:page => params[:page], :per_page => 2)
       elsif params[:type]=='pending' #meeting requested by the current user
         @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0"])
       elsif params[:type]=='past'#meeting you attended in the past

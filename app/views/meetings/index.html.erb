@@ -29,7 +29,7 @@
               waiting
             <%end%>
           </td>
-          <% if  meeting.tutor %>
+          <% if meeting.tutor %>
             <td><%= Subject.find(meeting.subject).title %></td>
             <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
             <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
@@ -100,6 +100,9 @@
     <% end %>
   </table>
 <% end %>
+<%if current_user.usertype == "superadmin"%>
+  <%= will_paginate(@meetings) %>
+<%end%>
 <br />
 
 <%#= link_to 'New Meeting',  new_meeting_meetings_path %>

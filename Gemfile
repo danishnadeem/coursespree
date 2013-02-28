@@ -16,6 +16,7 @@ gem 'date_validator'
 gem 'execjs'
 gem 'therubyracer'
 gem 'mysql2'
+gem "will_paginate", "~> 3.0.pre2"
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 group :development do 
