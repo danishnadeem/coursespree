@@ -11,7 +11,9 @@ class CronjobsController < ApplicationController
       #      b = meeting.tutor_availability.start_time.strftime("%d:%m:%Y-%H:%M:%S")
 
       if meeting.tutor_availability.start_time >= DateTime.now
-        #        meeting_start_time_greater_than_nowtime
+
+        meeting_start_time_greater_than_nowtime
+
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
@@ -22,11 +24,15 @@ class CronjobsController < ApplicationController
 
         if (meeting_day == now_day) && (meeting_month == now_month) && (meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
           if meeting.tutor_availability.start_time.strftime("%H:%M:%S") >= DateTime.now.strftime("%H:%M:%S") && (meeting.upcoming_meeting_email_twelve_hours_before == false)
-            #            meeting_start_time_greater_than_nowtime_2
+
+            meeting_start_time_greater_than_nowtime_and_today
+
             now_hour = DateTime.now.strftime("%H:%M:%S").to_f
             now_hour = now_hour+12
             if now_hour >= meeting.tutor_availability.start_time.strftime("%H:%M:%S").to_f && meeting.has_code == false
-              xxxx
+
+              after_twelve_hours_meeting_wiil_start_so_mail_sent
+
               error_in_emails = 0
               meeting.update_attribute(:upcoming_meeting_email_twelve_hours_before => true)
               UserMailer.upcoming_meeting_email_twelve_hours_before(meeting.id).deliver
@@ -59,7 +65,9 @@ class CronjobsController < ApplicationController
 
     meetings.each do |meeting|
       if meeting.tutor_availability.start_time >= DateTime.now
-        #        meeting_start_time_greater_than_nowtime
+
+        meeting_start_time_greater_than_nowtime
+
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
@@ -69,12 +77,16 @@ class CronjobsController < ApplicationController
         #"same dates but hours,minutes and seconds difference"
 
         if (meeting_day == now_day) && (meeting_month == now_month) && (meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
-          #          meeting_start_time_greater_than_nowtime_2
+
+          meeting_start_time_greater_than_nowtime_and_today
+
           if meeting.tutor_availability.start_time.strftime("%H:%M:%S") > DateTime.now.strftime("%H:%M:%S") && (meeting.upcoming_meeting_email_six_hours_before == false)
             now_hour = DateTime.now.strftime("%H:%M:%S").to_f
             now_hour = now_hour+6
             if now_hour >= meeting.tutor_availability.start_time.strftime("%H:%M:%S").to_f && meeting.has_code == false
-              xxxx
+
+              after_six_hours_meeting_wiil_start_so_mail_sent
+
               error_in_emails = 0
               meeting.update_attribute(:upcoming_meeting_email_six_hours_before => true)
               UserMailer.upcoming_meeting_email_six_hours_before(meeting.id).deliver
@@ -108,6 +120,9 @@ class CronjobsController < ApplicationController
 
     meetings.each do |meeting|
       if meeting.tutor_availability.start_time >= DateTime.now
+
+        meeting_start_time_greater_than_nowtime
+
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
@@ -118,10 +133,15 @@ class CronjobsController < ApplicationController
 
         if (meeting_day == now_day) && (meeting_month == now_month) && (meeting.tutor_availability.start_time.strftime("%Y").to_i == DateTime.now.strftime("%Y").to_i)
           if meeting.tutor_availability.start_time.strftime("%H:%M:%S") > DateTime.now.strftime("%H:%M:%S")
+
+            meeting_start_time_greater_than_nowtime_and_today
+
             now_hour = DateTime.now.strftime("%H:%M:%S").to_f
             now_hour = now_hour+2
             if now_hour >= meeting.tutor_availability.start_time.strftime("%H:%M:%S").to_f 
-              xxxx
+
+              after_two_hours_meeting_wiil_start_so_mail_sent
+
               error_in_emails = 0
               UserMailer.upcoming_meeting_email_two_hours_before(meeting.id).deliver
             else
@@ -154,7 +174,9 @@ class CronjobsController < ApplicationController
 
     meetings.each do |meeting|
       if meeting.tutor_availability.start_time <= DateTime.now && meeting.start_meeting_email_sent == false
-        xxxx
+
+        start_meeting_email_sent
+
         meeting.update_attribute(:start_meeting_email_sent => true)
         error_in_emails = 0
         UserMailer.email_reminder_for_meeting_start(meeting.id).deliver
@@ -177,7 +199,9 @@ class CronjobsController < ApplicationController
 
     meetings.each do |meeting|
       if meeting.tutor_availability.end_time <= DateTime.now && meeting.end_meeting_email_sent == false
-        xxxx
+
+        end_meeting_email_sent
+
         error_in_emails = 0
         meeting.update_attribute(:end_meeting_email_sent => true)
         UserMailer.email_reminder_for_meeting_end(meeting.id).deliver
