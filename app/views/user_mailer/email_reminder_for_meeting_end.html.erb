@@ -1,3 +1,3 @@
-<%"tutor_accept_meeting_request.html" %>
-
-"Hi, <%= @student.fname %> It is to inform you that <a href="/users/<%= @tutor.id %>"><i>Mr. <%= @tutor.fname%></i></a> has accepted your <a href="/meetings/<%= @meeting.id %>"><i>meeting</i></a> request. Please check it in your future meetings."
+Hi, Dear its a reminder email for the end of <a href="/meetings/<%= @meeting.id %>"><i>meeting</i></a>
+between the student name as <a href="/users/<%= @student.id %>"><i>Mr. <%= @student.fname%></i></a>
+and the tutor name as <a href="/users/<%= @tutor.id %>"><i>Mr. <%= @tutor.fname%></i></a>

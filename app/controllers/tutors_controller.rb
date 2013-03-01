@@ -32,10 +32,13 @@ class TutorsController < ApplicationController
           end#end subtuts bridge table.each
         end#end subs.each
       end#end if sub.count>0
-      
+      if @tutors.present?
+        @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 2)
+      end
       
     else #if no matching subject found
-      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1])
+      #      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1])
+      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 2)
     end
     
     #remove self if current user is tutor
@@ -148,16 +151,16 @@ class TutorsController < ApplicationController
   end
   
   def mgmt
-#    @tutors = Tutor.find_all_by_approved(0).paginate(:page => params[:page], :per_page => 1)
-     @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 1)
+    #    @tutors = Tutor.find_all_by_approved(0).paginate(:page => params[:page], :per_page => 1)
+    @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 1)
     #session[:pendtut_cnt] = @tutors.count
     if params[:type] == 'pending'
       if @tutors.count <1
         redirect_to :action =>'mgmt', :type => 'current'
       end
     elsif params[:type] == 'current'
-#      @tutors = Tutor.find_all_by_approved(1).paginate(:page => params[:page], :per_page => 1)
-     @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 1)
+      #      @tutors = Tutor.find_all_by_approved(1).paginate(:page => params[:page], :per_page => 1)
+      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 1)
     else
       @tutors = Tutor.paginate(:page => params[:page], :per_page => 1)
     end

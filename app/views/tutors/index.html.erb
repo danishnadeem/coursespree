@@ -1,36 +1,39 @@
 
 
- <!-- Main Content
-    ================================================== -->
-    <div class="container">
-      <div class="row">
-        <%=render 'searchtutor'%>
-      </div><!-- end row-->
-    </div><!-- end main content container-->
+<!-- Main Content
+   ================================================== -->
+<div class="container">
+  <div class="row">
+    <%=render 'searchtutor'%>
+  </div><!-- end row-->
+</div><!-- end main content container-->
 
-    <!-- Search Results Section
-    ================================================== -->
-      <div class="container">
-        <% @tutors.each do |tutor| %>
-		<% if tutor.user %>
+<!-- Search Results Section
+================================================== -->
+<div class="container">
+  <%if @tutors.present?%>
+    <% @tutors.each do |tutor| %>
+      <% if tutor.user %>
         <div class="row">
           <section id="search-result">
             <div class="span4">
-                <section class="tutor-search">
-                  <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
-                  <h4><%=link_to tutor.user.fullname, tutor.user%></h4>
-                  <h6><%= tutor.user.university.name %></h6>
-                </section>
+              <section class="tutor-search">
+                <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+                <h4><%=link_to tutor.user.fullname, tutor.user%></h4>
+                <h6><%= tutor.user.university.name %></h6>
+              </section>
             </div>
 
             <div class="span8">
-                <section class="tutor-skills">
-                  <h6><% tutor.subjects.each do |sub|%><%=sub.title%> <%end%></h6>
-                </section>
+              <section class="tutor-skills">
+                <h6><% tutor.subjects.each do |sub|%><%=sub.title%> <%end%></h6>
+              </section>
             </div>
           </section>
         </div>
-		<% end %>
-		<% end %>
-	 </div>
+      <% end %>
+    <% end %>
+    <%= will_paginate(@tutors) %>
+  <%end%>
+</div>
 
