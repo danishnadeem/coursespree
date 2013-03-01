@@ -46,10 +46,11 @@ class UsersController < ApplicationController
           end
         end
       end
-
-      @subadmin_users1.each do |user|
-        if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)
-          @subadmin_users << user
+      if  @subadmin_users1.present?
+        @subadmin_users1.each do |user|
+          if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)
+            @subadmin_users << user
+          end
         end
       end
       
