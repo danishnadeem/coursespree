@@ -51,21 +51,20 @@
   <%end%>
 <%else%>
   <%unless @subadmin_users.blank?%>
-    <div class="avatarimg">
-      <%= link_to image_tag(user.avatar.url(:thumb)), user %>
-    </div>
-
-    <div class="usersname">
-
-      <%=link_to user.username, user%><br />
-      <%= link_to user.fullname, user%>
-
-      <br/>
-      <a href="/users/<%= user.id %>/edit/">Edit</a>
-      <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
-      <% @user_id=user.id%>
-      <%= add_user_as_tutor(@user_id)%>
-    </div>
+    <% @subadmin_users.each do |user| %>
+      <div class="avatarimg">
+        <%= link_to image_tag(user.avatar.url(:thumb)), user %>
+      </div>
+      <div class="usersname">
+        <%=link_to user.username, user%><br />
+        <%= link_to user.fullname, user%>
+        <br/>
+        <a href="/users/<%= user.id %>/edit/">Edit</a>
+        <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
+        <% @user_id=user.id%>
+        <%= add_user_as_tutor(@user_id)%>
+      </div>
+    <%end%>
     <%= will_paginate(@subadmin_users) %>
   <%else%>
     No Student Found.

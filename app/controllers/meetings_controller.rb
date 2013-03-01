@@ -35,17 +35,23 @@ class MeetingsController < ApplicationController
       end
     else
       if params[:type] == nil
-        @meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
+        #@meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
+        @meetings = Meeting.paginate(:conditions => ["user_id = ? ", session[:user_id]], :page => params[:page], :per_page => 1)#you are student
       elsif params[:type]=='pending' #meeting requested by the current user
-        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]])
+#        @meetings = Meeting.find(:all, :conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]])
+        @meetings = Meeting.paginate(:conditions=> ["accept =0 and status = 0 and (tutor_id = ? or user_id = ?)", session[:tutor_id], session[:user_id]], :page => params[:page], :per_page => 1)
       elsif params[:type]=='past'#meeting you attended in the past
-        @meetings = Meeting.find(:all, :conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3])
+#        @meetings = Meeting.find(:all, :conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3])
+        @meetings = Meeting.paginate(:conditions=> ["(tutor_id = ? OR user_id = ? )and status >= ?", session[:tutor_id], session[:user_id], 3], :page => params[:page], :per_page => 1)
       elsif params[:type]=='attending' #meeting list that you will be attending(accepted, paid)
-        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+#        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+        @meetings = Meeting.paginate(:conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true], :page => params[:page], :per_page => 1)
       elsif params[:type]=='unpaid' #meeting list that you will be attending(accepted, unpaid)
-        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false])
+#        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false])
+        @meetings = Meeting.paginate(:conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, false], :page => params[:page], :per_page => 1)
       else
-        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+#        @meetings = Meeting.find(:all, :conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true])
+        @meetings = Meeting.paginate(:conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true], :page => params[:page], :per_page => 1)
       end
     end
     @subadmin_tutors = []

@@ -86,16 +86,20 @@
               <%end%>
             </tr>
           <%end%>
-            <%= will_paginate(@subadmin_meeting) %>
+          <%= will_paginate(@subadmin_meeting) %>
         <%end%>
       <% end %>
     <% end %>
   </table>
+  <%if current_user.usertype!="subadmin"%>
+    <%= will_paginate(@meetings) %>
+  <%end%>
 <% end %>
 
-<%if current_user.usertype == "superadmin" && @meetings.present?%>
-  <%= will_paginate(@meetings) %>
-<%end%>
+<%#if current_user.usertype == "superadmin" && @meetings.present? && current_user.usertype!="subadmin"%>
+<%#*aaaaaa%>
+<%#= will_paginate(@meetings) %>
+<%#end%>
 
 <br />
 
