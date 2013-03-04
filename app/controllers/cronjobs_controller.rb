@@ -209,6 +209,7 @@ class CronjobsController < ApplicationController
         error_in_emails = 1
       end
     end
+    
     if error_in_emails == 1
       #      render :partial => "error_in_emails", :locals => { :name => "mahhek" }
       render :template => "/cronjobs/error_in_emails"
