@@ -8,8 +8,9 @@ class UserMailer < ActionMailer::Base
 
     mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting") do |format|
       format.text
-      format.html { render "email_sent_successfully" }
+      format.html { render "cronjobs/email_sent_successfully" } 
     end
+    
 
     #    mail(:to => @tutor.email, :cc => @student.email, :subject => "Student requests you for meeting, so please approve the pending meeting")
 
