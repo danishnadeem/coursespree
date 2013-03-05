@@ -1,6 +1,6 @@
 class MeetingsController < ApplicationController
   #protect_from_forgery :except => :ipn_notification
-  before_filter :authticate, :except => :ipn_notification # to be updated with rails metal method
+  before_filter :authticate, :except => [:ipn_notification, :show] # to be updated with rails metal method
   
   def authticate
     unless User.find_by_id(session[:user_id])
