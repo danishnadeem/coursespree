@@ -220,8 +220,10 @@ class MeetingsController < ApplicationController
         ta.taken = 1
         ta.save
 
-        UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
-
+        if current_user.usertype != "superadmin" || current_user.usertype != "subadmin"
+          UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
+        end
+        
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
         format.json { render json: @meeting, status: :created, location: @meeting }
       else
