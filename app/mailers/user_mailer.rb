@@ -39,7 +39,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' )
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has accepted student's meeting request", :content_type => 'text/html' )
 
     #    mail(:to => @student.email, :cc => mailling_list  ,:subject => "Tutor accept the stutent's meeting request")
 
@@ -66,7 +66,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' )
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has rejected the student's meeting request", :content_type => 'text/html' )
 
     #    mail(:to => @student.email, :cc => mailling_list , :subject => "Tutor reject the stutent's meeting request")
 
