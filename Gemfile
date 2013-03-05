@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.6'
 #gem 'therubyracer', '0.10.1'
-gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+gem "paperclip"
 gem 'paypal_adaptive'
 gem 'nokogiri'
 gem 'typhoeus'
