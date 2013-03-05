@@ -336,14 +336,14 @@ class MeetingsController < ApplicationController
 
       pay_request = PaypalAdaptive::Request.new
       #      serverbase = "http://198.101.226.133/"
-      serverbase = "http://hidden-reef-7837.herokuapp.com/"
+      serverbase = "http://www.coursespree.com/"
 
       data = {
-        "returnUrl" => "http://hidden-reef-7837.herokuapp.com/meetings/completed_payment?mid=#{params[:mid]}",
+        "returnUrl" => "http://www.coursespree.com/meetings/completed_payment?mid=#{params[:mid]}",
         "requestEnvelope" => {"errorLanguage" => "en_US"},
         "currencyCode"=>"USD",
         "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>site_commission},{"email"=>receiver2, "amount"=> price}]},
-        "cancelUrl"=> "http://hidden-reef-7837.herokuapp.com/meetings/cancelled_payment?mid=#{params[:mid]}",
+        "cancelUrl"=> "http://www.coursespree.com/meetings/cancelled_payment?mid=#{params[:mid]}",
         "actionType"=>"PAY",
         "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
       }
