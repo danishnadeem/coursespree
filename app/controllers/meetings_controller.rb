@@ -134,7 +134,7 @@ class MeetingsController < ApplicationController
       end
       @meeting.save
 
-#      UserMailer.tutor_accept_meeting_request(@meeting.id).deliver
+      UserMailer.tutor_accept_meeting_request(@meeting.id).deliver
 
       redirect_to @meeting
       return
@@ -147,7 +147,7 @@ class MeetingsController < ApplicationController
       ta.taken = 0
       ta.save
 
-#      UserMailer.tutor_reject_meeting_request(@meeting.id).deliver
+      UserMailer.tutor_reject_meeting_request(@meeting.id).deliver
 
       redirect_to @meeting
       return
@@ -220,7 +220,7 @@ class MeetingsController < ApplicationController
         ta.taken = 1
         ta.save
 
-#        UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
+        UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
 
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
         format.json { render json: @meeting, status: :created, location: @meeting }

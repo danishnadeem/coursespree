@@ -6,11 +6,13 @@ class UserMailer < ActionMailer::Base
     @tutor = @meeting.tutor.user
     @student = @meeting.user
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting") do |format|
-      format.text
-      format.html { render "cronjobs/email_sent_successfully" } 
-    end
-    
+    #    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting") do |format|
+    #      format.text
+    #      format.html { render "cronjobs/email_sent_successfully" }
+    #    end
+
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' ) 
+   
 
     #    mail(:to => @tutor.email, :cc => @student.email, :subject => "Student requests you for meeting, so please approve the pending meeting")
 
@@ -37,6 +39,8 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' )
+
     #    mail(:to => @student.email, :cc => mailling_list  ,:subject => "Tutor accept the stutent's meeting request")
 
   end
@@ -61,6 +65,8 @@ class UserMailer < ActionMailer::Base
     end
 
     mailling_list << @tutor.email
+
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' )
 
     #    mail(:to => @student.email, :cc => mailling_list , :subject => "Tutor reject the stutent's meeting request")
 
