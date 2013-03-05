@@ -353,9 +353,7 @@ class MeetingsController < ApplicationController
       if pay_response.success?
 
         redirect_to pay_response.approve_paypal_payment_url
-        #        p "aaaaaaaaaaaaaaarrrrrrrrrrrrrrrrrrrrrrrrrrrrr", pay_response.inspect
-        #
-        #puts (pay_response['payKey'] + "test").inspect
+        
         meeting.paykey = pay_response['payKey']
         
         #        meeting.paid = true
