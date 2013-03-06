@@ -86,6 +86,8 @@ class UserMailer < ActionMailer::Base
         
     mailling_list << @tutor.email
 
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Just check cronjob working", :content_type => 'text/html' )
+
     #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time")
 
   end

@@ -9,6 +9,9 @@ gem 'nokogiri'
 gem 'typhoeus'
 gem 'jquery_datepicker'
 
+#gem for adding cronjobs
+gem 'whenever', :require => false
+
 gem 'omniauth-facebook'
 
 gem 'rb-readline'
