@@ -1,3 +1,6 @@
+set :application, "store"
+set :repository, "/projects/hidden-reef-7837"
+
 after "deploy:symlink", "deploy:update_crontab"
 
 namespace :deploy do

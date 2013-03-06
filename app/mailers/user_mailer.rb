@@ -73,22 +73,22 @@ class UserMailer < ActionMailer::Base
   end
 
   def upcoming_meeting_email_twelve_hours_before(meeting_id)
-    @meeting = Meeting.find_by_id(meeting_id)
-    @tutor = @meeting.tutor.user
-    @student = @meeting.user
+#    @meeting = Meeting.find_by_id(meeting_id)
+#    @tutor = @meeting.tutor.user
+#    @student = @meeting.user
+#
+#    mailling_list = []
+#
+#    all_superadmins = Superadmin.all
+#    all_superadmins.each do |superadmin|
+#      mailling_list << superadmin
+#    end
+#
+#    mailling_list << @tutor.email
 
-    mailling_list = []
+    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :content_type => 'text/html' )
 
-    all_superadmins = Superadmin.all
-    all_superadmins.each do |superadmin|
-      mailling_list << superadmin
-    end
-        
-    mailling_list << @tutor.email
-
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Just check cronjob working", :content_type => 'text/html' )
-
-    #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time")
+#    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time")
 
   end
 
