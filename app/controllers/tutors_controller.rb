@@ -33,12 +33,12 @@ class TutorsController < ApplicationController
         end#end subs.each
       end#end if sub.count>0
       if @tutors.present?
-        @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 2)
+        @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
       end
       
     else #if no matching subject found
       #      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1])
-      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 2)
+      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
     end
     
     #remove self if current user is tutor
@@ -160,21 +160,23 @@ class TutorsController < ApplicationController
         end
       end
 
-      @tutors = @tutors.paginate(:page => params[:page], :per_page => 2)
+      @tutors = @tutors.paginate(:page => params[:page], :per_page => 30)
     else
-      @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 1)
+      @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 30)
       #session[:pendtut_cnt] = @tutors.count
       if params[:type] == 'pending'
         if @tutors.count <1
           redirect_to :action =>'mgmt', :type => 'current'
         end
       elsif params[:type] == 'current'
-        @tutors = Tutor.paginate(:conditions => ["approved = 1 "] ,:page => params[:page], :per_page => 1)
+        @tutors = Tutor.paginate(:conditions => ["approved = 1 "] ,:page => params[:page], :per_page => 30)
       else
-        @tutors = Tutor.paginate(:page => params[:page], :per_page => 1)
+        @tutors = Tutor.paginate(:page => params[:page], :per_page => 30)
       end
     end
+
     @subadmin_tutors = []
+
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
         if current_user.department.present? && current_user.department.id == dept.id
@@ -190,7 +192,24 @@ class TutorsController < ApplicationController
       end
       
       if @subadmin_tutors.present?
-        @subadmin_tutors = @subadmin_tutors.paginate(:page => params[:page], :per_page => 1)
+        @subadmin_tutors = @subadmin_tutors.paginate(:page => params[:page], :per_page => 30)
+      end
+    end
+
+    unless params[:search].blank?
+      @search = params[:search]
+      searched_user = User.search(params[:search])
+      searched_user = searched_user.first
+      unless searched_user.blank?
+        if current_user.present? && current_user.usertype == "superadmin" && searched_user.usertype!="subadmin" && searched_user.usertype!="superadmin" && searched_user.tutor.present?
+          @searched_user = searched_user
+          @searched_tutor = searched_user.tutor
+        elsif current_user.present? && current_user.usertype == "subadmin" && searched_user.usertype!="subadmin" && searched_user.usertype!="superadmin" && searched_user.tutor.present?
+          if searched_user.department == current_user.department
+            @searched_user = searched_user
+            @searched_tutor = searched_user.tutor
+          end
+        end
       end
     end
 

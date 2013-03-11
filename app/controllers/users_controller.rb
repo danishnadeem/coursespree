@@ -28,7 +28,7 @@ class UsersController < ApplicationController
         end
       end
 
-      @users = @users.paginate(:page => params[:page], :per_page => 2)
+      @users = @users.paginate(:page => params[:page], :per_page => 30)
 
     else
       @users1 = User.all
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
         end
       end
 
-      @users = @users.paginate(:page => params[:page], :per_page => 2)
+      @users = @users.paginate(:page => params[:page], :per_page => 30)
 
       if current_user.usertype=="subadmin"
         Department.all.each do |dept|
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
       end
       
       if @subadmin_users.present?
-        @subadmin_users = @subadmin_users.paginate(:page => params[:page], :per_page => 1)
+        @subadmin_users = @subadmin_users.paginate(:page => params[:page], :per_page => 30)
       end
       
       begin
@@ -65,7 +65,21 @@ class UsersController < ApplicationController
         @univ = "no university selected"
       end
 
-    
+      unless params[:search].blank?
+        @search = params[:search]
+        searched_user = User.search(params[:search])
+        searched_user = searched_user.first
+        unless searched_user.blank?
+          if current_user.present? && current_user.usertype == "superadmin" && searched_user.usertype!="subadmin" && searched_user.usertype!="superadmin" && searched_user.tutor.blank?
+            @searched_user = searched_user
+          elsif current_user.present? && current_user.usertype == "subadmin" && searched_user.usertype!="subadmin" && searched_user.usertype!="superadmin" && searched_user.tutor.blank?
+            if searched_user.department == current_user.department
+              @searched_user = searched_user
+            end
+          end
+        end
+      end
+      
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @users }
@@ -224,10 +238,10 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
     if @user.id == session[:user_id]
       reset_session
     end
+    @user.destroy
 
     respond_to do |format|
       format.html { redirect_to users_url }

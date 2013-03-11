@@ -54,7 +54,11 @@
 
   <div class="meetingline">
     <div class="inlinetitle">Payment Status:</div>
-    <%= @meeting.paid ? "Paid":"waiting for payment" %>
+    <%if @meeting.paid == true%>
+      <%= "Paid"%>
+    <%else%>
+      <%="waiting for payment" %>
+    <%end%>
   </div><!--meeting line end-->
 
   <div class="meetingline">

@@ -2,7 +2,7 @@ class SubadminsController < ApplicationController
   # GET /subadmins
   # GET /subadmins.json
   def index
-    @subadmins = Subadmin.paginate(:page => params[:page], :per_page => 1)
+    @subadmins = Subadmin.paginate(:page => params[:page], :per_page => 30)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @subadmins }

@@ -32,7 +32,7 @@ class AdminController < ApplicationController
     @transaction = Transaction.all
     @transaction.each do |trans|
       if current_user.usertype=="subadmin"
-        if current_user.department.present? && trans.user.department.present? && trans.user.department == current_user.department
+        if current_user.department.present? && trans.tutor.user.department.present? && trans.tutor.user.department == current_user.department && trans.meeting.has_code == false
           @trans_subadmin << trans
         end
       else

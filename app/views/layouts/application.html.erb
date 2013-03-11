@@ -92,12 +92,14 @@
                         </li>
                       <%end%>
                     <% end %>
-  <%#if current_user.usertype!="subadmin"%>
-                    <li><a href="/meetings/?type=pending">Pending Meetings</a></li>
-                    <li><a href="/meetings/?type=attending">Future Meetings</a></li>
-                    <li><a href="/meetings/?type=past">Past Meetings</a></li>
-                    <li><a href="/meetings/?type=unpaid">Unpaid Meetings</a></li>
-  <%#end%>
+                        
+                    <%if current_user.usertype!="subadmin"%>
+                      <li><a href="/meetings/?type=pending">Pending Meetings</a></li>
+                      <li><a href="/meetings/?type=attending">Future Meetings</a></li>
+                      <li><a href="/meetings/?type=past">Past Meetings</a></li>
+                      <li><a href="/meetings/?type=unpaid">Unpaid Meetings</a></li>
+                    <%end%>
+                      
                     <li><%= link_to 'Logout', '/admin/logout' %></li>
 
                     <% if current_user.usertype == "superadmin" %>
