@@ -150,7 +150,6 @@ class TutorsController < ApplicationController
     end
   end
 
-  
   def mgmt
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
       @uid = params[:uid]
