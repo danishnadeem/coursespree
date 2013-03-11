@@ -20,6 +20,7 @@ class UsersController < ApplicationController
     @users = []
     @subadmin_users = []
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
+      @uid = params[:uid]
       @users1 = User.find_all_by_university_id(params[:uid])
       @users1.each do |usr|
         if usr.subadmin.blank? && usr.superadmin.blank? && usr.tutor.blank?
@@ -27,7 +28,7 @@ class UsersController < ApplicationController
         end
       end
 
-      @users = @users.paginate(:page => params[:page], :per_page => 1)
+      @users = @users.paginate(:page => params[:page], :per_page => 2)
 
     else
       @users1 = User.all
@@ -37,7 +38,7 @@ class UsersController < ApplicationController
         end
       end
 
-      @users = @users.paginate(:page => params[:page], :per_page => 1)
+      @users = @users.paginate(:page => params[:page], :per_page => 2)
 
       if current_user.usertype=="subadmin"
         Department.all.each do |dept|

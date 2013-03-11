@@ -1,4 +1,15 @@
 <%= tutor_mgmt_links %>
+<br/>
+<%if current_user.usertype == "superadmin"%>
+  <h2>Tutors by Universities</h2>
+  <p>
+    <%=@univ%>
+    <%University.first(10).each do |u|%>
+      | <%= link_to u.name, :uid => u.id%>
+    <%end%> | <%=link_to 'more'%>
+  </p>
+<%end%>
+  
 <%if @subadmin_tutors.blank? && current_user.usertype!="subadmin"%>
   <%@tutors.each do |tutor|%>
 
@@ -16,10 +27,17 @@
             Username: <%=tutor.user.username%>
           </div>
           <div>
-            University:<%= tutor.user.university_id %>
+            University:<%= tutor.user.university.name unless tutor.user.university.blank?%>
           </div>
           <div>
-            average rating<%= tutor.approved %>
+      <%#*average rating%>
+      <%#= tutor.approved %>
+          </div>
+          <div>
+            <% unless tutor.user.department.blank?%>
+              Department:
+              <%= tutor.user.department.name%>
+            <%end%>
           </div>
         </div><!--tutordescription div end-->
 
@@ -41,7 +59,7 @@
 
     <% end %>
   <%end%>
-  <%= will_paginate(@tutors) %>
+  <%= will_paginate(@tutors,:params => {:uid => @uid}) %>
 <%else%>
   <%unless @subadmin_tutors.blank?%>
     <h2>Tutors of SubAdmin's Department</h2>
@@ -82,7 +100,7 @@
         </div><!--tutoritem div end-->
       <% end %>
     <%end%>
-        <%= will_paginate(@subadmin_tutors) %>
+    <%= will_paginate(@subadmin_tutors) %>
   <%else%>
     <br/>
     No Tutor Found.

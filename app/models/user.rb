@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, 
     :avatar, :ave_rating, :dob, :email, :fname, :fb_ID, :gender, :lname, :password,
-    :paypalEmail, :seed, :username, :password_confirmation, :tutor
+    :paypalEmail, :seed, :username, :password_confirmation, :tutor, :phone
   
   has_many :free_codes
   has_many :meetings

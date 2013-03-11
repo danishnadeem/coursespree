@@ -46,7 +46,7 @@ class TutorsController < ApplicationController
       crt_tutor = Tutor.find_by_user_id(session[:user_id])
       @tutors.delete_if{|x| x.id == crt_tutor.id}# remove self being searched
     end
-    
+
     
     respond_to do |format|
       format.html # index.html.erb
@@ -151,20 +151,29 @@ class TutorsController < ApplicationController
   end
   
   def mgmt
-    #    @tutors = Tutor.find_all_by_approved(0).paginate(:page => params[:page], :per_page => 1)
-    @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 1)
-    #session[:pendtut_cnt] = @tutors.count
-    if params[:type] == 'pending'
-      if @tutors.count <1
-        redirect_to :action =>'mgmt', :type => 'current'
+    if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
+      @uid = params[:uid]
+      @tutors = []
+      Tutor.all.each do |tutor|
+        if (tutor.user.university_id.to_i == params[:uid].to_i)
+          @tutors << tutor
+        end
       end
-    elsif params[:type] == 'current'
-      #      @tutors = Tutor.find_all_by_approved(1).paginate(:page => params[:page], :per_page => 1)
-      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 1)
-    else
-      @tutors = Tutor.paginate(:page => params[:page], :per_page => 1)
-    end
 
+      @tutors = @tutors.paginate(:page => params[:page], :per_page => 2)
+    else
+      @tutors = Tutor.paginate(:conditions => ["approved = 0"] ,:page => params[:page], :per_page => 1)
+      #session[:pendtut_cnt] = @tutors.count
+      if params[:type] == 'pending'
+        if @tutors.count <1
+          redirect_to :action =>'mgmt', :type => 'current'
+        end
+      elsif params[:type] == 'current'
+        @tutors = Tutor.paginate(:conditions => ["approved = 1 "] ,:page => params[:page], :per_page => 1)
+      else
+        @tutors = Tutor.paginate(:page => params[:page], :per_page => 1)
+      end
+    end
     @subadmin_tutors = []
     if current_user.usertype=="subadmin"
       Department.all.each do |dept|
@@ -183,6 +192,12 @@ class TutorsController < ApplicationController
       if @subadmin_tutors.present?
         @subadmin_tutors = @subadmin_tutors.paginate(:page => params[:page], :per_page => 1)
       end
+    end
+
+    begin
+      @univ = University.find(params[:uid]).name
+    rescue ActiveRecord::RecordNotFound
+      @univ = "no university selected"
     end
   end
   

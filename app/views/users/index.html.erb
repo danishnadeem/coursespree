@@ -47,7 +47,7 @@
         <% end %>
       </div>
     <% end %>
-    <%= will_paginate(@users) %>
+    <%= will_paginate(@users,:params => {:uid => @uid}) %>
   <%end%>
 <%else%>
   <%unless @subadmin_users.blank?%>

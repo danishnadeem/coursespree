@@ -41,11 +41,11 @@ class AdminController < ApplicationController
     end
 
     if @trans_subadmin.present?
-      @trans_subadmin = @trans_subadmin.paginate(:page => params[:page], :per_page => 1)
+      @trans_subadmin = @trans_subadmin.paginate(:page => params[:page], :per_page => 30)
     end
 
     if @trans.present?
-      @trans = @trans.paginate(:page => params[:page], :per_page => 1)
+      @trans = @trans.paginate(:page => params[:page], :per_page => 30)
     end
   end
 
@@ -75,7 +75,7 @@ class AdminController < ApplicationController
           if @trans_free_code.present?
             tmp = []
             tmp = @trans_free_code.first
-            @trans_free_code = tmp.paginate(:page => params[:page], :per_page => 1)
+            @trans_free_code = tmp.paginate(:page => params[:page], :per_page => 30)
           end
         end
 
@@ -179,7 +179,7 @@ class AdminController < ApplicationController
         end
         
         if @searched_user_meetings.present?
-          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 1)
+          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 30)
         end
         
         render :show_student_meetings_reports
@@ -216,7 +216,7 @@ class AdminController < ApplicationController
         end
 
         if @searched_user_meetings.present?
-          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 1)
+          @searched_user_meetings = @searched_user_meetings.paginate(:page => params[:page], :per_page => 30)
         end
 
         render :show_tutor_meetings_reports
