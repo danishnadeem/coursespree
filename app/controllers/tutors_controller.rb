@@ -149,6 +149,7 @@ class TutorsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   
   def mgmt
     if defined?(params[:uid]) && params[:uid] && params[:uid].length>0
