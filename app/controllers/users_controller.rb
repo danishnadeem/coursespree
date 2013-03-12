@@ -176,18 +176,21 @@ class UsersController < ApplicationController
         @user.department_id = newD.id
       end
     end
-
+aaaa
     respond_to do |format|
       # if apply to be tutor on registration redirect to tutor application page after registration succeed
       if @user.save && !tu.nil? && tu == "1"
+qqqqq
         session[:user_id] = @user.id
         format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
         format.json { render json: @user, status: :created, location: @user }
       elsif @user.save
+sssss
         session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
         format.json { render json: @user, status: :created, location: @user }
       else
+ddddddd
         format.html { render action: "register" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

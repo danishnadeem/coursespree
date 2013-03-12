@@ -44,64 +44,64 @@
 
           <section id="subjectlist">
             <!--if current user is viewing tutor profile, display specialty of this user-->
-  <%#if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') %>
-  <%#*<h3 style="clear:left;">Tutor Specialities:%>
-  <%#*</h3>%>
-  <%# if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
-  <%#*<a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit%>
-  <%#*</a>%>
-  <%#elsif current_user.present? && (current_user.usertype == 'superadmin' || current_user.usertype == 'subadmin')%>
-  <%#*<a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit%>
-  <%#*</a>%>
-  <%#end%>
-  <%#if @user.tutor.subjects.count > 0 %>
-  <%#@user.tutor.subjects.each do |st|%>
-  <%#*<div class="item">%>
-  <%#=st.title %>
-  <%#*</div><!--div subject-->%>
-  <%#end%>
-  <%#else%>
-  <%#*<br/>%>
-  <%#*This tutor has not select specialties yet%>
-  <%#end%>
-  <%#end%>
+            <%if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor') %>
+              <h3 style="clear:left;">Tutor Specialities:
+              </h3>
+              <% if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
+                <a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit
+                </a>
+              <%elsif current_user.present? && (current_user.usertype == 'superadmin' || current_user.usertype == 'subadmin')%>
+                <a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit
+                </a>
+              <%end%>
+              <%if @user.tutor.subjects.count > 0 %>
+                <%@user.tutor.subjects.each do |st|%>
+                  <div class="item">
+                    <%=st.title %>
+                  </div><!--div subject-->
+                <%end%>
+              <%else%>
+                <br/>
+                This tutor has not select specialties yet
+              <%end%>
+            <%end%>
 
             <!--if the current user is a tutor seeing self, display specialty manage panel-->
-            <%# if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
-              <%#*<div id="editSpecialties" style="display:none;">%>
-                <%#*<h3>Edit your specialities:%>
-                <%#*</h3>%>
+            <% if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
+              <div id="editSpecialties" style="display:none;">
+                <h3>Edit your specialities:
+                </h3>
 
-                <%#@user.tutor.subjects_tutors.each do |st|%>
-                  <%#*<div class="item">%>
-                    <%#=  st.subject.title %>
-                    <%#=link_to 'X ',st, method: :delete %>
-                  <%#*</div><!--div subject-->%>
-                <%#end%>
+                <%@user.tutor.subjects_tutors.each do |st|%>
+                  <div class="item">
+                    <%=  st.subject.title %>
+                    <%=link_to 'X ',st, method: :delete %>
+                  </div><!--div subject-->
+                <%end%>
 
-                <%#*<div class="title">%>
-                  <%#*Click to add new:%>
-                <%#*</div><!--div title-->%>
+                <div class="title">
+                  Click to add new:
+                </div><!--div title-->
 
-                <%#@user.tutor.available_subjects.each do |sub|%>
-                  <%#*<div class="item">%>
-                    <%#=link_to sub.title,:controller => 'subjects_tutors',:action => 'select', :sid=> sub.id%>
-                  <%#*</div>%>
-                <%#end%>
-                <%#=form_for @subject do |f|%>
-                  <%#*<div class="title">%>
-                    <%#*Add new if yours are not show above:%>
-                  <%#*</div><!--div title-->%>
-                  <%#*<div>%>
-                    <%#= f.text_field :title%>
-                  <%#*</div><!--div title-->%>
-                  <%#*<div>%>
-                    <%#=f.submit 'create'%>
-                  <%#*</div><!---->%>
-                <%#end%><!--form for subject end-->
-              <%#*</div>%>
-            <%#elsif current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
-            <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
+                <%@user.tutor.available_subjects.each do |sub|%>
+                  <div class="item">
+                    <%=link_to sub.title,:controller => 'subjects_tutors',:action => 'select', :sid=> sub.id%>
+                  </div>
+                <%end%>
+                <%=form_for @subject do |f|%>
+                  <div class="title">
+                    Add new if yours are not show above:
+                  </div><!--div title-->
+                  <div>
+                    <%= f.text_field :title%>
+                  </div><!--div title-->
+                  <div>
+                    <%=f.submit 'create'%>
+                  </div><!---->
+                <%end%><!--form for subject end-->
+              </div>
+            <%elsif current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
+    <%#if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
               <div id="editSpecialties" style="display:none;">
                 <h3>Edit your specialities:</h3>
 
