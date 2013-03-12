@@ -148,8 +148,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     #flag to see if user apply to be tutor on registration
-    tu = params[:user][:tutor]
-    params[:user].delete :tutor
+#    tu = params[:user][:tutor]
+#    params[:user].delete :tutor
 
     @user = User.new(params[:user])
     if !params["addUniv"].blank? && !params["newuniv"].blank?
