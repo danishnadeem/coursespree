@@ -84,7 +84,7 @@ Findtutor::Application.routes.draw do
 
   match "auth/:provider/callback" => "admin#oauth"
 
-  match "/users" => "users#index"
+  match "/search_users" => "users#index"
 
   match "/tutors/mgmt" => "tutors#mgmt"
 

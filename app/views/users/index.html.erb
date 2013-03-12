@@ -1,7 +1,7 @@
 <h1>Search for a User</h1>
 <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
   <div>
-    <%= form_tag "/users" do %>
+    <%= form_tag "/search_users" do %>
       <p>
         <%= label_tag :name , "Enter the first name Or Last name to search for User"%>
         <%= text_field_tag :search, params[:search] %>
