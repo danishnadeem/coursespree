@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311062412) do
+ActiveRecord::Schema.define(:version => 20130312134556) do
 
   create_table "availabilities", :force => true do |t|
     t.integer   "timetype"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(:version => 20130311062412) do
     t.string    "fb_token"
     t.timestamp "fb_token_expire"
     t.string    "phone"
+    t.boolean   "accept"
   end
 
 end

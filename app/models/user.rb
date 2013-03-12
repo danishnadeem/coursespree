@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessible :university_id, :department_id, :major_id, :year, :bio, :active, 
     :avatar, :ave_rating, :dob, :email, :fname, :fb_ID, :gender, :lname, :password,
-    :paypalEmail, :seed, :username, :password_confirmation, :tutor, :phone
+    :paypalEmail, :seed, :username, :password_confirmation, :tutor, :phone, :accept
   
   has_many :free_codes
   has_many :meetings
@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   validates :bio,  :presence => true
   validates :university_id,  :presence => true
   validates :department_id,  :presence => true
+#  validates :accept,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
@@ -30,8 +31,10 @@ class User < ActiveRecord::Base
   #  validates_confirmation_of :password
   validates :password,
     :confirmation => true,
+    :length => { :minimum => 8, :maximum => 40 },
     :on => :create
   validate :password_non_blank
+  validate :accept_non_blank
 
   def self.search(search)
     if search
@@ -123,6 +126,10 @@ class User < ActiveRecord::Base
 
   def password_non_blank
     errors.add(:password, "Missing") if pwd.blank?  
+  end
+
+  def accept_non_blank
+    errors.add(:accept,", You must agree to our terms and conditions before SignUp") if self.accept.blank?
   end
 
   def self.encrypted_password(pswd, seed)
