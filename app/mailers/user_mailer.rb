@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "test.account.rac@gmail.com"
+#  default :from => "test.account.rac@gmail.com"
   
   def student_request_for_meeting_to_tutor(meeting_id)
     @meeting = Meeting.find_by_id(meeting_id)
@@ -11,7 +11,7 @@ class UserMailer < ActionMailer::Base
     #      format.html { render "cronjobs/email_sent_successfully" }
     #    end
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :content_type => 'text/html' ) 
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
    
 
     #    mail(:to => @tutor.email, :cc => @student.email, :subject => "Student requests you for meeting, so please approve the pending meeting")
@@ -39,9 +39,9 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has accepted student's meeting request", :content_type => 'text/html' )
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has accepted student's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
 
-    #    mail(:to => @student.email, :cc => mailling_list  ,:subject => "Tutor accept the stutent's meeting request")
+    #    mail(:to => @student.email, :cc => mailling_list  ,:subject => "Tutor accept the stutent's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
   
@@ -66,9 +66,9 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has rejected the student's meeting request", :content_type => 'text/html' )
+    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has rejected the student's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
 
-    #    mail(:to => @student.email, :cc => mailling_list , :subject => "Tutor reject the stutent's meeting request")
+    #    mail(:to => @student.email, :cc => mailling_list , :subject => "Tutor reject the stutent's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
 
@@ -86,9 +86,9 @@ class UserMailer < ActionMailer::Base
 #
 #    mailling_list << @tutor.email
 
-    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :content_type => 'text/html' )
+    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
-#    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time")
+#    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
 
@@ -106,7 +106,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 6 hours remains in the start of meeting time")
+    #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 6 hours remains in the start of meeting time", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
 
@@ -124,7 +124,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 2 hours remains in the start of meeting time")
+    #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 2 hours remains in the start of meeting time", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
 
@@ -149,7 +149,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    #    mail(:to => @student.email , :cc => mailling_list, :subject => "The meeting has started")
+    #    mail(:to => @student.email , :cc => mailling_list, :subject => "The meeting has started", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
   
@@ -173,7 +173,7 @@ class UserMailer < ActionMailer::Base
 
     mailling_list << @tutor.email
 
-    #    mail(:to => @student.email , :cc => mailling_list, :subject => "The meeting has ended")
+    #    mail(:to => @student.email , :cc => mailling_list,  :subject => "The meeting has ended", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
   end
 end

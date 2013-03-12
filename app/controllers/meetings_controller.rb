@@ -333,7 +333,7 @@ class MeetingsController < ApplicationController
       end# end if meeting info is valid
       meeting = Meeting.find(params[:mid])
       #      receiver1 = "admin_1360378287_biz@gmail.com"
-      receiver1 = "info@coursespree.com"
+      receiver1 = "info@tutorsprout.com"
       receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
 
       amount = meeting.tutor.rate*meeting.tutor_availability.length
@@ -345,14 +345,14 @@ class MeetingsController < ApplicationController
 
       pay_request = PaypalAdaptive::Request.new
       #      serverbase = "http://198.101.226.133/"
-      serverbase = "http://www.coursespree.com/"
+      serverbase = "http://www.tutorsprout.com/"
 
       data = {
-        "returnUrl" => "http://www.coursespree.com/meetings/completed_payment?mid=#{params[:mid]}",
+        "returnUrl" => "http://www.tutorsprout.com/meetings/completed_payment?mid=#{params[:mid]}",
         "requestEnvelope" => {"errorLanguage" => "en_US"},
         "currencyCode"=>"USD",
         "receiverList"=>{"receiver"=>[{"email"=>receiver1, "amount"=>site_commission},{"email"=>receiver2, "amount"=> price}]},
-        "cancelUrl"=> "http://www.coursespree.com/meetings/cancelled_payment?mid=#{params[:mid]}",
+        "cancelUrl"=> "http://www.tutorsprout.com/meetings/cancelled_payment?mid=#{params[:mid]}",
         "actionType"=>"PAY",
         "ipnNotificationUrl"=>serverbase + "meetings/ipn_notification"
       }

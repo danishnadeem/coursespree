@@ -15,13 +15,17 @@ class User < ActiveRecord::Base
   validates :username,  :presence => true 
   validates :fname,  :presence => true
   validates :lname,  :presence => true
+  validates :major_id,  :presence => true
   validates :bio,  :presence => true
+  validates :university_id,  :presence => true
+  validates :department_id,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
     :path => ":rails_root/public/assets/useravatar/:id/:style/:basename.:extension",
     :default_url => "missing.png"
-  validates_uniqueness_of :username
+  
+  validates_uniqueness_of :username, :email
   validates_presence_of :email
   #  validates_confirmation_of :password
   validates :password,
