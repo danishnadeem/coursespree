@@ -148,9 +148,11 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     #flag to see if user apply to be tutor on registration
-    tu = params[:user][:tutor]
-    params[:user].delete :tutor
-
+    if !params[:user].blank?
+      tu = params[:user][:tutor]
+      params[:user].delete :tutor
+    end
+    
     @user = User.new(params[:user])
     if !params["addUniv"].blank? && !params["newuniv"].blank?
       if params["addUniv"] == "checked" && params["newuniv"].length > 0
@@ -186,7 +188,7 @@ class UsersController < ApplicationController
       elsif @user.save
         session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
-        format.json { render json: @user, status: :created, location: @user }
+        format.json { render json: @user, status: :created, location: @user}
       else
         format.html { render action: "register" }
         format.json { render json: @user.errors, status: :unprocessable_entity }

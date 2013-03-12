@@ -16,16 +16,12 @@ Findtutor::Application.routes.draw do
   #    end
   #  end
 
+  resources :users do
+    collection do
+      get 'fetch_departments'
+    end
+  end
 
-  match '/meetings/completed_payment' => 'meetings#completed_payment'
-  match '/meetings/cancelled_payment' => 'meetings#cancelled_payment'
-
-  match "auth/:provider/callback" => "admin#oauth"
-
-  match "/users" => "users#index"
-  match "/user" => "users#create"
-
-  match "/tutors/mgmt" => "tutors#mgmt"
 
   resources :tutor_locations
   resources :universities
@@ -54,25 +50,10 @@ Findtutor::Application.routes.draw do
   get "admin/login"
   post "admin/login"
   get "admin/logout"
-  
-  match 'register' => 'users#register'
-
-  match '/payment_transaction' => 'admin#show_payments_transactions'
-  match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
-
-  match '/student_report' => 'admin#show_student_meetings_reports'
-  match '/admins/search_student_meetings_reports' => "admin#search_student_meetings_reports"
-
-  match '/tutor_report' => 'admin#show_tutor_meetings_reports'
-  match '/admins/search_tutor_meetings_reports' => "admin#search_tutor_meetings_reports"
 
   resources :tutors
   
-  resources :users do
-    collection do
-      get 'fetch_departments'
-    end
-  end
+
   resources :meetings do
     collection do
       get 'new_meeting'
@@ -87,7 +68,31 @@ Findtutor::Application.routes.draw do
     end
   end
 
-#match urls for sending emails
+  match 'register' => 'users#register'
+
+  match '/payment_transaction' => 'admin#show_payments_transactions'
+  match '/admins/search_payments_transactions' => "admin#search_payments_transactions"
+
+  match '/student_report' => 'admin#show_student_meetings_reports'
+  match '/admins/search_student_meetings_reports' => "admin#search_student_meetings_reports"
+
+  match '/tutor_report' => 'admin#show_tutor_meetings_reports'
+  match '/admins/search_tutor_meetings_reports' => "admin#search_tutor_meetings_reports"
+
+  match '/meetings/completed_payment' => 'meetings#completed_payment'
+  match '/meetings/cancelled_payment' => 'meetings#cancelled_payment'
+
+  match "auth/:provider/callback" => "admin#oauth"
+
+  match "/users" => "users#index"
+
+  #  match "/user" => "users#create"
+  #  match "/user_show" => "users#show"
+
+  match "/tutors/mgmt" => "tutors#mgmt"
+
+
+  #match urls for sending emails
 
   match '/reminder_email_before_twelve_hours' => 'cronjobs#reminder_email_before_twelve_hours'
   match '/reminder_email_before_six_hours' => 'cronjobs#reminder_email_before_six_hours'
