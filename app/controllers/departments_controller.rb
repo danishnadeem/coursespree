@@ -11,7 +11,7 @@ class DepartmentsController < ApplicationController
     #      end
     #    else
     #    end
-    @departments = Department.paginate(:page => params[:page], :per_page => 30)
+    @departments = Department.paginate(:page => params[:page], :per_page => 30).order('name')
 
     respond_to do |format|
       format.html # index.html.erb

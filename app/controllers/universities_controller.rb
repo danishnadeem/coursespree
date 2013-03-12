@@ -2,7 +2,7 @@ class UniversitiesController < ApplicationController
   # GET /universities
   # GET /universities.json
   def index
-    @universities = University.paginate(:page => params[:page], :per_page => 30)
+    @universities = University.paginate(:page => params[:page], :per_page => 30).order('name')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -45,8 +45,8 @@ class UniversitiesController < ApplicationController
     respond_to do |format|
       if @university.save
         #create default department with name student
-        @department = Department.create(:name=>"student",:note=>"default",:university_id=>@university.id)
-        @department = Department.create(:name=>"tutor",:note=>"default",:university_id=>@university.id)
+        @department = Department.create(:name=>"Student",:note=>"default",:university_id=>@university.id)
+        @department = Department.create(:name=>"Tutor",:note=>"default",:university_id=>@university.id)
 
         format.html { redirect_to @university, notice: 'University was successfully created.' }
         format.json { render json: @university, status: :created, location: @university }
