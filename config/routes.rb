@@ -23,6 +23,8 @@ Findtutor::Application.routes.draw do
   match "auth/:provider/callback" => "admin#oauth"
 
   match "/users" => "users#index"
+  match "/user" => "users#create"
+
   match "/tutors/mgmt" => "tutors#mgmt"
 
   resources :tutor_locations

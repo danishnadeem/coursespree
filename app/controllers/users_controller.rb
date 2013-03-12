@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  before_filter :authticate, :except => [:create, :register, :show, :edit, :update, :register, :fetch_departments]
+  before_filter :authticate, :except => [:create, :new ,:register, :show, :edit, :update, :fetch_departments]
 
   def authticate
     unless User.find_by_id(session[:user_id])
@@ -101,17 +101,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/new
-  # GET /users/new.json
-  def register
-    @user = User.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @user }
-    end
-  end
-  
   def fetch_departments
     if params[:university_id].present?
       @university = University.find_by_id(params[:university_id])
@@ -127,6 +116,17 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/new
+  # GET /users/new.json
+
+  def register
+    @user = User.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @user }
+    end
+  end
   def new
     @user = User.new
 
@@ -148,8 +148,8 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     #flag to see if user apply to be tutor on registration
-#    tu = params[:user][:tutor]
-#    params[:user].delete :tutor
+    tu = params[:user][:tutor]
+    params[:user].delete :tutor
 
     @user = User.new(params[:user])
     if !params["addUniv"].blank? && !params["newuniv"].blank?
@@ -176,21 +176,18 @@ class UsersController < ApplicationController
         @user.department_id = newD.id
       end
     end
-aaaa
+
     respond_to do |format|
       # if apply to be tutor on registration redirect to tutor application page after registration succeed
       if @user.save && !tu.nil? && tu == "1"
-qqqqq
         session[:user_id] = @user.id
         format.html { redirect_to new_tutor_url(:uid => @user.id), notice: 'Please fill application for tutor' }
         format.json { render json: @user, status: :created, location: @user }
       elsif @user.save
-sssss
         session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'registration succeed, automatically signed in' }
         format.json { render json: @user, status: :created, location: @user }
       else
-ddddddd
         format.html { render action: "register" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
