@@ -86,9 +86,6 @@ Findtutor::Application.routes.draw do
 
   match "/users" => "users#index"
 
-  #  match "/user" => "users#create"
-  #  match "/user_show" => "users#show"
-
   match "/tutors/mgmt" => "tutors#mgmt"
 
 
