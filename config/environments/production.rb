@@ -1,7 +1,7 @@
 Findtutor::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  config.action_mailer.default_url_options = { :host => 'http://www.coursespree.com' }
+  config.action_mailer.default_url_options = { :host => 'http://www.tutorsprout.com' }
 
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -63,7 +63,7 @@ Findtutor::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'http://www.coursespree.com' }
+  config.action_mailer.default_url_options = { :host => 'http://www.tutorsprout.com' }
   config.action_mailer.delivery_method = :smtp
 
   ActionMailer::Base.smtp_settings = {
