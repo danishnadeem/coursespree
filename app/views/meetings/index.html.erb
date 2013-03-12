@@ -32,8 +32,8 @@
         </td>
         <% if meeting.tutor %>
           <td><%= Subject.find(meeting.subject).title %></td>
-          <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
-          <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+          <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user if meeting.tutor.user.present?%> </td>
+          <td> <%= link_to meeting.user.fullname, meeting.user if meeting.user.present?%> </td>
           <td><%= meeting_status(meeting.status) %></td>
           <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
             <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
