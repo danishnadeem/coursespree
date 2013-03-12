@@ -3,8 +3,7 @@ Findtutor::Application.configure do
 
   config.action_mailer.default_url_options = { :host => 'http://www.tutorsprout.com' }
 
-  
-  # Code is not reloaded between requests
+    # Code is not reloaded between requests
   config.cache_classes = true
 
   # Full error reports are disabled and caching is turned on
