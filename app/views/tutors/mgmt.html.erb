@@ -94,8 +94,15 @@
               <div>
                 University:<%= tutor.user.university_id %>
               </div>
+          <%#*<div>%>
+          <%#*average rating%>
+          <%#= tutor.approved %>
+          <%#*</div>%>
               <div>
-                average rating<%= tutor.approved %>
+                <% unless tutor.user.department.blank?%>
+                  Department:
+                  <%= tutor.user.department.name%>
+                <%end%>
               </div>
             </div><!--tutordescription div end-->
 
@@ -164,24 +171,25 @@
       <div class="tutorschedule">
         <%= approve_link(@searched_tutor)%><br />
         <%= link_to 'Show', user %> |
-    <%#= link_to 'Edit', edit_tutor_path(@searched_tutor) |%>
         <a href="/users/<%= user.id %>/edit/">Edit Personal</a> |
-    <%#*<a href="/users/%>
-    <%#= user.id" %>
-    <%#*data-confirm="Are you sure?"%>
-    <%#*data-method="delete" rel="nofollow">%>
-    <%#*Delete%>
-    <%#*</a>%>
-    <%#*|%>
-    <%#= link_to 'Fire Tutor', @searched_tutor, method: :delete, data: { confirm: 'Are you sure?' } %>
 
-        <%= link_to 'Edit Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
-        <%= link_to 'Fire Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
-        <%= link_to 'Delete Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
+        <%if current_user.usertype == "superadmin"%>
+          <%= link_to 'Edit', edit_tutor_path(@searched_tutor) %> |
+          <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">
+            Delete
+          </a>
+          |
+          <%= link_to 'Fire Tutor', @searched_tutor, method: :delete, data: { confirm: 'Are you sure?' } %> |
 
+        <%elsif current_user.usertype == "subadmin"%>
+          <%= link_to 'Edit Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
+          <%= link_to 'Fire Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
+          <%= link_to 'Delete Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
+        <%end%>
+          
         <%if current_user.usertype=="superadmin" || current_user.usertype=="subadmin"%>
           <%= hidden_field_tag "tutor_id" , @searched_tutor%>
-           <%= link_to 'Create Or Show Tutor Availabilties', tutor_availabilities_path(:tutor_id => @searched_tutor) %>
+          <%= link_to 'Create Or Show Tutor Availabilties', tutor_availabilities_path(:tutor_id => @searched_tutor) %>
         <%end%>
       </div><!--tutorschedule div end-->
 
