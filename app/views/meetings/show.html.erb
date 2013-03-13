@@ -26,7 +26,7 @@
   </div><!--meeting line end-->
   <div class="meetingline">
     <div class="inlinetitle">Duration:</div>
-    <%= @meeting.tutor_availability.start_time.strftime("%H:%M") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
+    <%= @meeting.tutor_availability.start_time.strftime("%H:%M %p") %>~<%= @meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
   </div><!--meeting line end-->
 
   <% if @meeting.tutor %>

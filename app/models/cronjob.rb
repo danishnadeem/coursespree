@@ -1,6 +1,7 @@
 class Cronjob < ActiveRecord::Base
 
   def just_check
+    xxxxxxx
     meeting_id = "meeting.id"
     UserMailer.upcoming_meeting_email_twelve_hours_before(meeting_id).deliver
   end
@@ -23,6 +24,7 @@ class Cronjob < ActiveRecord::Base
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
+        
         now_month = DateTime.now.strftime("%m").to_i
         now_day = DateTime.now.strftime("%d").to_i
 

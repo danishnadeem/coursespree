@@ -161,7 +161,7 @@ Findtutor::Application.routes.draw do
   match "/pricing"=>"pages#pricing"
   match "/team"=>"pages#team"
   match "/press"=>"pages#press"
-
+  match "/tos"=>"pages#terms_and_conditions"
 
   # See how all your routes lay out with "rake routes"
 

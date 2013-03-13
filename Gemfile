@@ -11,6 +11,7 @@ gem 'jquery_datepicker'
 
 #gem for adding cronjobs
 gem 'whenever', :require => false
+#gem 'javan-whenever'
 
 gem 'omniauth-facebook'
 
