@@ -1,11 +1,10 @@
 class Meeting < ActiveRecord::Base
-  attr_accessible :paykey, :tutor_availability_id, :availaibility_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
+  attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
                   :duration, :moderatorPW, :name, :price, :rating, :subject_id, :tutor_id, :user_id
   
   belongs_to :user
   belongs_to :tutor
   belongs_to :tutor_availability
-    belongs_to :availability
   belongs_to :subject
   belongs_to :tutor_location
   
@@ -58,11 +57,11 @@ class Meeting < ActiveRecord::Base
   end
   
   def p_logout
-    '&logoutURL=http://198.101.226.133/meetings/' + id.to_s + '?finish=1'
+    '&logoutURL=http://http://198.101.226.133/meetings/' + id.to_s + '?finish=1'
   end
   
   def logouturl
-    Rails.env == 'production'? "http://coursespree.com/meetings/": "http://198.101.226.133/meetings/"
+    Rails.env == 'production'? "http://etutor.herokuapp.com/meetings/": "http://http://198.101.226.133/meetings/"
   end
   
   def p_recd
@@ -96,7 +95,7 @@ class Meeting < ActiveRecord::Base
   #querystring to be used for create meeting
   #def creatstring
   #  #( s_id + p_name  + p_modpw + p_attpd + p_duration + p_logout + p_recd).gsub(' ', '+')
-  #  start_str = 'meetingID=' + id.to_s + '&logoutURL=http://198.101.226.133/meetings/' + id.to_s + '?finish=1&record=true'
+  #  start_str = 'meetingID=' + id.to_s + '&logoutURL=http://http://198.101.226.133/meetings/' + id.to_s + '?finish=1&record=true'
   #  if !name.nil?
   #    start_str+=('&name=' + name.to_s)
   #  end

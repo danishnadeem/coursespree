@@ -14,29 +14,34 @@
 ActiveRecord::Schema.define(:version => 20130312134556) do
 
   create_table "availabilities", :force => true do |t|
-    t.integer   "timetype"
-    t.integer   "taken",      :default => 0
-    t.integer   "tutor_id"
-    t.timestamp "start_time"
-    t.integer   "length"
-    t.timestamp "created_at",                :null => false
-    t.timestamp "updated_at",                :null => false
+    t.integer  "timetype"
+    t.integer  "taken",      :default => 0
+    t.integer  "tutor_id"
+    t.datetime "start_time"
+    t.integer  "length"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  create_table "cronjobs", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "departments", :force => true do |t|
-    t.string    "name"
-    t.string    "note"
-    t.integer   "university_id"
-    t.timestamp "created_at",    :null => false
-    t.timestamp "updated_at",    :null => false
+    t.string   "name"
+    t.string   "note"
+    t.integer  "university_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "free_codes", :force => true do |t|
-    t.integer   "user_id"
-    t.string    "code"
-    t.boolean   "is_active",  :default => true
-    t.timestamp "created_at",                   :null => false
-    t.timestamp "updated_at",                   :null => false
+    t.integer  "user_id"
+    t.string   "code"
+    t.boolean  "is_active",  :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "meetings", :force => true do |t|
@@ -66,109 +71,109 @@ ActiveRecord::Schema.define(:version => 20130312134556) do
   end
 
   create_table "subadmins", :force => true do |t|
-    t.integer   "user_id"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "subjects", :force => true do |t|
-    t.string    "title"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
+    t.string   "title"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "subjects_tutors", :force => true do |t|
-    t.integer   "subject_id"
-    t.integer   "tutor_id"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
+    t.integer  "subject_id"
+    t.integer  "tutor_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "superadmins", :force => true do |t|
-    t.integer   "user_id"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "transactions", :force => true do |t|
-    t.integer   "tutor_id"
-    t.integer   "user_id"
-    t.float     "amount"
-    t.integer   "meeting_id"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
-    t.string    "pay_key"
+    t.integer  "tutor_id"
+    t.integer  "user_id"
+    t.float    "amount"
+    t.integer  "meeting_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "pay_key"
   end
 
   create_table "tutor_availabilities", :force => true do |t|
-    t.integer   "tutor_id"
-    t.timestamp "start_time"
-    t.integer   "length"
-    t.timestamp "created_at",                :null => false
-    t.timestamp "updated_at",                :null => false
-    t.integer   "taken",      :default => 0
-    t.integer   "timetype"
+    t.integer  "tutor_id"
+    t.datetime "start_time"
+    t.integer  "length"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+    t.integer  "taken",      :default => 0
+    t.integer  "timetype"
   end
 
   create_table "tutor_locations", :force => true do |t|
-    t.string    "name"
-    t.integer   "university_id"
-    t.timestamp "created_at",    :null => false
-    t.timestamp "updated_at",    :null => false
+    t.string   "name"
+    t.integer  "university_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "tutors", :force => true do |t|
-    t.integer   "user_id"
-    t.integer   "approved",                :default => 0
-    t.timestamp "created_at",                               :null => false
-    t.timestamp "updated_at",                               :null => false
-    t.string    "resume_file_name"
-    t.string    "resume_content_type"
-    t.integer   "resume_file_size"
-    t.timestamp "resume_updated_at"
-    t.string    "transcript_file_name"
-    t.string    "transcript_content_type"
-    t.integer   "transcript_file_size"
-    t.timestamp "transcript_updated_at"
-    t.decimal   "rate",                    :default => 0.0
+    t.integer  "user_id"
+    t.integer  "approved",                                              :default => 0
+    t.datetime "created_at",                                                             :null => false
+    t.datetime "updated_at",                                                             :null => false
+    t.string   "resume_file_name"
+    t.string   "resume_content_type"
+    t.integer  "resume_file_size"
+    t.datetime "resume_updated_at"
+    t.string   "transcript_file_name"
+    t.string   "transcript_content_type"
+    t.integer  "transcript_file_size"
+    t.datetime "transcript_updated_at"
+    t.decimal  "rate",                    :precision => 5, :scale => 2, :default => 0.0
   end
 
   create_table "universities", :force => true do |t|
-    t.string    "name"
-    t.string    "note"
-    t.timestamp "created_at", :null => false
-    t.timestamp "updated_at", :null => false
+    t.string   "name"
+    t.string   "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
-    t.string    "username"
-    t.string    "pwd"
-    t.string    "seed"
-    t.string    "email"
-    t.string    "fname"
-    t.string    "lname"
-    t.integer   "university_id"
-    t.integer   "department_id"
-    t.integer   "year"
-    t.integer   "major_id"
-    t.text      "bio"
-    t.integer   "gender"
-    t.date      "dob"
-    t.string    "paypalEmail"
-    t.integer   "ave_rating"
-    t.string    "fb_ID"
-    t.integer   "active",              :default => 0
-    t.timestamp "created_at",                         :null => false
-    t.timestamp "updated_at",                         :null => false
-    t.string    "avatar_file_name"
-    t.string    "avatar_content_type"
-    t.integer   "avatar_file_size"
-    t.timestamp "avatar_updated_at"
-    t.string    "fb_uid"
-    t.string    "fb_token"
-    t.timestamp "fb_token_expire"
-    t.string    "phone"
-    t.boolean   "accept"
+    t.string   "username"
+    t.string   "pwd"
+    t.string   "seed"
+    t.string   "email"
+    t.string   "fname"
+    t.string   "lname"
+    t.integer  "university_id"
+    t.integer  "department_id"
+    t.integer  "year"
+    t.integer  "major_id"
+    t.text     "bio"
+    t.integer  "gender"
+    t.date     "dob"
+    t.string   "paypalEmail"
+    t.integer  "ave_rating"
+    t.string   "fb_ID"
+    t.integer  "active",              :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
+    t.string   "fb_uid"
+    t.string   "fb_token"
+    t.datetime "fb_token_expire"
+    t.string   "phone"
+    t.boolean  "accept"
   end
 
 end
