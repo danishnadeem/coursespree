@@ -65,83 +65,44 @@
       <%= f.text_field :paypalEmail %>
     </div>
     <%if current_user.present? && current_user.usertype=="subadmin"%>
-      <div class="field">
-    <%#= f.label :university_id %><br />
-    <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
-
-        <%= if current_user.university.present?
-          f.hidden_field :university_id,  :value => current_user.university.id
-        else
-          f.hidden_field :university_id,  :value => ""
-        end%>
-      </div>
-    <%#elsif  current_user.present? && current_user.usertype=="superadmin" && @departments.present?%>
-    <%#*<div class="field">%>
-    <%#= f.label :university_id %><br />
-    <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
-    <%#*Add new%>
-    <%#=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
-    <%#=text_field_tag "newuniv" %>
-    <%#*</div>%>
+      <%= if current_user.university.present?
+        f.hidden_field :university_id,  :value => current_user.university.id
+      else
+        f.hidden_field :university_id,  :value => ""
+      end%>
+      <%= if current_user.department.present?
+        f.hidden_field :department_id,  :value => current_user.department.id
+      else
+        f.hidden_field :department_id,  :value => ""
+      end%>
     <%end%>
-    <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
 
-      <%if current_user.present? && current_user.usertype=="subadmin"%>
-        <div class="field">
-      <%#= f.label :Affiliation %><br />
-      <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
-          <%= if current_user.department.present?
-            f.hidden_field :department_id,  :value => current_user.department.id
-          else
-            f.hidden_field :department_id,  :value => ""
-          end%>
+    <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
+      <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register"%>
+        <div class="field" id="departments">
+          <%= f.label :university_id %><br />
+          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+
+          <p class="field"  id="departments_updated">
+            <%= render :partial => "departments", :locals => {:departments => @departments} %>
+          </p>
+        </div>
+      <%elsif current_user.present? && current_user.usertype=="superadmin" && controller.action_name == "edit" %>
+        <%= f.label :university_id %><br />
+        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
+        <div class="field" id="departments">
+          <p class="field"  id="departments_updated">
+            <%= render :partial => "departments", :locals => {:departments => @departments} %>
+          </p>
         </div>
       <%else%>
-        <%if controller.action_name == "new" || controller.action_name == "register"%>
-          <div class="field" id="departments">
-            <%= f.label :university_id %><br />
-            <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
-
-            <p class="field"  id="departments_updated">
-              <%= render :partial => "departments", :locals => {:departments => @departments} %>
-            </p>
-
-        <%#change now%>
-        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
-        <%#*<p class="field"  id="departments_updated">%>
-        <%#*Or Add new Affiliation%>
-        <%#=check_box_tag "addDept", :checked => true %>
-        <%#=text_field_tag "newdept" %>
-        <%#*</p>%>
-        <%#end%>
-          </div>
-        <%elsif current_user.present? && current_user.usertype=="superadmin" && controller.action_name == "edit" %>
+        <div class="field" id="departments">
           <%= f.label :university_id %><br />
-          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
-          <div class="field" id="departments">
-            <p class="field"  id="departments_updated">
-              <%= render :partial => "departments", :locals => {:departments => @departments} %>
-            </p>
-        <%#change now%>
-        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
-        <%#*<p class="field"  id="departments_updated">%>
-        <%#*Or Add new Affiliation%>
-        <%#=check_box_tag "addDept", :checked => true %>
-        <%#=text_field_tag "newdept" %>
-        <%#*</p>%>
-        <%#end%>
-          </div>
-        <%else%>
-          <div class="field" id="departments">
-            <%= f.label :university_id %><br />
-            <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
-
-            <p class="field"  id="departments_updated">
-              <%= render :partial => "departments", :locals => {:departments => @departments} %>
-            </p>
-          </div>
-
-        <%end%>
+          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+          <p class="field"  id="departments_updated">
+            <%= render :partial => "departments", :locals => {:departments => @departments} %>
+          </p>
+        </div>
       <%end%>
       <div class="field">
         <%= f.label :major_id %><br />

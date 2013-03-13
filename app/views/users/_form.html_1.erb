@@ -1,0 +1,197 @@
+<div id="notice"><%=notice%></div>
+<%= form_for (@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <!--new user are active right after registration-->
+  <%=f.hidden_field :active, :value => 1%>
+  <div id="userbasic">
+    <div class="field">
+      <%= f.label :username %><br />
+      <%= f.text_field :username %>
+    </div>
+    <div class="field">
+      <%= f.label :password %><br />
+      <%= f.password_field :password , :minlength => 8%>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation , :maxlength => 8  %>
+    </div>
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :fname, "First Name" %><br />
+      <%= f.text_field :fname %>
+    </div>
+    <div class="field">
+      <%= f.label :lname, "Last Name" %><br />
+      <%= f.text_field :lname %>
+    </div>
+    <div class="field">
+      <%= f.label :gender %><br />
+      <%= f.select :gender, [["hidden",2],["male",1],["female",0]] %>
+    </div>
+
+  <%#*<div class="field">%>
+  <%#= f.label :dob %><br />
+  <%#= f.date_select :dob,:start_year => 1940,:end_year=>2005, :default=> {:day=>1, :month=>1, :year=>1980} %>
+  <%#*</div>%>
+
+    <div class="field">
+      <%= f.label :Phone_Number %><br />
+      <%= f.text_field :phone%>
+    </div>
+
+  </div><!--userbasic div end-->
+
+  <div id="useradv">
+    <div class="field">
+      <%= f.label :avatar %><br />
+      <%= f.file_field :avatar %>
+    </div>
+    <div class="field">
+      <%= f.label :paypalEmail, "Paypal Email" %><br />
+      <%= f.text_field :paypalEmail %>
+    </div>
+    <%if current_user.present? && current_user.usertype=="subadmin"%>
+      <div class="field">
+    <%#= f.label :university_id %><br />
+    <%#universities = University.where(:id => current_user.university.id).map{|u| [u.name, u.id]}%>
+
+        <%= if current_user.university.present?
+          f.hidden_field :university_id,  :value => current_user.university.id
+        else
+          f.hidden_field :university_id,  :value => ""
+        end%>
+      </div>
+    <%#elsif  current_user.present? && current_user.usertype=="superadmin" && @departments.present?%>
+    <%#*<div class="field">%>
+    <%#= f.label :university_id %><br />
+    <%#= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+    <%#*Add new%>
+    <%#=check_box_tag "addUniv", 'checked', false , :onchange => "#{current_user && (current_user.usertype != 'superadmin') && (current_user.usertype != 'subadmin') ? 'hide_show_departments();' : !current_user ? 'hide_show_departments();' : '' }"%>
+    <%#=text_field_tag "newuniv" %>
+    <%#*</div>%>
+    <%end%>
+    <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
+
+      <%if current_user.present? && current_user.usertype=="subadmin"%>
+        <div class="field">
+      <%#= f.label :Affiliation %><br />
+      <%#= f.select :department_id,  Department.where(:id => current_user.department.id).map{|u| [u.name, u.id]} %>
+          <%= if current_user.department.present?
+            f.hidden_field :department_id,  :value => current_user.department.id
+          else
+            f.hidden_field :department_id,  :value => ""
+          end%>
+        </div>
+      <%else%>
+        <%if controller.action_name == "new" || controller.action_name == "register"%>
+          <div class="field" id="departments">
+            <%= f.label :university_id %><br />
+            <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+
+            <p class="field"  id="departments_updated">
+              <%= render :partial => "departments", :locals => {:departments => @departments} %>
+            </p>
+
+        <%#change now%>
+        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
+        <%#*<p class="field"  id="departments_updated">%>
+        <%#*Or Add new Affiliation%>
+        <%#=check_box_tag "addDept", :checked => true %>
+        <%#=text_field_tag "newdept" %>
+        <%#*</p>%>
+        <%#end%>
+          </div>
+        <%elsif current_user.present? && current_user.usertype=="superadmin" && controller.action_name == "edit" %>
+          <%= f.label :university_id %><br />
+          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
+          <div class="field" id="departments">
+            <p class="field"  id="departments_updated">
+              <%= render :partial => "departments", :locals => {:departments => @departments} %>
+            </p>
+        <%#change now%>
+        <%#if current_user.present? && (current_user.usertype == "superadmin")%>
+        <%#*<p class="field"  id="departments_updated">%>
+        <%#*Or Add new Affiliation%>
+        <%#=check_box_tag "addDept", :checked => true %>
+        <%#=text_field_tag "newdept" %>
+        <%#*</p>%>
+        <%#end%>
+          </div>
+        <%else%>
+          <div class="field" id="departments">
+            <%= f.label :university_id %><br />
+            <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+
+            <p class="field"  id="departments_updated">
+              <%= render :partial => "departments", :locals => {:departments => @departments} %>
+            </p>
+          </div>
+
+        <%end%>
+      <%end%>
+      <div class="field">
+        <%= f.label :major_id %><br />
+        <%= f.text_field :major_id %>
+      </div>
+      <div class="field">
+        <%= f.label :year %><br />
+        <%= f.text_field :year %>
+      </div>
+      <div class="field">
+        <%= f.label :bio %><br />
+        <%= f.text_area :bio, :size => '50x8' %>
+      </div>
+      <%if false%>
+        <div class="field">
+          <% f.label :active %><br />
+          <% f.number_field :active %>
+        </div>
+      <%end%>
+      <%if params[:action] == 'register' && false%>
+        <div class="field">
+          <%= f.label :tutor %><br />
+          <%= f.check_box :tutor %>
+        </div>
+      <%end%>
+    <%end%>
+    <br/>
+    <div class="field">
+      <%= f.check_box :accept%> By signing up above you agree to our terms and conditions
+    </div>
+    <br/>
+    <div class="actions">
+      <%= f.submit :value=> userbtn_text %><!--from user helper-->
+    </div>
+  </div><!--useradv div end-->
+<% end %>
+
+<script>
+  function hide_show_departments(){
+    if($('#addUniv').attr('checked')) {
+      $("#departments").hide();
+    }
+    else{
+      $("#departments").show();
+    }
+  }
+  function fetchdepartments(obj_val){
+    $.ajax({
+      url: '<%= fetch_departments_users_path %>',
+      data: {university_id: obj_val }
+    });
+  }
+</script>
