@@ -23,6 +23,7 @@ class Cronjob < ActiveRecord::Base
         meeting_month = meeting.tutor_availability.start_time.strftime("%m").to_i
         meeting_day = meeting.tutor_availability.start_time.strftime("%d").to_i
 
+        
         now_month = DateTime.now.strftime("%m").to_i
         now_day = DateTime.now.strftime("%d").to_i
 
