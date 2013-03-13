@@ -64,30 +64,50 @@
       <%= f.label :paypalEmail, "Paypal Email" %><br />
       <%= f.text_field :paypalEmail %>
     </div>
-    <%if current_user.present? && current_user.usertype=="subadmin"%>
-      <%= if current_user.university.present?
-        f.hidden_field :university_id,  :value => current_user.university.id
-      else
-        f.hidden_field :university_id,  :value => ""
-      end%>
-      <%= if current_user.department.present?
-        f.hidden_field :department_id,  :value => current_user.department.id
-      else
-        f.hidden_field :department_id,  :value => ""
-      end%>
+
+  <%# current user is subadmin and he creates user%>
+
+    <%if !current_user.blank? && current_user.usertype=="subadmin" && (controller.action_name == "new" || controller.action_name == "register")%>
+    <% if current_user.present? && current_user.university.present?%>
+        <%=f.hidden_field :university_id,  :value => current_user.university.id%>
+      <%else%>
+        <%= f.hidden_field :university_id,  :value => ""%>
+      <%end%>
+
+      <% if current_user.present? && current_user.department.present? %>
+        <%= f.hidden_field :department_id,  :value => current_user.department.id%>
+      <%else%>
+        <%= f.hidden_field :department_id,  :value => ""%>
+      <%end%>
+
     <%end%>
 
-    <%unless @user.usertype == "subadmin" &&  (controller.action_name == "new" || controller.action_name == "edit")%>
-      <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register"%>
-        <div class="field" id="departments">
-          <%= f.label :university_id %><br />
-          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+  <%# current user is superadmin and he creates user%>
 
-          <p class="field"  id="departments_updated">
-            <%= render :partial => "departments", :locals => {:departments => @departments} %>
-          </p>
-        </div>
-      <%elsif current_user.present? && current_user.usertype=="superadmin" && controller.action_name == "edit" %>
+    <%if current_user.present? && current_user.usertype=="superadmin" && (controller.action_name == "new" || controller.action_name == "register") %>
+    <div class="field" id="departments">
+        <%= f.label :university_id %><br />
+        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+        <p class="field"  id="departments_updated">
+          <%= render :partial => "departments", :locals => {:departments => @departments} %>
+        </p>
+      </div>
+    <%end%>
+
+  <%# no current user just register user%>
+
+    <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register"%>
+    <div class="field" id="departments">
+        <%= f.label :university_id %><br />
+        <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
+        <p class="field"  id="departments_updated">
+          <%= render :partial => "departments", :locals => {:departments => @departments} %>
+        </p>
+      </div>
+    <%end%>
+
+    <%if @user.present? && controller.action_name == "edit"%>
+      <%if current_user.usertype == "superadmin"%>
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
         <div class="field" id="departments">
@@ -95,43 +115,36 @@
             <%= render :partial => "departments", :locals => {:departments => @departments} %>
           </p>
         </div>
-      <%else%>
-        <div class="field" id="departments">
-          <%= f.label :university_id %><br />
-          <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
-          <p class="field"  id="departments_updated">
-            <%= render :partial => "departments", :locals => {:departments => @departments} %>
-          </p>
-        </div>
       <%end%>
+    <%end%>
+    <div class="field">
+      <%= f.label :major_id %><br />
+      <%= f.text_field :major_id %>
+    </div>
+    <div class="field">
+      <%= f.label :year %><br />
+      <%= f.text_field :year %>
+    </div>
+    <div class="field">
+      <%= f.label :bio %><br />
+      <%= f.text_area :bio, :size => '50x8' %>
+    </div>
+    <%if false%>
       <div class="field">
-        <%= f.label :major_id %><br />
-        <%= f.text_field :major_id %>
+        <% f.label :active %><br />
+        <% f.number_field :active %>
       </div>
+    <%end%>
+    <%if params[:action] == 'register' && false%>
       <div class="field">
-        <%= f.label :year %><br />
-        <%= f.text_field :year %>
+        <%= f.label :tutor %><br />
+        <%= f.check_box :tutor %>
       </div>
-      <div class="field">
-        <%= f.label :bio %><br />
-        <%= f.text_area :bio, :size => '50x8' %>
-      </div>
-      <%if false%>
-        <div class="field">
-          <% f.label :active %><br />
-          <% f.number_field :active %>
-        </div>
-      <%end%>
-      <%if params[:action] == 'register' && false%>
-        <div class="field">
-          <%= f.label :tutor %><br />
-          <%= f.check_box :tutor %>
-        </div>
-      <%end%>
     <%end%>
     <br/>
     <div class="field">
-      <%= f.check_box :accept%> By signing up above you agree to our terms and conditions
+      <%= f.check_box :accept%> By signing up above you agree to our 
+      <%= link_to "Terms and conditions", "/tos" %>
     </div>
     <br/>
     <div class="actions">

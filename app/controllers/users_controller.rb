@@ -50,14 +50,14 @@ class UsersController < ApplicationController
       
       if  @subadmin_users1.present?
         @subadmin_users1.each do |user|
-          if (current_user.usertype == "subadmin" && user.usertype!="subadmin" && user.tutor.blank?)
+          if (current_user.usertype == "subadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?)
             @subadmin_users << user
           end
         end
       end
       
       if @subadmin_users.present?
-        @subadmin_users = @subadmin_users.sort_by { |m| m[:name] }.paginate(:page => params[:page], :per_page => 30).sort_by { |m| m[:name] }
+        @subadmin_users = @subadmin_users.sort_by { |m| m[:name] }.paginate(:page => params[:page], :per_page => 30)
       end
       
       begin

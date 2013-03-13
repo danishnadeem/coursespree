@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  before_filter :authticate, :except => [:about, :comingsoon, :gettingstarted, :howtouse, :faq, :contact, :pricing, :team, :press, :create, :register, :index,:show]
+  before_filter :authticate, :except => [:terms_and_conditions,:about, :comingsoon, :gettingstarted, :howtouse, :faq, :contact, :pricing, :team, :press, :create, :register, :index,:show]
 
   def index
   end

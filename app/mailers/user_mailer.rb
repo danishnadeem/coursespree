@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-#  default :from => "test.account.rac@gmail.com"
+  default :from => "test.account.rac@gmail.com"
   
   def student_request_for_meeting_to_tutor(meeting_id)
     @meeting = Meeting.find_by_id(meeting_id)
@@ -86,7 +86,8 @@ class UserMailer < ActionMailer::Base
 #
 #    mailling_list << @tutor.email
 
-    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
+#    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
+    mail(:to => "faisalmaqbool888@gmail.com", :subject => "Just check cronjob working", :content_type => 'text/html')
 
 #    mail(:to => @student.email, :cc => mailling_list, :subject => "Upcoming meeting is still unpaid while only 12 hours remains in the start of meeting time", :from => "meetings@tutorsprout.com", :content_type => 'text/html')
 
