@@ -139,8 +139,18 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    if @user.university.present?
-      @departments = @user.university.departments
+    if !@user.blank? && (@user == current_user || current_user.usertype=="superadmin" || current_user.usertype=="subadmin")
+      if current_user.usertype=="subadmin"
+        if @user.department == current_user.department
+          @departments = @user.university.departments
+        else
+          redirect_to user_path(current_user)
+        end
+      elsif @user.university.present?
+        @departments = @user.university.departments
+      end
+    else
+      redirect_to user_path(current_user)
     end
   end
 

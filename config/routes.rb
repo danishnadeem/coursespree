@@ -162,6 +162,7 @@ Findtutor::Application.routes.draw do
   match "/team"=>"pages#team"
   match "/press"=>"pages#press"
   match "/tos"=>"pages#terms_and_conditions"
+  match "edit_user" => "users#edit"
 
   # See how all your routes lay out with "rake routes"
 
