@@ -2,7 +2,7 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.json
   def index
-    @subjects = Subject.paginate(:page => params[:page] , :per_page => 30 )
+    @subjects = Subject.paginate(:page => params[:page] , :per_page => 30 ).order('title')
 
     respond_to do |format|
       format.html # index.html.erb
