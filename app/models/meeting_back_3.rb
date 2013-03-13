@@ -61,7 +61,7 @@ class Meeting < ActiveRecord::Base
   end
   
   def logouturl
-    Rails.env == 'production'? "http://etutor.herokuapp.com/meetings/": "http://http://198.101.226.133/meetings/"
+    Rails.env == 'production'? "http://coursespree.com/meetings/": "http://http://198.101.226.133/meetings/"
   end
   
   def p_recd
