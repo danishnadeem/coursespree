@@ -1,6 +1,6 @@
 class Cronjob < ActiveRecord::Base
 
-  def just_check
+  def self.just_check
     xxxxxxx
     meeting_id = "meeting.id"
     UserMailer.upcoming_meeting_email_twelve_hours_before(meeting_id).deliver

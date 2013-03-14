@@ -229,7 +229,7 @@ class MeetingsController < ApplicationController
         if (!current_user.usertype == "superadmin" || !current_user.usertype == "subadmin")
           UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
         else
-          UserMailer.admin_subadmin_create_meeting(@meeting.id).deliver
+          UserMailer.admin_subadmin_create_meeting(@meeting.id, current_user).deliver
         end
         
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }

@@ -20,5 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 
 every 2.minute do
-  runner "Cronjob.just_check" , :environment => "development"
+#  runner "Cronjob.just_check", :environment => "development"
+  runner "Cronjob.just_check"
 end
