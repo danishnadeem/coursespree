@@ -1,5 +1,5 @@
 class TutorsController < ApplicationController
-  
+ 
   # GET /tutors
   # GET /tutors.json
   def index
@@ -35,10 +35,10 @@ class TutorsController < ApplicationController
       end#end if sub.count>0
 
       #tutor of searched subject is present then further search on params[:university_id] accordingly
-        @univ_id = current_user.university_id
-        if params[:university_id].present?
-          @univ_id = params[:university_id]
-        end
+      @univ_id = current_user.university_id if current_user.present?
+      if params[:university_id].present?
+        @univ_id = params[:university_id]
+      end
       if @tutors.present?
 
         #if current user is not subadmin
@@ -65,12 +65,12 @@ class TutorsController < ApplicationController
           end
           @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
         else#if params[:university_id] is blank
-         @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+          @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
         end
       end
     
     else #if no matching subject found or come without search for any subject
-      @univ_id = current_user.university_id
+      @univ_id = current_user.university_id if current_user.present?
       #if current user is not subadmin
 
       if current_user.present? && current_user.subadmin.blank?
@@ -96,7 +96,7 @@ class TutorsController < ApplicationController
         end
         #if current user is subadmin
 
-      elsif current_user.subadmin.present?
+      elsif current_user.present? && current_user.subadmin.present?
         @tutors1 = []
         
         Tutor.all.each do |tutor|
@@ -105,8 +105,8 @@ class TutorsController < ApplicationController
           end
         end
         @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
-        #     else
-        #       @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+      else
+        @tutors = Tutor.all.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
       end
     end
     

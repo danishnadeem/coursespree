@@ -2,7 +2,7 @@
   <h1>Find Tutors On Your Campus</h1>
   <p>CourseSpree is here to pair you with the best tutors on your campus to ensure your academic success.</p>
   <p>
-    <%if current_user.subadmin.blank?%>
+    <%if current_user.present? && current_user.subadmin.blank?%>
       <%= select_tag :university_id, options_for_select(University.all.sort_by { |m| m[:name] }.map{|d| [d.name, d.id]}, @univ_id) %>
     <%end%>
 

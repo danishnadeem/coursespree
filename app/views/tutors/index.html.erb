@@ -34,6 +34,7 @@
         </div>
       <% end %>
     <% end %>
+    <%#= will_paginate(@tutors,:params => {:university_id => params[:university_id],:subject => params[:subject]}) %>
     <%= will_paginate(@tutors) %>
   <%end%>
 </div>
