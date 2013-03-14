@@ -96,7 +96,7 @@
 
   <%# no current user just register user%>
 
-    <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create"%>
+    <%if current_user.blank? && (controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create")%>
       <div class="field" id="departments">
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
