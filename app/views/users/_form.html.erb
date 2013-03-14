@@ -66,6 +66,7 @@
     </div>
 
   <%# current user is subadmin and he creates user%>
+    
 
     <%if !current_user.blank? && current_user.usertype=="subadmin" && (controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create")%>
       <% if current_user.present? && current_user.university.present?%>
