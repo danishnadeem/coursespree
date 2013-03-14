@@ -88,7 +88,7 @@ class TutorsController < ApplicationController
           @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
         else
           Tutor.all.each do |tutor|
-            if tutor.user.university_id.to_i == current_user.university_id.to_i
+            if tutor.user.present? && tutor.user.university_id.to_i == current_user.university_id.to_i
               @tutors1 << tutor
             end
           end
