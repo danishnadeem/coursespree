@@ -13,6 +13,7 @@ class TutorsController < ApplicationController
     if !params[:subject].nil? && params[:subject].size > 0
       @tutors = Array.new
       subjects = Subject.find(:all, :conditions => ['title LIKE ?', '%' + params[:subject] + '%' ])
+
       #find all matching subjects
             
       if subjects.count >0 
@@ -32,13 +33,81 @@ class TutorsController < ApplicationController
           end#end subtuts bridge table.each
         end#end subs.each
       end#end if sub.count>0
+
+      #tutor of searched subject is present then further search on params[:university_id] accordingly
+        @univ_id = current_user.university_id
+        if params[:university_id].present?
+          @univ_id = params[:university_id]
+        end
       if @tutors.present?
-        @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+
+        #if current user is not subadmin
+
+        if params[:university_id].present? && current_user.subadmin.blank?
+          @tutors1 = []
+
+          @tutors.each do |tutor|
+            if tutor.user.university_id.to_i == params[:university_id].to_i
+              @tutors1 << tutor
+            end
+          end
+          @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+
+          #if current user is subadmin
+
+        elsif params[:university_id].present? && current_user.subadmin.present?
+          @tutors1 = []
+
+          @tutors.each do |tutor|
+            if tutor.user.department == currrent_user.department
+              @tutors1 << tutor
+            end
+          end
+          @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+        else#if params[:university_id] is blank
+         @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+        end
       end
-      
-    else #if no matching subject found
-      #      @tutors = Tutor.find(:all, :conditions => ["approved = ?", 1])
-      @tutors = Tutor.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+    
+    else #if no matching subject found or come without search for any subject
+      @univ_id = current_user.university_id
+      #if current user is not subadmin
+
+      if current_user.present? && current_user.subadmin.blank?
+
+        @tutors1 = []
+        if params[:university_id].present?
+          @univ_id = params[:university_id]
+
+          Tutor.all.each do |tutor|   
+            if tutor.user.university_id.to_i == params[:university_id].to_i
+              @tutors1 << tutor
+            end
+          end
+       
+          @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+        else
+          Tutor.all.each do |tutor|
+            if tutor.user.university_id.to_i == current_user.university_id.to_i
+              @tutors1 << tutor
+            end
+          end
+          @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+        end
+        #if current user is subadmin
+
+      elsif current_user.subadmin.present?
+        @tutors1 = []
+        
+        Tutor.all.each do |tutor|
+          if tutor.user.department == current_user.department
+            @tutors1 << tutor
+          end
+        end
+        @tutors = @tutors1.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+        #     else
+        #       @tutors = @tutors.paginate(:conditions => ["approved = 1"] ,:page => params[:page], :per_page => 30)
+      end
     end
     
     #remove self if current user is tutor
@@ -46,7 +115,6 @@ class TutorsController < ApplicationController
       crt_tutor = Tutor.find_by_user_id(session[:user_id])
       @tutors.delete_if{|x| x.id == crt_tutor.id}# remove self being searched
     end
-
     
     respond_to do |format|
       format.html # index.html.erb
