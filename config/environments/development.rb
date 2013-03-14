@@ -50,9 +50,13 @@ Findtutor::Application.configure do
     :address        => "smtp.gmail.com",
     :port           => 587,
     :domain         => 'popupstorz.com',
-    :user_name => "test.account.rac@gmail.com",
-    :password => "racpakistan22",
+#    :user_name => "test.account.rac@gmail.com",
+#    :password => "racpakistan22",
+    :user_name => "tutors@tutorsprout.com",
+    :password => "Tutorsprout!",
     :authentication => 'plain',
     :enable_starttls_auto => true
   }
 end
+
+

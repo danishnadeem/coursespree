@@ -226,8 +226,10 @@ class MeetingsController < ApplicationController
         ta.taken = 1
         ta.save
 
-        if current_user.usertype != "superadmin" || current_user.usertype != "subadmin"
+        if (!current_user.usertype == "superadmin" || !current_user.usertype == "subadmin")
           UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
+        else
+          UserMailer.admin_subadmin_create_meeting(@meeting.id).deliver
         end
         
         format.html { redirect_to @meeting, notice: 'Meeting was successfully created.' }
