@@ -1,4 +1,9 @@
 class CronjobsController < ApplicationController
+  def just_check
+    xxxxxxx
+    meeting_id = "meeting.id"
+    UserMailer.upcoming_meeting_email_twelve_hours_before(meeting_id).deliver
+  end
   def reminder_email_before_twelve_hours
     #    in_reminder_email_before_twelve_hours
     

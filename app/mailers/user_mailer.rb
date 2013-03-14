@@ -2,7 +2,6 @@ class UserMailer < ActionMailer::Base
   default :from => "test.account.rac@gmail.com"
   
   def student_request_for_meeting_to_tutor(meeting_id)
-    xxx
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
@@ -18,7 +17,6 @@ class UserMailer < ActionMailer::Base
   end
 
   def tutor_accept_meeting_request(meeting_id)
-    xxxx
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
@@ -46,7 +44,6 @@ class UserMailer < ActionMailer::Base
   end
   
   def tutor_reject_meeting_request(meeting_id)
-    zzzz
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
@@ -77,7 +74,6 @@ class UserMailer < ActionMailer::Base
   end
 
   def admin_subadmin_create_meeting(meeting_id , usr)
-    xxxx
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
