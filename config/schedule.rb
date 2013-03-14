@@ -20,7 +20,8 @@
 # Learn more: http://github.com/javan/whenever
 
 
-every 2.minute do
+every 1.minute do
 #  runner "Cronjob.just_check", :environment => "development"
-  runner "Cronjob.just_check"
+#  runner "Cronjob.just_check"
+  rake "rake:cron", :environment => "development"
 end
