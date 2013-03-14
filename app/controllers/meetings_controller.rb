@@ -90,7 +90,7 @@ class MeetingsController < ApplicationController
           @subadmin_meeting << meeting
         end
       end
-      @subadmin_meeting = @subadmin_meeting.paginate(:page => params[:page], :per_page => 30).order('name')
+      @subadmin_meeting = @subadmin_meeting.sort_by { |m| m[:name] }.paginate(:page => params[:page], :per_page => 30)
     end
 
     respond_to do |format|

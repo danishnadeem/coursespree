@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "test.account.rac@gmail.com"
+#  default :from => "test.account.rac@gmail.com"
   
   def student_request_for_meeting_to_tutor(meeting_id)
     @meeting = Meeting.find_by_id(meeting_id)

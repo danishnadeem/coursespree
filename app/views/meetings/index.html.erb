@@ -69,6 +69,9 @@
         <tr>
           <td><%= link_to meeting.name, meeting %></td>
           <td><%= meeting.tutor_availability.start_time.strftime("%D")%></td>
+          <td>
+            <%= meeting.tutor_availability.start_time.strftime("%H:%M %p") %>~<%= meeting.tutor_availability.end_time.strftime("%H:%M %p") %>
+          </td>
           <td><%= pluralize(meeting.tutor_availability.length,"hour")%></td>
           <td>
             <%if meeting.paid%>
