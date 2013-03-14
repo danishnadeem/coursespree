@@ -1,10 +1,13 @@
 <%= label_tag :Affiliation %><br />
-<% unless departments.blank? %>
+<% if !departments.blank? %>
   <%if @user.present? && (@user.department_id.present?)%>
     <%= select_tag "user[department_id]", options_for_select(departments.sort_by { |m| m[:name] }.map{|d| [d.name, d.id]}, @user.department_id) %>
   <%else%>
     <%= select_tag "user[department_id]", options_for_select(departments.sort_by { |m| m[:name] }.map{|d| [d.name, d.id]},:prompt=> "Select an Affiliation") %>
   <%end%>
+  <%#still preserve the values if some error cuase unsave data for create or update%>
+<%elsif @user.present? && (@user.department_id.present?)%>
+  <%= select_tag "user[department_id]", options_for_select(@user.university.departments.sort_by { |m| m[:name] }.map{|d| [d.name, d.id]}, @user.department_id) %>
 <%else%>
   <%= select_tag :department_id, "", :prompt=> "Select an Affiliation"%>
 <%end%>

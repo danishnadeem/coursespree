@@ -47,7 +47,7 @@ class TutorsController < ApplicationController
           @tutors1 = []
 
           @tutors.each do |tutor|
-            if tutor.user.university_id.to_i == params[:university_id].to_i
+            if tutor.user.present? && tutor.user.university_id.to_i == params[:university_id].to_i
               @tutors1 << tutor
             end
           end
@@ -59,7 +59,7 @@ class TutorsController < ApplicationController
           @tutors1 = []
 
           @tutors.each do |tutor|
-            if tutor.user.department == currrent_user.department
+            if tutor.user.present? && tutor.user.department == currrent_user.department
               @tutors1 << tutor
             end
           end
@@ -80,7 +80,7 @@ class TutorsController < ApplicationController
           @univ_id = params[:university_id]
 
           Tutor.all.each do |tutor|   
-            if tutor.user.university_id.to_i == params[:university_id].to_i
+            if tutor.user.present? && tutor.user.university_id.to_i == params[:university_id].to_i
               @tutors1 << tutor
             end
           end
@@ -100,7 +100,7 @@ class TutorsController < ApplicationController
         @tutors1 = []
         
         Tutor.all.each do |tutor|
-          if tutor.user.department == current_user.department
+          if tutor.user.present? && tutor.user.department == current_user.department
             @tutors1 << tutor
           end
         end

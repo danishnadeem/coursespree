@@ -164,6 +164,9 @@ class UsersController < ApplicationController
     end
     
     @user = User.new(params[:user])
+    puts "888888888888888888888888888"
+    puts @user.inspect
+
     if !params["addUniv"].blank? && !params["newuniv"].blank?
       if params["addUniv"] == "checked" && params["newuniv"].length > 0
         newU = University.find_or_create_by_name(params["newuniv"])

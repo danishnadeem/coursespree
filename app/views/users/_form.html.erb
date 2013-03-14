@@ -67,8 +67,8 @@
 
   <%# current user is subadmin and he creates user%>
 
-    <%if !current_user.blank? && current_user.usertype=="subadmin" && (controller.action_name == "new" || controller.action_name == "register")%>
-    <% if current_user.present? && current_user.university.present?%>
+    <%if !current_user.blank? && current_user.usertype=="subadmin" && (controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create")%>
+      <% if current_user.present? && current_user.university.present?%>
         <%=f.hidden_field :university_id,  :value => current_user.university.id%>
       <%else%>
         <%= f.hidden_field :university_id,  :value => ""%>
@@ -84,8 +84,8 @@
 
   <%# current user is superadmin and he creates user%>
 
-    <%if current_user.present? && current_user.usertype=="superadmin" && (controller.action_name == "new" || controller.action_name == "register") %>
-    <div class="field" id="departments">
+    <%if current_user.present? && current_user.usertype=="superadmin" && (controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create") %>
+      <div class="field" id="departments">
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
         <p class="field"  id="departments_updated">
@@ -96,8 +96,8 @@
 
   <%# no current user just register user%>
 
-    <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register"%>
-    <div class="field" id="departments">
+    <%if current_user.blank? && controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create"%>
+      <div class="field" id="departments">
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :onchange => "fetchdepartments($(this).val())"%>
         <p class="field"  id="departments_updated">
@@ -106,7 +106,16 @@
       </div>
     <%end%>
 
-    <%if @user.present? && controller.action_name == "edit"%>
+  <%# 1) if current_user is superadmin and he add new @user some error will never save user but control
+  come from create and @user contain new user with values but these are not save in db due to some error%>
+  <%# 2) if current_user edit itself then @user contain current_user with values but these are not save
+  in db due to some error but controll come from update%>
+
+    <%if @user.present? && (controller.action_name == "edit" || controller.action_name == "update" || controller.action_name == "create")%>
+
+    <%# if current_user is superadmin and he add new @user some error will never save user but control come from create%>
+    <%# if current_user is superadmin and he edit any @user some error will never update user but control come from update%>
+
       <%if current_user.usertype == "superadmin"%>
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
@@ -143,7 +152,7 @@
     <%end%>
     <br/>
     <div class="field">
-      <%= f.check_box :accept%> By signing up above you agree to our 
+      <%= f.check_box :accept%> By signing up above you agree to our
       <%= link_to "Terms and conditions", "/tos" %>
     </div>
     <br/>
