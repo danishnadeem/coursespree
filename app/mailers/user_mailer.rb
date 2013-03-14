@@ -28,7 +28,7 @@ class UserMailer < ActionMailer::Base
     #      format.html { render "cronjobs/email_sent_successfully" }
     #    end
 
-    mail(:to => "mahhek.khan@gmail.com", :subject => "admin_subadmin_create_meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
+    mail(:to => "mahhek.khan@gmail.com", :subject => "SuperAdmin Or SubAdmin create meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
 
 
     #    mail(:to => @tutor.email, :cc => @student.email, :subject => "Student requests you for meeting, so please approve the pending meeting")
