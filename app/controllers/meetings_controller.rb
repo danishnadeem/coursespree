@@ -339,7 +339,7 @@ class MeetingsController < ApplicationController
       receiver2 = meeting.tutor.user.paypalEmail ? meeting.tutor.user.paypalEmail : meeting.tutor.user.email
 
       amount = meeting.tutor.rate*meeting.tutor_availability.length
-      meeting_price =amount * 0.8
+      meeting_price = amount * 0.8
       site_commission = amount * 0.2 # not used
       price =  "%.2f" % meeting_price
       ##commission = "%.2f" % site_commission #not used

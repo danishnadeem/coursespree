@@ -116,7 +116,7 @@
     <%# if current_user is superadmin and he add new @user some error will never save user but control come from create%>
     <%# if current_user is superadmin and he edit any @user some error will never update user but control come from update%>
 
-      <%if current_user.usertype == "superadmin"%>
+      <%if current_user.present? && current_user.usertype == "superadmin"%>
         <%= f.label :university_id %><br />
         <%= f.select :university_id, univs_and_ids, {:prompt=> "select a university"}, :selected => @user.university_id, :onchange => "fetchdepartments($(this).val())"%>
         <div class="field" id="departments">
