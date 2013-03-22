@@ -33,13 +33,13 @@ class User < ActiveRecord::Base
     :confirmation => true,
     :length => { :minimum => 8, :maximum => 40 },
     :on => :create
-  validate :password_non_blank
+#  validate :password_non_blank
   validate :accept_non_blank
 
-  validates :password_confirmation,
-    :confirmation => true,
-    :length => { :minimum => 8, :maximum => 40 },
-    :on => :create
+#  validates :password_confirmation,
+#    :confirmation => true,
+#    :length => { :minimum => 8, :maximum => 40 },
+#    :on => :create
 
   def self.search(search)
     if search
