@@ -14,19 +14,30 @@
 <div class="container">
   <%if @tutors.present?%>
     <% @tutors.each do |tutor| %>
-      <% if tutor.user %>
+      <% if tutor.user.present? && tutor.user%>
         <div class="row">
           <section id="search-result">
             <div class="span4">
               <section class="tutor-search">
-                <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
-                <h4><%=link_to tutor.user.fullname, tutor.user%></h4>
-                <h6><%= tutor.user.university.name %></h6>
+                <%if tutor.user.avatar.present?%>
+                  <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
+                <%end%>
+                <%if tutor.user.fullname.present?%>
+                  <h4>
+                    <%=link_to tutor.user.fullname, tutor.user%>
+                  </h4>
+                <%end%>
+                <h6>
+                  <% if tutor.user.university.present? %>
+                    <%= tutor.user.university.name %>
+                  <%end%>
+                </h6>
               </section>
             </div>
 
             <div class="span8">
               <section class="tutor-skills">
+                <% if tutor.subjects.present %>
                 <h6><% tutor.subjects.each do |sub|%><%=sub.title%> <%end%></h6>
               </section>
             </div>
@@ -34,7 +45,7 @@
         </div>
       <% end %>
     <% end %>
-    <%#= will_paginate(@tutors,:params => {:university_id => params[:university_id],:subject => params[:subject]}) %>
+  <%#= will_paginate(@tutors,:params => {:university_id => params[:university_id],:subject => params[:subject]}) %>
     <%= will_paginate(@tutors) %>
   <%end%>
 </div>

@@ -1,9 +1,9 @@
 <h1>Search for a Tutor</h1>
-<%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+<%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
   <div>
     <%= form_tag "/tutors/mgmt" do %>
       <p>
-        <%= label_tag :name , "Enter the first name Or Last name to search for Tutor"%>
+        <%= label_tag :name , "Enter the First name OR Last name to search for Tutor"%>
         <%= text_field_tag :search, params[:search] %>
         <%= submit_tag "Search", :name => nil %>
       </p>
@@ -24,7 +24,7 @@
     </p>
   <%end%>
 
-  <%if @subadmin_tutors.blank? && current_user.usertype!="subadmin"%>
+  <%if @subadmin_tutors.blank? && current_user.present? && current_user.usertype!="subadmin"%>
     <%@tutors.each do |tutor|%>
 
       <% if tutor.user %>
@@ -125,7 +125,7 @@
               <%= link_to 'Edit Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
               <%= link_to 'Delete Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
 
-              <%if current_user.usertype=="superadmin" || current_user.usertype=="subadmin"%>
+              <%if current_user.present? && (current_user.usertype=="superadmin" || current_user.usertype=="subadmin")%>
                 <%= hidden_field_tag "tutor_id" , tutor%>
                 <%= link_to 'Create Or Show Tutor Availabilties', tutor_availabilities_path(:tutor_id => tutor) %>
               <%end%>
@@ -151,8 +151,12 @@
       </div><!--avatar div end-->
       <div class="tutordescription">
         <div>
-          Name:<%= user.fullname%>
-          Username: <%=user.username%>
+          <%if user.fullname.present?%>
+            Name:<%= user.fullname%>
+          <%end%>
+          <%if user.username.present?%>
+            Username: <%=user.username%>
+          <%end%>
         </div>
         <div>
           University:<%= user.university.name unless user.university.blank?%>
@@ -185,8 +189,8 @@
           <%= link_to 'Fire Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
           <%= link_to 'Delete Tutor', "https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dGFYSVRQaGNCaEo1SjFqNUZDNS1sVlE6MQ#gid=0" %> |
         <%end%>
-          
-        <%if current_user.usertype=="superadmin" || current_user.usertype=="subadmin"%>
+
+        <%if current_user.present? && (current_user.usertype=="superadmin" || current_user.usertype=="subadmin")%>
           <%= hidden_field_tag "tutor_id" , @searched_tutor%>
           <%= link_to 'Create Or Show Tutor Availabilties', tutor_availabilities_path(:tutor_id => @searched_tutor) %>
         <%end%>

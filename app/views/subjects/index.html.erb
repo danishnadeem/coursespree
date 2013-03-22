@@ -7,15 +7,16 @@
     <th></th>
     <th></th>
   </tr>
-
-<% @subjects.each do |subject| %>
-  <tr>
-    <td><%= subject.title %></td>
-    <td><%= link_to 'Show', subject %></td>
-    <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
-    <td><%= link_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <%if @subjects.present?%>
+    <% @subjects.each do |subject| %>
+      <tr>
+        <td><%= subject.title %></td>
+        <td><%= link_to 'Show', subject %></td>
+        <td><%= link_to 'Edit', edit_subject_path(subject) %></td>
+        <td><%= link_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  <% end %>
 </table>
 
 <%= will_paginate(@subjects) %>

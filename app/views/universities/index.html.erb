@@ -8,15 +8,16 @@
     <th></th>
     <th></th>
   </tr>
-
-<% @universities.each do |university| %>
-  <tr>
-    <td><%= university.name %></td>
-    <td><%= university.note %></td>
-    <td><%= link_to 'Show', university %></td>
-    <td><%= link_to 'Edit', edit_university_path(university) %></td>
-    <td><%= link_to 'Destroy', university, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
+  <% if @universities.present? %>
+  <% @universities.each do |university| %>
+    <tr>
+      <td><%= university.name %></td>
+      <td><%= university.note %></td>
+      <td><%= link_to 'Show', university %></td>
+      <td><%= link_to 'Edit', edit_university_path(university) %></td>
+      <td><%= link_to 'Destroy', university, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
 <% end %>
 </table>
 

@@ -7,22 +7,23 @@
     <th></th>
     <th></th>
   </tr>
-
-  <% @subadmins.each do |subadmin| %>
-    <tr>
-      <td><%= subadmin.user.username %></td>
-      <%if subadmin.user.free_codes.blank?%>
-        <td><%= link_to 'Generate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
-      <%else%>
-        <%free_code = subadmin.user.free_codes.map(&:code).to_sentence%>
-        <td><%= free_code%></td>
-        <td><%= link_to 'Regenerate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
-      <%end%>
-      <td><%= link_to 'Show', subadmin %></td>
-      <td><%= link_to 'Edit', edit_subadmin_path(subadmin) %></td>
-      <td><%= link_to 'Edit Personal', edit_user_path(subadmin.user.id) %></td>
-      <td><%= link_to 'Destroy', subadmin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
+  <% if @subadmins.present? %>
+    <% @subadmins.each do |subadmin| %>
+      <tr>
+        <td><%= subadmin.user.username %></td>
+        <%if subadmin.user.free_codes.blank?%>
+          <td><%= link_to 'Generate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
+        <%else%>
+          <%free_code = subadmin.user.free_codes.map(&:code).to_sentence%>
+          <td><%= free_code%></td>
+          <td><%= link_to 'Regenerate Code', generate_free_code_subadmins_path(:user_id => subadmin.user) %></td>
+        <%end%>
+        <td><%= link_to 'Show', subadmin %></td>
+        <td><%= link_to 'Edit', edit_subadmin_path(subadmin) %></td>
+        <td><%= link_to 'Edit Personal', edit_user_path(subadmin.user.id) %></td>
+        <td><%= link_to 'Destroy', subadmin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
   <% end %>
 </table>
 <%= will_paginate(@subadmins) %>

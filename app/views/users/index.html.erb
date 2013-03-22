@@ -1,9 +1,9 @@
 <h1>Search for a User</h1>
-<%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+<%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
   <div>
     <%= form_tag "/search_users" do %>
       <p>
-        <%= label_tag :name , "Enter the first name Or Last name to search for User"%>
+        <%= label_tag :name , "Enter the First name Or Last name to search for User"%>
         <%= text_field_tag :search, params[:search] %>
         <%= submit_tag "Search", :name => nil %>
       </p>
@@ -13,7 +13,7 @@
 
 <%if @searched_user.blank?%>
   <div id="university_nav">
-    <%if @subadmin_users.blank? && current_user.usertype!="subadmin"%>
+    <%if @subadmin_users.blank? && current_user.present? && current_user.usertype!="subadmin"%>
       <h2>Student by Universities</h2>
       <p>
         <%=@univ%>
@@ -34,20 +34,23 @@
   </div>
 
   <!--university_nav div end-->
-  <%if @subadmin_users.blank? && current_user.usertype!="subadmin" && current_user.usertype=="superadmin"%>
+  <%if @subadmin_users.blank? && current_user.present? && current_user.usertype!="subadmin" && current_user.usertype=="superadmin"%>
     <% if @users.present? %>
       <%  @users.each do |user| %>
         <div class="useritem">
         <%#if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?) || (current_user.usertype == "subadmin" && user.usertype!="subadmin"&& user.usertype!="superadmin" && user.tutor.blank? && current_user.university.id == user.university.id)%>
-          <%if (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
+          <%if current_user.present? && (current_user.usertype == "superadmin" && user.usertype!="superadmin" && user.usertype!="subadmin" && user.tutor.blank?)%>
             <div class="avatarimg">
               <%= link_to image_tag(user.avatar.url(:thumb)), user %>
             </div>
 
             <div class="usersname">
-
-              <%=link_to user.username, user%><br />
-              <%= link_to user.fullname, user%><br/>
+              <% if user.username.present? %>
+                <%=link_to user.username, user%><br />
+              <%end%>
+              <%  if user.fullname.present? %>
+                <%= link_to user.fullname, user%><br/>
+              <%end%>
           <%#*<a href="/users/%>
           <%#= user.id %>
           <%#*/register/">%>
@@ -70,9 +73,12 @@
           <%= link_to image_tag(user.avatar.url(:thumb)), user %>
         </div>
         <div class="usersname">
-          <%=link_to user.username, user%><br />
-          <%= link_to user.fullname, user%>
-          <br/>
+          <% if user.username.present? %>
+            <%=link_to user.username, user%><br />
+          <%end%>
+          <%  if user.fullname.present? %>
+            <%= link_to user.fullname, user%><br/>
+          <%end%>
           <a href="/users/<%= user.id %>/edit/">Edit</a> |
           <a href="https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dEp0QjFTQnF2b3U3MDJfLWRCLXZfanc6MQ#gid=0">Delete</a> |
         <%#*<a href="/users/%>
@@ -96,8 +102,12 @@
         <%= link_to image_tag(user.avatar.url(:thumb)), user %>
       </div>
       <div class="usersname">
-        <%=link_to user.username, user%><br />
-        <%= link_to user.fullname, user%><br/>
+        <% if user.username.present? %>
+          <%=link_to user.username, user%><br />
+        <%end%>
+        <%  if user.fullname.present? %>
+          <%= link_to user.fullname, user%><br/>
+        <%end%>
         <a href="/users/<%= user.id %>/edit/">Edit</a> |
         <a href="/users/<%= user.id %>" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a> |
         <% @user_id=user.id%>

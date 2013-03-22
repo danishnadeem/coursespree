@@ -8,16 +8,21 @@
     <th></th>
     <th></th>
   </tr>
-
-<% @tutor_locations.each do |tutor_location| %>
-  <tr>
-    <td><%= tutor_location.name %></td>
-    <td><%= tutor_location.university.name %></td>
-    <td><%= link_to 'Show', tutor_location %></td>
-    <td><%= link_to 'Edit', edit_tutor_location_path(tutor_location) %></td>
-    <td><%= link_to 'Destroy', tutor_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <%if @tutor_locations.present?%>
+    <% @tutor_locations.each do |tutor_location| %>
+      <tr>
+        <%if tutor_location.present? %>
+          <td><%= tutor_location.name %></td>
+        <%end%>
+        <%if tutor_location.university.present?%>
+          <td><%= tutor_location.university.name %></td>
+        <%end%>
+        <td><%= link_to 'Show', tutor_location %></td>
+        <td><%= link_to 'Edit', edit_tutor_location_path(tutor_location) %></td>
+        <td><%= link_to 'Destroy', tutor_location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  <% end %>
 </table>
 
 <%= will_paginate(@tutor_locations) %>

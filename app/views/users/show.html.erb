@@ -25,13 +25,13 @@
           <p class="bio"><%= @user.bio%></p>
         </section><!-- end tutor-bio-->
 
-        <% if @user.tutor %>
+        <% if @user.tutor.present? %>
           <section class="tutor-docs">
-            <% if @user.tutor.resume_updated_at %>
+            <% if @user.tutor.resume_updated_at.present? %>
               <%=link_to image_tag("resume.png"), @user.tutor.resume.url %>
             <% end %>
 
-            <% if @user.tutor.transcript_updated_at %>
+            <% if @user.tutor.transcript_updated_at.present? %>
               <%=link_to image_tag("transcript.png"), @user.tutor.resume.url %>
             <% end %>
 
@@ -62,7 +62,7 @@
               <%if @user.tutor.subjects.count > 0 %>
                 <%@user.tutor.subjects.each do |st|%>
                   <div class="item">
-                    <%=st.title %>
+                      <%=st.title if st.title.present?%>
                   </div><!--div subject-->
                 <%end%>
               <%else%>
