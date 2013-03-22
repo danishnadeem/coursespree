@@ -398,9 +398,17 @@ class MeetingsController < ApplicationController
   end
   
   def joinmeeting
+    
     meeting = Meeting.find(params[:id])
     if current_user.usertype == "tutor"
       response = Typhoeus::Request.get(meeting.createuri)
+
+      puts "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+      puts meeting.createuri.inspect
+
+      puts "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+      puts response.inspect
+xxx
       rtcode =  Nokogiri.XML(response.body).xpath('//response/returncode')[0].content
       if rtcode == "SUCCESS"
         redirect_to meeting.tujoinuri

@@ -58,11 +58,11 @@ class Meeting < ActiveRecord::Base
   end
   
   def p_logout
-    '&logoutURL=http://coursespree.info/meetings/meetings/' + id.to_s + '?finish=1'
+    '&logoutURL=http://tutorsprout.info/meetings/meetings/' + id.to_s + '?finish=1'
   end
   
   def logouturl
-    Rails.env == 'production'? "http://coursespree.info/meetings/": "http://coursespree.info/meetings/"
+    Rails.env == 'production'? "http://tutorsprout.info/meetings/": "http://tutorsprout.info/meetings/"
   end
   
   def p_recd
