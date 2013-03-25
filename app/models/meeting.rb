@@ -61,6 +61,7 @@ class Meeting < ActiveRecord::Base
     '&logoutURL=http://tutorsprout.info/meetings/' + id.to_s + '?finish=1'
   end
   
+  
   def logouturl
     Rails.env == 'production'? "http://tutorsprout.info/meetings/": "http://tutorsprout.info/meetings/"
   end
