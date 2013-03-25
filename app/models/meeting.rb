@@ -1,6 +1,6 @@
 class Meeting < ActiveRecord::Base
   attr_accessible :paykey, :tutor_availability_id, :paid, :message, :status, :accept, :attendeePW, :location_id,
-                  :duration, :moderatorPW, :name, :price, :rating, :subject_id, :tutor_id, :user_id, :has_code
+    :duration, :moderatorPW, :name, :price, :rating, :subject_id, :tutor_id, :user_id, :has_code
   
   belongs_to :user
   belongs_to :tutor
@@ -53,12 +53,12 @@ class Meeting < ActiveRecord::Base
   end
   def p_duration
     if !tutor_availability.nil?
-    '&duration=' + (tutor_availability.length*60).to_s
+      '&duration=' + (tutor_availability.length*60).to_s
     end
   end
   
   def p_logout
-    '&logoutURL=http://tutorsprout.info/meetings/meetings/' + id.to_s + '?finish=1'
+    '&logoutURL=http://tutorsprout.info/meetings/' + id.to_s + '?finish=1'
   end
   
   def logouturl
@@ -84,12 +84,12 @@ class Meeting < ActiveRecord::Base
   
   def p_apwd
     if !attendeePW.nil?
-    '&password=' + attendeePW
+      '&password=' + attendeePW
     end
   end
   def p_mpwd
     if !attendeePW.nil?
-    '&password=' + moderatorPW
+      '&password=' + moderatorPW
     end
   end
 
@@ -200,5 +200,4 @@ class Meeting < ActiveRecord::Base
   def endurl
     buildurl(('meetingID=' + id.to_s + '&password=' + moderatorPW.to_s).gsub(' ', '+'), "end")
   end
-  
 end

@@ -52,7 +52,7 @@
               <% if (@user.usertype =='tutor' || @user.usertype == 'tem_tutor' ) &&  @user.id == session[:user_id]%>
       <%#*<a href="#" onclick="$('#editSpecialties').toggle();return false;">Edit%>
       <%#*</a>%>
-                <a href="https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dHFveTJZQ0lSc0FEYjBuVlNsemUtemc6MQ#gid=0">
+                  <a href="https://docs.google.com/a/coursespree.com/spreadsheet/viewform?formkey=dHFveTJZQ0lSc0FEYjBuVlNsemUtemc6MQ#gid=0">
                   Edit
                 </a>
               <%elsif current_user.present? && (current_user.usertype == 'superadmin' || current_user.usertype == 'subadmin')%>
