@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
       user.fb_uid =auth.uid
       user.fb_token = auth.credentials.token
       user.fb_token_expire =Time.at(auth.credentials.expires_at)
-      
+
       if user.new_record?
         user.fname = auth.extra.raw_info.first_name
         user.lname = auth.extra.raw_info.last_name
@@ -63,6 +63,11 @@ class User < ActiveRecord::Base
         user.dob = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y')
         user.password = auth.extra.raw_info.username
         user.university_id = University.first.id
+        user.department_id = 1
+        user.major_id = "xyz"
+        user.bio = "xyz"
+        user.email = "abc@a.com"
+        user.accept = true
         user.active = 1
       end
       user.save!
