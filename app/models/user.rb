@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
         user.department_id = 1
         user.major_id = "xyz"
         user.bio = "xyz"
-        user.email = "abc@a.com"
+        user.email = auth.extra.raw_info.email
         user.accept = true
         user.active = 1
       end
