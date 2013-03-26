@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
 
       if user.new_record?
         admin  =  User.find_by_username("admin")
+        
 
         user.fname = auth.extra.raw_info.first_name
         user.lname = auth.extra.raw_info.last_name
