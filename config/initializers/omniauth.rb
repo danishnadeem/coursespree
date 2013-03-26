@@ -1,4 +1,4 @@
-OmniAuth.config.full_host = "https://shrouded-plateau-9637.herokuapp.com"
+OmniAuth.config.full_host = "http://tutorsprout.com"
 #http://localhost:3000/  http://tutorsprout.com
 OmniAuth.config.logger = Rails.logger
 Rails.application.config.middleware.use OmniAuth::Builder do
