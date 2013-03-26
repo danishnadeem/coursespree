@@ -37,8 +37,13 @@
 
             <div class="span8">
               <section class="tutor-skills">
-                <% if tutor.subjects.present %>
-                <h6><% tutor.subjects.each do |sub|%><%=sub.title%> <%end%></h6>
+                <% if tutor.subjects.present? %>
+                  <h6>
+                    <% tutor.subjects.each do |sub|%>
+                      <%=sub.title%>
+                    <%end%>
+                  </h6>
+                <%end%>
               </section>
             </div>
           </section>

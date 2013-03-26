@@ -54,7 +54,9 @@ class MeetingsController < ApplicationController
         @meetings = Meeting.paginate(:conditions => ['(user_id = ? or tutor_id = ?) AND status = ? AND paid = ?', session[:user_id],session[:tutor_id], 1, true], :page => params[:page], :per_page => 30).order('name')
       end
     end
+
     @subadmin_tutors = []
+
     if current_user.usertype=="subadmin"
       #      Department.all.each do |dept|
       #        if current_user.department.present? && current_user.department.id == dept.id
