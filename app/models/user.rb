@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
       user.fb_token_expire =Time.at(auth.credentials.expires_at)
 
       if user.new_record?
-        admin  =  user.find_by_username("admin")
+        admin  =  User.find_by_username("admin")
 
         user.fname = auth.extra.raw_info.first_name
         user.lname = auth.extra.raw_info.last_name
