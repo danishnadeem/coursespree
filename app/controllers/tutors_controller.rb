@@ -161,32 +161,44 @@ class TutorsController < ApplicationController
   def create
     if params[:tutor][:user_id].present?
       @user = User.find_by_id(params[:tutor][:user_id])
-      unless params[:university_id].blank?
-        @user.update_attribute(:university_id , params[:university_id])
-      end
-      unless params[:department_id].blank?
-        @user.update_attribute(:department_id , params[:department_id])
+      if @user.present?
+        unless params[:university_id].blank?
+          @user.update_attribute(:university_id , params[:university_id])
+        end
+        unless params[:department_id].blank?
+          @user.update_attribute(:department_id , params[:department_id])
+        end
+      else
+        redirect_to users_path and return
       end
     elsif params[:user_id].present? && params[:from_add_user].present?
       @user = User.find_by_id(params[:user_id])
-      unless params[:university_id].blank?
-        @user.update_attribute(:university_id , params[:university_id])
-      end
-      unless params[:department_id].blank?
-        @user.update_attribute(:department_id , params[:department_id])
+      if @user.present?
+        unless params[:university_id].blank?
+          @user.update_attribute(:university_id , params[:university_id])
+        end
+        unless params[:department_id].blank?
+          @user.update_attribute(:department_id , params[:department_id])
+        end
+      else
+        redirect_to users_path and return
       end
     end
 
-    @tutor = Tutor.new(params[:tutor])
+    if @user.present?
+      @tutor = Tutor.new(params[:tutor])
 
-    respond_to do |format|
-      if @tutor.save
-        format.html { redirect_to @tutor, notice: 'Tutor was successfully created.' }
-        format.json { render json: @tutor, status: :created, location: @tutor }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @tutor.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @tutor.save
+          format.html { redirect_to @tutor, notice: 'Tutor was successfully created.' }
+          format.json { render json: @tutor, status: :created, location: @tutor }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @tutor.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to users_path and return
     end
   end
 

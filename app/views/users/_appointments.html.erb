@@ -23,7 +23,7 @@
 			
 					<section id="appointment">
 					  <div id="appointment-info" class="span4">
-						  <p><%= m.user.fullname%> - <%= m.subject.title %> <br>
+						  <p><%= m.user.fullname%> - <%= m.subject.title  if m.subject.present? && m.subject.title.present?%> <br>
 						  <% if m.location_id %>
 						  	Location: <%= m.location.name %><br>
 						  <% end %>
@@ -54,7 +54,7 @@
 					  <label class="control-label" for="inputFirstName"><strong class="login">Personal Info</strong></label>
 
 					<div class="controls">
-					  <p id="Graduation" class="pull-right"><%= m.subject.title %></p>
+					  <p id="Graduation" class="pull-right"><%= m.subject.title  if m.subject.present? && m.subject.title.present? %></p>
 					  <p><%= m.user.fullname%></p>
 					  
 					</div>
@@ -119,7 +119,7 @@
 					<% else %>
 						Tutor Name Not Available
 					<% end %>
-					  <%= m.subject.title %> <br>
+					  <%= m.subject.title if m.subject.present? && m.subject.title.present?%> <br>
 					  <% if m.location_id %>
 						Location: <%= m.location.name %><br>
 					  <% end %>
@@ -151,7 +151,7 @@
 					  <label class="control-label" for="inputFirstName"><strong class="login">Personal Info</strong></label>
 
 					<div class="controls">
-					  <p id="Graduation" class="pull-right"><%= m.subject.title %></p>
+					  <p id="Graduation" class="pull-right"><%= m.subject.title if m.subject.present? && m.subject.title.present?%></p>
 					  <p><%= m.user.fullname%></p>
 					  
 					</div>
