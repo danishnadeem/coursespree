@@ -84,10 +84,12 @@ class SubjectsController < ApplicationController
   # DELETE /subjects/1.json
   def destroy
     @subject = Subject.find(params[:id])
-    @sub_tut = SubjectsTutor.find_by_subject_id(params[:id])
+    
     @subject.destroy
-    @sub_tut.destroy
-
+    if SubjectsTutor.find_by_subject_id(params[:id]).present?
+      @sub_tut = SubjectsTutor.find_by_subject_id(params[:id])
+      @sub_tut.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to subjects_url }
