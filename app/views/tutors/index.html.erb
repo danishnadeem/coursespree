@@ -19,14 +19,12 @@
           <section id="search-result">
             <div class="span4">
               <section class="tutor-search">
-                <%if tutor.user.avatar.present?%>
+                <h4>
                   <%=link_to image_tag(tutor.user.avatar.url(:thumb)), tutor.user %>
-                <%end%>
-                <%if tutor.user.fullname.present?%>
-                  <h4>
+                  <%if tutor.user.fullname.present?%>
                     <%=link_to tutor.user.fullname, tutor.user%>
-                  </h4>
-                <%end%>
+                  <%end%>
+                </h4>
                 <h6>
                   <% if tutor.user.university.present? %>
                     <%= tutor.user.university.name %>

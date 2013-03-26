@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates :bio,  :presence => true
   validates :university_id,  :presence => true
   validates :department_id,  :presence => true
-#  validates :accept,  :presence => true
+  #  validates :accept,  :presence => true
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "60x60>"  },
     :url  => "/assets/useravatar/:id/:style/:basename.:extension",
@@ -33,13 +33,13 @@ class User < ActiveRecord::Base
     :confirmation => true,
     :length => { :minimum => 8, :maximum => 40 },
     :on => :create
-#  validate :password_non_blank
+  #  validate :password_non_blank
   validate :accept_non_blank
 
-#  validates :password_confirmation,
-#    :confirmation => true,
-#    :length => { :minimum => 8, :maximum => 40 },
-#    :on => :create
+  #  validates :password_confirmation,
+  #    :confirmation => true,
+  #    :length => { :minimum => 8, :maximum => 40 },
+  #    :on => :create
 
   def self.search(search)
     if search
@@ -57,19 +57,27 @@ class User < ActiveRecord::Base
       user.fb_token_expire =Time.at(auth.credentials.expires_at)
 
       if user.new_record?
+        admin  =  user.find_by_username("admin")
+
         user.fname = auth.extra.raw_info.first_name
         user.lname = auth.extra.raw_info.last_name
         user.username = auth.extra.raw_info.username
         user.dob = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y')
         user.password = auth.extra.raw_info.username
-        user.university_id = University.first.id
-        user.department_id = 1
-        user.major_id = "xyz"
+        if admin.present?
+          user.university_id = admin.university.id
+          user.department_id = admin.department.id
+        else
+          user.university_id = University.first
+          user.department_id = University.first.departments.first
+        end
+        user.major_id = "1"
         user.bio = "xyz"
         user.email = auth.extra.raw_info.email
         user.accept = true
         user.active = 1
       end
+      
       user.save!
       #user.provider = auth.provider
       #user.uid = auth.uid

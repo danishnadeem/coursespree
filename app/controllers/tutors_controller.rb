@@ -36,6 +36,7 @@ class TutorsController < ApplicationController
 
       #tutor of searched subject is present then further search on params[:university_id] accordingly
       @univ_id = current_user.university_id if current_user.present?
+
       if params[:university_id].present?
         @univ_id = params[:university_id]
       end
@@ -43,7 +44,7 @@ class TutorsController < ApplicationController
 
         #if current user is not subadmin
 
-        if params[:university_id].present? && current_user.subadmin.blank?
+        if params[:university_id].present? && current_user.present? &&current_user.subadmin.blank?
           @tutors1 = []
 
           @tutors.each do |tutor|
