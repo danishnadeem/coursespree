@@ -21,7 +21,7 @@
               <section class="tutor-search">
                 <h4>
                   
-                  <%=link_to image_tag(tutor.user.avatar.url(:thumb), :style => "height:44px;width=44px" ), tutor.user %>
+                  <%=link_to image_tag(tutor.user.avatar.url(:thumb), :style => "height:44px;width:44px" ), tutor.user %>
                   <%if tutor.user.fullname.present?%>
                     <%=link_to tutor.user.fullname, tutor.user%>
                   <%end%>
