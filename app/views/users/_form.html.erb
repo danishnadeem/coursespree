@@ -68,13 +68,13 @@
   <%# current user is subadmin and he creates user%>
     
     <%if !current_user.blank? && current_user.usertype=="subadmin" && (controller.action_name == "new" || controller.action_name == "register" || controller.action_name == "create")%>
-      <% if current_user.present? && current_user.university.present?%>
+      <% if current_user.university.present?%>
         <%=f.hidden_field :university_id,  :value => current_user.university.id%>
       <%else%>
         <%= f.hidden_field :university_id,  :value => ""%>
       <%end%>
 
-      <% if current_user.present? && current_user.department.present? %>
+      <% if current_user.department.present? %>
         <%= f.hidden_field :department_id,  :value => current_user.department.id%>
       <%else%>
         <%= f.hidden_field :department_id,  :value => ""%>

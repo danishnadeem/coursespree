@@ -14,7 +14,7 @@
   <%if params[:action] == 'new'%>
     <%= f.hidden_field :tutor_id, :value => meetinginfo.tutor_id %>
     <%= f.hidden_field :tutor_availability_id, :value => meetinginfo.id %>
-    <%if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"%>
+    <%if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")%>
       <%btntext = "Create Meeting"%>
     <%else%>
       <%btntext = "Request Apointment"%>
@@ -36,7 +36,7 @@
     <%= f.select :subject_id, meetinginfo.tutor.subjs_and_ids %>
   </div>
 
-  <%if current_user.usertype == "superadmin" %>
+  <%if current_user.present? && current_user.usertype == "superadmin" %>
     <div class="field">
       <%if controller.action_name == "edit"%>
         <%= f.label :student %><br />
@@ -46,7 +46,7 @@
         <%= select_tag 'user_id', options_from_collection_for_select(@students, 'id' , "username") %>
       <%end%>
     </div>
-  <%elsif current_user.usertype == "subadmin"%>
+  <%elsif current_user.present? && current_user.usertype == "subadmin"%>
     <div class="field">
       <%if controller.action_name == "edit"%>
         <%= f.label :student %><br />

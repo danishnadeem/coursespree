@@ -18,7 +18,7 @@
   </tr>
 
 
-  <%if current_user.usertype!="subadmin" && @meetings.present? && @meetings.length > 0%>
+  <%if current_user.present? && current_user.usertype!="subadmin" && @meetings.present? && @meetings.length > 0%>
 
     <% @meetings.each do |meeting| %>
       <tr>
@@ -36,11 +36,17 @@
           <%end%>
         </td>
         <% if meeting.tutor %>
-          <td><%= Subject.find(meeting.subject).title %></td>
+          <td>
+            <% if meeting.subject.present?%>
+              <%= Subject.find(meeting.subject).title %>
+            <%else%>
+              Deleted
+            <%end%>
+          </td>
           <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user if meeting.tutor.user.present?%> </td>
           <td> <%= link_to meeting.user.fullname, meeting.user if meeting.user.present?%> </td>
           <td><%= meeting_status(meeting.status) %></td>
-          <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+          <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.present? && current_user.username!="admin"%>
             <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
             <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
           <%else%>
@@ -54,7 +60,7 @@
             <%= meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
           <%end%>
         </td>
-        <%if current_user.usertype == "superadmin" %>
+        <%if current_user.present? && current_user.usertype == "superadmin" %>
           <td><%= link_to 'Show', meeting %></td>
           <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
           <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -63,7 +69,7 @@
       </tr>
     <% end %>
     <%= will_paginate(@meetings) %>
-  <%elsif current_user.usertype=="subadmin"%>
+  <%elsif current_user.present? && current_user.usertype=="subadmin"%>
     <%if @subadmin_meeting.present?%>
       <% @subadmin_meeting.each do |meeting|%>
         <tr>
@@ -85,7 +91,7 @@
             <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
             <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
             <td><%= meeting_status(meeting.status) %></td>
-            <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.username!="admin"%>
+            <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.present? && current_user.username!="admin"%>
               <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
               <td><%= link_to 'reject', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>-1%></td>
             <%else%>
@@ -99,7 +105,7 @@
               <%= meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
             <%end%>
           </td>
-          <%if current_user.usertype == "subadmin"%>
+          <%if current_user.present? && current_user.usertype == "subadmin"%>
             <td><%= link_to 'Show', meeting %></td>
             <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
         <%#*<td>%>

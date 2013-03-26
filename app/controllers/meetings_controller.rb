@@ -13,8 +13,8 @@ class MeetingsController < ApplicationController
   # GET /meetings.json
   def index
     @subadmin_meeting = []
-    
-    if current_user.usertype == "superadmin" 
+
+    if current_user.present? && current_user.usertype == "superadmin"
       if params[:type] == nil
         @meetings = Meeting.paginate(:page => params[:page], :per_page => 30).order('name')
       elsif params[:type]=='pending' #meeting requested by the current user
@@ -33,7 +33,7 @@ class MeetingsController < ApplicationController
         #        @meetings = Meeting.find(:all, :conditions => ['status = ? AND paid = ?', 1, true])
         @meetings = Meeting.paginate(:conditions => ['status = ? AND paid = ?', 1, true], :page => params[:page], :per_page => 30).order('name')
       end
-    elsif current_user.usertype != "superadmin" && current_user.usertype != "subadmin"
+    elsif current_user.present? && current_user.usertype != "superadmin" && current_user.usertype != "subadmin"
       if params[:type] == nil
         #@meetings = Meeting.find(:all, :conditions => ["user_id = ? ", session[:user_id]] )#you are student
         @meetings = Meeting.paginate(:conditions => ["user_id = ? ", session[:user_id]], :page => params[:page], :per_page => 30).order('name')#you are student
@@ -57,36 +57,7 @@ class MeetingsController < ApplicationController
 
     @subadmin_tutors = []
 
-    if current_user.usertype=="subadmin"
-      #      Department.all.each do |dept|
-      #        if current_user.department.present? && current_user.department.id == dept.id
-      #          @subadmin_users = User.find_all_by_department_id(dept.id)
-      #        end
-      #      end
-      #      if @subadmin_users.present?
-      #        @subadmin_users.each do |subadmin_usr|
-      #          if subadmin_usr.tutor.present?
-      #            @subadmin_tutors << subadmin_usr.tutor
-      #          end
-      #        end
-      #      end
-
-      #      if @subadmin_tutors.present?
-      #        @subadmin_tutors.each do |subadmin_tutor|
-      #          if subadmin_tutor.meetings.present?
-      #            @subadmin_tutor_meetings = subadmin_tutor.meetings
-      #            if @subadmin_tutor_meetings.present? && @meetings.present?
-      #              @subadmin_tutor_meetings.each do | subadmin_tutor_meeting |
-      #                if subadmin_tutor_meeting.present? && subadmin_tutor_meeting.has_code == true
-      #                  @subadmin_meeting << subadmin_tutor_meeting
-      #                end
-      #              end
-      #              @subadmin_meeting = @subadmin_meeting.paginate(:page => params[:page], :per_page => 30)
-      #            end
-      #          end
-      #        end
-      #      end
-
+    if current_user.present? && current_user.usertype=="subadmin"
       Meeting.all.each do |meeting|
         if meeting.tutor.user.department == current_user.department && meeting.has_code == true
           @subadmin_meeting << meeting
@@ -182,11 +153,11 @@ class MeetingsController < ApplicationController
     @students=[]
     @usr = User.all
     @usr.each do |usr|
-      if current_user.usertype=="subadmin"
-        if usr.department.present? && current_user.department.present? && usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
+      if current_user.present? && current_user.usertype=="subadmin"
+        if usr.department.present? && current_user.present? && current_user.department.present? && usr.department == current_user.department && usr.usertype!="subadmin" && usr.usertype!="superadmin" && usr.tutor.blank?
           @students_subadmin << usr
         end
-      elsif current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
+      elsif current_user.present? && current_user.usertype=="superadmin" && usr.usertype!="superadmin" && usr.usertype!="subadmin" && usr.tutor.blank?
         @students << usr
       end
     end
@@ -204,7 +175,7 @@ class MeetingsController < ApplicationController
     @meeting.attendeePW = rand(36**20).to_s(36)
     @meeting.moderatorPW = rand(36**20).to_s(36)
     
-    if current_user.usertype == "superadmin" || current_user.usertype == "subadmin"
+    if current_user.present? && (current_user.usertype == "superadmin" || current_user.usertype == "subadmin")
       @meeting.user_id = params[:user_id]
       @meeting.accept = 1.to_i
       @meeting.status = 1.to_i
@@ -228,7 +199,7 @@ class MeetingsController < ApplicationController
         ta.taken = 1
         ta.save
 
-        if (!current_user.usertype == "superadmin" || !current_user.usertype == "subadmin")
+        if current_user.present? && (!current_user.usertype == "superadmin" || !current_user.usertype == "subadmin")
           UserMailer.student_request_for_meeting_to_tutor(@meeting.id).deliver
         else
           UserMailer.admin_subadmin_create_meeting(@meeting.id, current_user).deliver

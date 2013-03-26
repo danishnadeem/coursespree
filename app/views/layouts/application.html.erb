@@ -66,22 +66,22 @@
                   <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="/tutors/">Find Tutor</a></li>
-                  <%#*<li>%>
-                    <%#*<a href="#">%>
-                      <%#*Homework Help%>
-                    <%#*</a>%>
-                  <%#*</li>%>
-                  <%#*<li>%>
-                    <%#*<a href="/comingsoon">%>
-                      <%#*HW Help%>
-                    <%#*</a>%>
-                  <%#*</li>%>
+<%#*<li>%>
+<%#*<a href="#">%>
+<%#*Homework Help%>
+<%#*</a>%>
+<%#*</li>%>
+<%#*<li>%>
+<%#*<a href="/comingsoon">%>
+<%#*HW Help%>
+<%#*</a>%>
+<%#*</li>%>
                   <li><a href="/contact">Contact US</a></li>
                   <li><a href="/howtouse">How To</a></li>
                 </ul>
               </li>
               <li><a class="nav" href="/about/">About</a></li>
-              <% if current_user %><%@subadmin="SubAdmin"%>
+              <% if current_user.present? %><%@subadmin="SubAdmin"%>
                 <li class="dropdown"><a class="nav dropdown-toggle" data-toggle="dropdown" href="#">
                     <%= if current_user.usertype == "subadmin"
                       @subadmin
@@ -244,20 +244,32 @@
 
 
   <%= javascript_include_tag "application" %>
+<%#*<script type="text/javascript">%>
+
+<%#*var _gaq = _gaq || [];%>
+<%#*_gaq.push(['_setAccount', 'UA-33838513-1']);%>
+<%#*_gaq.push(['_setDomainName', 'etutor.herokuapp.com']);%>
+<%#*_gaq.push(['_trackPageview']);%>
+
+<%#*(function() {%>
+<%#*var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;%>
+<%#*ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';%>
+<%#*var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);%>
+<%#*})();%>
+
+<%#*</script>%>
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-33838513-1']);
-    _gaq.push(['_setDomainName', 'etutor.herokuapp.com']);
+    _gaq.push(['_setAccount', 'UA-39599098-1']);
+    _gaq.push(['_setDomainName', 'tutorsprout.com']);
     _gaq.push(['_trackPageview']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-
   </script>
-
 </body>
 </html>
