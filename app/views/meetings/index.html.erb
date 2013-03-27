@@ -77,15 +77,15 @@
           <%else%>
             <td colspan="2"></td>
           <%end%>
+          <%if current_user.present? && current_user.usertype == "superadmin" %>
+            <td><%= link_to 'Show', meeting %></td>
+            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+            <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <%end%>
         <%else%>
           <td colspan="6">Not Found</td>
-        <%end%>
-        <%if current_user.present? && current_user.usertype == "superadmin" %>
-          <td><%= link_to 'Show', meeting %></td>
-          <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
           <td><%= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <%end%>
-
       </tr>
     <% end %>
     <%= will_paginate(@meetings) %>
@@ -129,23 +129,23 @@
             <%else%>
               <td colspan="2"></td>
             <%end%>
+            <td>
+              <%if !meeting.tutor_availability.blank?%>
+                <%= meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
+              <%end%>
+            </td>
+            <%if current_user.present? && current_user.usertype == "subadmin"%>
+              <td><%= link_to 'Show', meeting %></td>
+              <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
+          <%#*<td>%>
+          <%#= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%#*</td>%>
+              <td><%= link_to 'Destroy', "https://docs.google.com/spreadsheet/viewform?fromEmail=true&formkey=dGg1UnIyZnlaMFF2LWZpSjE3TWF6R1E6MQ" %></td>
+            <%end%>
           <%else%>
             <td colspan="6">Not Found</td>
-          <%end%>
-          <td>
-            <%if !meeting.tutor_availability.blank?%>
-              <%= meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
-            <%end%>
-          </td>
-          <%if current_user.present? && current_user.usertype == "subadmin"%>
-            <td><%= link_to 'Show', meeting %></td>
-            <td><%= link_to 'Edit', edit_meeting_path(meeting) %></td>
-        <%#*<td>%>
-        <%#= link_to 'Destroy', meeting, method: :delete, data: { confirm: 'Are you sure?' } %>
-        <%#*</td>%>
             <td><%= link_to 'Destroy', "https://docs.google.com/spreadsheet/viewform?fromEmail=true&formkey=dGg1UnIyZnlaMFF2LWZpSjE3TWF6R1E6MQ" %></td>
           <%end%>
-
         </tr>
       <%end%>
       <%= will_paginate(@subadmin_meeting) %>
