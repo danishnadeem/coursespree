@@ -59,7 +59,7 @@ class MeetingsController < ApplicationController
 
     if current_user.present? && current_user.usertype=="subadmin"
       Meeting.all.each do |meeting|
-        if meeting.tutor.user.department == current_user.department && meeting.has_code == true
+        if meeting.tutor.present? && meeting.user.present? && meeting.tutor.user.department == current_user.department && meeting.has_code == true
           @subadmin_meeting << meeting
         end
       end
