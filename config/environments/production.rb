@@ -71,8 +71,8 @@ Findtutor::Application.configure do
 
     :address        => "smtp.gmail.com",
     :port           => 587,
-    :user_name => "meetings@tutorsprout.com",
-    :password => "Tutorsprout!",
+    :user_name => "test.account.rac@gmail.com",
+    :password => "racpakistan22",
     :authentication => 'plain',
     :enable_starttls_auto => true
   }
