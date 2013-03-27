@@ -16,6 +16,8 @@
         <%end%>
         <%if tutor_location.university.present?%>
           <td><%= tutor_location.university.name %></td>
+        <%else%>
+          Not Found
         <%end%>
         <td><%= link_to 'Show', tutor_location %></td>
         <td><%= link_to 'Edit', edit_tutor_location_path(tutor_location) %></td>
