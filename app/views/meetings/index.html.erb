@@ -40,17 +40,31 @@
             <% if meeting.subject.present?%>
               <%= Subject.find(meeting.subject).title %>
             <%else%>
-              Deleted
+              Not Found
             <%end%>
           </td>
-          <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user if meeting.tutor.user.present?%> </td>
-          <td> <%= link_to meeting.user.fullname, meeting.user if meeting.user.present?%> </td>
+          <td>
+            <% if meeting.tutor.present? && meeting.tutor.user.present?%>
+              <%= link_to meeting.tutor.user.fullname,meeting.tutor.user%>
+            <%else%>
+              Not Found
+            <%end%>
+          </td>
+          <td>
+            <% if meeting.user.present?%>
+              <%= link_to meeting.user.fullname, meeting.user%>
+            <%else%>
+              Not Found
+            <%end%>
+          </td>
           <td>
             <%= meeting_status(meeting.status) %>
           </td>
           <td>
             <%if !meeting.tutor_availability.blank?%>
               <%= meeting.tutor_availability.timetype == 1? "Face2Face":"Virtual" %>
+            <%else%>
+              Not Found
             <%end%>
           </td>
           <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.present? && current_user.username!="admin"%>
@@ -64,7 +78,7 @@
             <td colspan="2"></td>
           <%end%>
         <%else%>
-          <td colspan="6"></td>
+          <td colspan="6">Not Found</td>
         <%end%>
         <%if current_user.present? && current_user.usertype == "superadmin" %>
           <td><%= link_to 'Show', meeting %></td>
@@ -94,8 +108,20 @@
           </td>
           <% if meeting.tutor %>
             <td><%= Subject.find(meeting.subject).title %></td>
-            <td><%= link_to meeting.tutor.user.fullname,meeting.tutor.user %> </td>
-            <td> <%= link_to meeting.user.fullname, meeting.user %> </td>
+            <td>
+              <%if meeting.tutor.present? && meeting.tutor.user.present? %>
+                <%= link_to meeting.tutor.user.fullname,meeting.tutor.user %>
+              <%else%>
+                Not Found
+              <%end%>
+            </td>
+            <td>
+              <% if meeting.tutor.present? && meeting.tutor.user.present?%>
+                <%= link_to meeting.user.fullname, meeting.user %>
+              <%else%>
+                Not Found
+              <%end%>
+            </td>
             <td><%= meeting_status(meeting.status) %></td>
             <%if meeting.tutor_id == session[:tutor_id] && meeting.accept == 0 && current_user.present? && current_user.username!="admin"%>
               <td><%= link_to 'accept', :id=> meeting.id, :controller => 'meetings', :action => 'show', :accept=>1%></td>
@@ -104,7 +130,7 @@
               <td colspan="2"></td>
             <%end%>
           <%else%>
-            <td colspan="6"></td>
+            <td colspan="6">Not Found</td>
           <%end%>
           <td>
             <%if !meeting.tutor_availability.blank?%>
