@@ -17,7 +17,11 @@
 
   <div class="meetingline">
     <div class="inlinetitle">Subject:</div>
-    <%= @meeting.subject.title %>
+    <% if @meeting.subject.present?%>
+      <%= @meeting.subject.title %>
+    <%else%>
+      Not Found
+    <%end%>
   </div><!--meeting line end-->
 
   <div class="meetingline">

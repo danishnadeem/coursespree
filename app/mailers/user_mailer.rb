@@ -3,7 +3,7 @@ class UserMailer < ActionMailer::Base
   
   def student_request_for_meeting_to_tutor(meeting_id)
     @meeting = Meeting.find_by_id(meeting_id)
-    @tutor = @meeting.tutor.user
+    @tutor = @meeting.tutor.user 
     @student = @meeting.user
 
     #    mail(:to => "mahhek.khan@gmail.com", :subject => "Student requests you for meeting, so please approve the pending meeting") do |format|
