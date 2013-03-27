@@ -87,7 +87,7 @@
   <%else%><!--meeting is virtual-->
     <!--if current tutor is tutor for this meeting, display start meeting option-->
     <%if @meeting.status != 3%>
-      <% if @meeting.paid == true && @meeting.accept == 1 && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
+      <% if @meeting.paid == true && @meeting.accept == 1 && current_user.present? && current_user.usertype == 'tutor' && @meeting.tutor.user == current_user %>
         <div class="meetingline">
           <div class="inlinetitle">Video Meeting:</div>
           <% if current_user.usertype == 'tutor' %>
@@ -113,7 +113,7 @@
     <%end%>
   <%end%><!--if meeting is virtual-->
   <!--admin area-->
-  <%if current_user.usertype == "superadmin"%><!--administration only-->
+  <%if  current_user.present? && current_user.usertype == "superadmin"%><!--administration only-->
     <%= link_to 'check meeting status', @meeting.runningurl, :id=>'ismeetingrunning' %><br />
     <%= link_to 'end meeting', @meeting.endurl, :id=> 'endmeeting' %><br />
   <%end%>
