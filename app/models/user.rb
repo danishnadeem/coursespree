@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
   validates :username,  :presence => true 
   validates :fname,  :presence => true
   validates :lname,  :presence => true
-  validates :major_id,  :presence => true
-  validates :bio,  :presence => true
+#  validates :major_id,  :presence => true
+#  validates :bio,  :presence => true
   validates :university_id,  :presence => true
   validates :department_id,  :presence => true
   #  validates :accept,  :presence => true

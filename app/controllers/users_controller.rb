@@ -121,12 +121,13 @@ class UsersController < ApplicationController
 
   def register
     @user = User.new
-
+    @visit_register = "true"
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
     end
   end
+
   def new
     @user = User.new
 
