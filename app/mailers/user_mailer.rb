@@ -20,24 +20,24 @@ class UserMailer < ActionMailer::Base
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
-    all_subadmins = Subadmin.all
-    all_superadmins = Superadmin.all
-
-    mailling_list = []
-
-    all_subadmins.each do |subadmin|
-      if subadmin.user.department == @student.department
-        mailling_list << subadmin.user.email
-      end
-    end
-
-    all_superadmins.each do |superadmin|
-      mailling_list << superadmin.user.email
-    end
-
-    mailling_list << @tutor.email
-    mailling_list << @student.email
-    mailling_list = mailling_list.join(',')
+    #    all_subadmins = Subadmin.all
+    #    all_superadmins = Superadmin.all
+    #
+    #    mailling_list = []
+    #
+    #    all_subadmins.each do |subadmin|
+    #      if subadmin.user.department == @student.department
+    #        mailling_list << subadmin.user.email
+    #      end
+    #    end
+    #
+    #    all_superadmins.each do |superadmin|
+    #      mailling_list << superadmin.user.email
+    #    end
+    #
+    #    mailling_list << @tutor.email
+    #    mailling_list << @student.email
+    #    mailling_list = mailling_list.join(',')
 
     mail(:to => "mahhek.khan@gmail.com", :cc => "danishnadeem@gmail.com", :subject => "Tutor has accepted student's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
     #    mail(:bcc => mailling_list, :subject => "Tutor accept the stutent's meeting request", :content_type => 'text/html')
@@ -47,24 +47,24 @@ class UserMailer < ActionMailer::Base
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
-    all_subadmins = Subadmin.all
-    all_superadmins = Superadmin.all
-
-    mailling_list = []
-
-    all_subadmins.each do |subadmin|
-      if subadmin.user.department == @student.department
-        mailling_list << subadmin.user.email
-      end
-    end
-
-    all_superadmins.each do |superadmin|
-      mailling_list << superadmin.user.email
-    end
-
-    mailling_list << @tutor.email
-    mailling_list << @student.email
-    mailling_list = mailling_list.join(',')
+    #    all_subadmins = Subadmin.all
+    #    all_superadmins = Superadmin.all
+    #
+    #    mailling_list = []
+    #
+    #    all_subadmins.each do |subadmin|
+    #      if subadmin.user.department == @student.department
+    #        mailling_list << subadmin.user.email
+    #      end
+    #    end
+    #
+    #    all_superadmins.each do |superadmin|
+    #      mailling_list << superadmin.user.email
+    #    end
+    #
+    #    mailling_list << @tutor.email
+    #    mailling_list << @student.email
+    #    mailling_list = mailling_list.join(',')
 
     #    mail(:to => "mahhek.khan@gmail.com", :subject => "Tutor has rejected the student's meeting request", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
 
@@ -77,27 +77,31 @@ class UserMailer < ActionMailer::Base
     @meeting = Meeting.find_by_id(meeting_id)
     @tutor = @meeting.tutor.user
     @student = @meeting.user
-    if usr.superadmin.present?
-      #    mail(:to => "mahhek.khan@gmail.com", :subject => "SubAdmin Create meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
-    elsif usr.subadmin.present?
-      #    mail(:to => "mahhek.khan@gmail.com", :subject => "SubAdmin Create meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
-    end
 
-    mailling_list = []
-
-    all_subadmins.each do |subadmin|
-      if subadmin.user.department == @student.department
-        mailling_list << subadmin.user.email
-      end
-    end
-
-    all_superadmins.each do |superadmin|
-      mailling_list << superadmin.user.email
-    end
-
-    mailling_list << @tutor.email
-    mailling_list << @student.email
-    mailling_list = mailling_list.join(',')
+#    all_subadmins = Subadmin.all
+#    all_superadmins = Superadmin.all
+#
+#    if usr.superadmin.present?
+#      #    mail(:to => "mahhek.khan@gmail.com", :subject => "SubAdmin Create meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
+#    elsif usr.subadmin.present?
+#      #    mail(:to => "mahhek.khan@gmail.com", :subject => "SubAdmin Create meeting", :from => "meetings@tutorsprout.com", :content_type => 'text/html' )
+#    end
+#
+#    mailling_list = []
+#
+#    all_subadmins.each do |subadmin|
+#      if subadmin.user.department == @student.department
+#        mailling_list << subadmin.user.email
+#      end
+#    end
+#
+#    all_superadmins.each do |superadmin|
+#      mailling_list << superadmin.user.email
+#    end
+#
+#    mailling_list << @tutor.email
+#    mailling_list << @student.email
+#    mailling_list = mailling_list.join(',')
 
     #    mail(:bcc => mailling_list, :subject => "SuperAdmin Or SubAdmin Create meeting", :content_type => 'text/html')
 
