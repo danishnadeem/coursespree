@@ -35,7 +35,7 @@
             waiting
           <%end%>
         </td>
-        <% if meeting.tutor %>
+        <% if meeting.tutor.present? && meeting.user.present? %>
           <td>
             <% if meeting.subject.present?%>
               <%= Subject.find(meeting.subject).title %>
@@ -106,7 +106,7 @@
               waiting
             <%end%>
           </td>
-          <% if meeting.tutor %>
+          <% if meeting.tutor.present? && meeting.user.present? %>
             <td><%= Subject.find(meeting.subject).title %></td>
             <td>
               <%if meeting.tutor.present? && meeting.tutor.user.present? %>
