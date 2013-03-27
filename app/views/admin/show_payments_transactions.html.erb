@@ -34,19 +34,19 @@
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.tutor_id.blank? %>
+            <%if !trans.tutor.blank? && !trans.tutor.user.blank?%>
               <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.user_id.blank? %>
+            <%unless trans.user.blank? %>
               <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.meeting_id.blank? %>
+            <%unless trans.meeting.blank? %>
               <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
             <%else%>
               <td>NIL</td>
@@ -107,19 +107,19 @@
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.tutor_id.blank? %>
+            <%if !trans.tutor.blank? && !trans.tutor.user.blank? %>
               <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.user_id.blank? %>
+            <%unless trans.user.blank? %>
               <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.meeting_id.blank? %>
+            <%unless trans.meeting.blank? %>
               <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
             <%else%>
               <td>NIL</td>
@@ -153,19 +153,19 @@
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.tutor_id.blank? %>
+            <%if !trans.tutor.blank? && !trans.tutor.user.blank?%>
               <td><%= link_to trans.tutor.user.fname + " " + trans.tutor.user.lname , tutor_path(trans.tutor)%></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.user_id.blank? %>
+            <%unless trans.user.blank? %>
               <td><%= link_to trans.user.fname + " " + trans.user.lname, user_path(trans.user) %></td>
             <%else%>
               <td>NIL</td>
             <%end%>
 
-            <%unless trans.meeting_id.blank? %>
+            <%unless trans.meeting.blank? %>
               <td><%= link_to trans.meeting.name , meeting_path(trans.meeting) %></td>
             <%else%>
               <td>NIL</td>

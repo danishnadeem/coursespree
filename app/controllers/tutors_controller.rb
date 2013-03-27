@@ -44,7 +44,7 @@ class TutorsController < ApplicationController
 
         #if current user is not subadmin
 
-        if params[:university_id].present? && current_user.present? &&current_user.subadmin.blank?
+        if params[:university_id].present? && current_user.present? && current_user.subadmin.blank?
           @tutors1 = []
 
           @tutors.each do |tutor|
@@ -236,7 +236,7 @@ class TutorsController < ApplicationController
       @uid = params[:uid]
       @tutors = []
       Tutor.all.each do |tutor|
-        if (tutor.user.university_id.to_i == params[:uid].to_i)
+        if tutor.user.present? && (tutor.user.university_id.to_i == params[:uid].to_i)
           @tutors << tutor
         end
       end
